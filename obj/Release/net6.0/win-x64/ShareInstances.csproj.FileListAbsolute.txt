@@ -1,0 +1,12 @@
+E:\ild_music\Ild-Music\ShareInstances\bin\Release\net6.0\win-x64\ShareInstances.deps.json
+E:\ild_music\Ild-Music\ShareInstances\bin\Release\net6.0\win-x64\ShareInstances.dll
+E:\ild_music\Ild-Music\ShareInstances\bin\Release\net6.0\win-x64\ShareInstances.pdb
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.csproj.AssemblyReference.cache
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.AssemblyInfoInputs.cache
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.AssemblyInfo.cs
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.csproj.CoreCompileInputs.cache
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.dll
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\refint\ShareInstances.dll
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ShareInstances.pdb
+E:\ild_music\Ild-Music\ShareInstances\obj\Release\net6.0\win-x64\ref\ShareInstances.dll
