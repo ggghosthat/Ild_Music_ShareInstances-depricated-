@@ -44,7 +44,6 @@ namespace ShareInstances.PlayerResources
         {
             get
             {
-
              return tracks;
             }
             set{ tracks = value;}

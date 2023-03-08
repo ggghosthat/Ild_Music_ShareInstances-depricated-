@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ild_music\\Ild-Music\\ShareInstances\\ShareInstances.csproj": {}
+    "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj": {}
   },
   "projects": {
-    "E:\\ild_music\\Ild-Music\\ShareInstances\\ShareInstances.csproj": {
+    "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ild_music\\Ild-Music\\ShareInstances\\ShareInstances.csproj",
+        "projectUniqueName": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
         "projectName": "ShareInstances",
-        "projectPath": "E:\\ild_music\\Ild-Music\\ShareInstances\\ShareInstances.csproj",
+        "projectPath": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
         "packagesPath": "C:\\Users\\ildar\\.nuget\\packages\\",
-        "outputPath": "E:\\ild_music\\Ild-Music\\ShareInstances\\obj\\",
+        "outputPath": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ildar\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -58,31 +58,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.14, 6.0.14]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.14, 6.0.14]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.14, 6.0.14]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }
