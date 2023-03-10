@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
 
+namespace ShareInstances.Instances;
 public record TrackV2(string pathway, string name, string description) : ICoreEntity
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
@@ -11,8 +12,8 @@ public record TrackV2(string pathway, string name, string description) : ICoreEn
 	public string Description {get; set;} = description;
 
 	public TimeSpan Duration => ExtraxtDuration();
-    public Guid NextTrack {get; set;}
-    public Guid PreviousTrack {get; set;}
+
+    
 
     private TimeSpan ExtraxtDuration()
     {

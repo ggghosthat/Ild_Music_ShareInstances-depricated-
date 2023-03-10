@@ -88,11 +88,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+      "projectUniqueName": "E:\\C# projects\\Ild_music_Tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
       "projectName": "ShareInstances",
-      "projectPath": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+      "projectPath": "E:\\C# projects\\Ild_music_Tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
       "packagesPath": "C:\\Users\\ildar\\.nuget\\packages\\",
-      "outputPath": "E:\\C# projects\\Ild_music_Tests\\tests\\Ild-Music.ShareInstances\\obj\\",
+      "outputPath": "E:\\C# projects\\Ild_music_Tests\\Ild-Music.ShareInstances\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ildar\\AppData\\Roaming\\NuGet\\NuGet.Config"
