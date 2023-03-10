@@ -1,14 +1,14 @@
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks; 
 
-namespace ShareInstances.Configure
+namespace ShareInstances.Configure;
+public interface IConfigure
 {
-    public interface IConfigure
-    {
-        public string ComponentsFile {get; init;}
-        
-        public IEnumerable<string> Players {get; set;}
-        public IEnumerable<string> Synches {get; set;}
+    public string ComponentsFile {get; init;}
+ 	public Config ConfigSheet {get; set;}   
+ 
 
-        public void Parse();
-    }
+    public void Parse();
+    public Task ParseAsync();
 }

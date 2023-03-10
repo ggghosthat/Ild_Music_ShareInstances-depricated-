@@ -71,7 +71,7 @@ namespace ShareInstances.Stage
 
         public Stage(IConfigure configure)
         {
-            Init(configure.Players, configure.Synches);
+            Init(configure.ConfigSheet.Players, configure.ConfigSheet.Synches);
         }
         #endregion
 
