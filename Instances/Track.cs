@@ -10,11 +10,12 @@ public record TrackV2(string pathway, string name, string description) : ICoreEn
 	public string Pathway {get; set;} = pathway;
 	public string Name {get; set;} = name;
 	public string Description {get; set;} = description;
+    public string AvatarBase64 {get; set;}
 
 	public TimeSpan Duration => ExtraxtDuration();
 
     
-
+    #region Extraction Methods
     private TimeSpan ExtraxtDuration()
     {
     	if (File.Exists(pathway))
@@ -24,4 +25,13 @@ public record TrackV2(string pathway, string name, string description) : ICoreEn
         }
         return TimeSpan.FromSeconds(1);
     }
+    #endregion
+
+    #region Avatar Manipulation
+    public void SetAvatar(string path)
+    {
+        if(File.Exists(path))
+        {}
+    }
+    #endregion
 }

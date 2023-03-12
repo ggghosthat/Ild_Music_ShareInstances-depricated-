@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
@@ -10,6 +11,7 @@ public record PlaylistV2(string name, string description, IList<Guid> tracks = n
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Name {get; set;} = name;
 	public string Description {get; set;} = description;
+    public string AvatarBase64 {get; set;}      
 
 	public IList<Guid> Tracks = new List<Guid>(tracks);
     public int Count => Tracks.Count;
@@ -19,7 +21,7 @@ public record PlaylistV2(string name, string description, IList<Guid> tracks = n
 	public int CurrentIndex {get; set;}
 	public bool IsOrdered { get; private set; } = false;
 
-    #region CollectionManipulationMethods
+    #region Collection Manipulation Methods
     public void AddTrack(TrackV2 track)
     {        
     	Tracks.Add(track.Id);
@@ -39,6 +41,14 @@ public record PlaylistV2(string name, string description, IList<Guid> tracks = n
     {
         IList<Guid> shuffledList = Tracks.OrderBy(i => Guid.NewGuid()).ToList();
         Tracks = shuffledList;
+    }
+    #endregion
+
+    #region Avatar Manipulation
+    public void SetAvatar(string path)
+    {
+        if(File.Exists(path))
+        {}
     }
     #endregion
 }
