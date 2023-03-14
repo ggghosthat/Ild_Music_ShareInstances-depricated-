@@ -25,14 +25,18 @@ public class Configure:IConfigure
     public Configure(string componentsFile)
     {
         ComponentsFile = componentsFile;
-        Parse();
+        ParseAsync().Wait();
     }
 
-    public void Parse(){}
+    public void Parse()
+    {        
+        string openStream = File.ReadAllText(ComponentsFile);
+        ConfigSheet = JsonSerializer.Deserialize<Config>(openStream);
+    }
 
     public async Task ParseAsync()
     {
         using FileStream openStream = File.OpenRead(ComponentsFile);
-        ConfigSheet = await JsonSerializer.DeserializeAsync<Config>(openStream);
+        ConfigSheet = JsonSerializer.Deserialize<Config>(openStream);
     }
 }

@@ -191,9 +191,7 @@ namespace ShareInstances.Stage
                                 list.Add(instance);
                              });
                 dllsPath.ToList().Remove(path);
-
             }
-
             return (typeof(T), list);
         }
         #endregion

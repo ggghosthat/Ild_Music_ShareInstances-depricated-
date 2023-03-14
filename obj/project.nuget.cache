@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IFFzTeOFECxveoeEBO4Dr4yb3yI0dZb08dnTh6la+6jhOwPrAs2Kh8ccc3yOtMR1ExTWO+OhNS3Yf6m4ljCyOg==",
+  "dgSpecHash": "IASvRjQRSbXWwECCuOuWpfwmy5U/dT8zwDx1eJlz5JOTeAafsHfvv+xZGojXJIcj/2sGWBuyUHEijjIvYe2ikg==",
   "success": true,
-  "projectFilePath": "E:\\C# projects\\Ild_music_Tests\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+  "projectFilePath": "E:\\ild_music\\Ild-Music\\dependencies\\Ild-Music.ShareInstances\\ShareInstances.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ildar\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\ildar\\.nuget\\packages\\taglibsharp\\2.2.0\\taglibsharp.2.2.0.nupkg.sha512"
