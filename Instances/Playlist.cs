@@ -87,4 +87,9 @@ public record Playlist(string name, string description, IList<Guid> tracks = nul
         }
     }
     #endregion
+
+    public IList<Track> GetTracks()
+    {
+        return null;
+    }
 }
