@@ -8,15 +8,13 @@ using ShareInstances.Exceptions.SynchAreaExceptions;
 using System;
 using System.Collections.Generic;
 
-namespace ShareInstances.Services.Entities
+namespace ShareInstances.Services.Entities;
+public class PlayerService : IService
 {
-    public class PlayerService : IService
-    {
-    	public string ServiceName {get; init;} = "PlayerService"; 
+	public string ServiceName {get; init;} = "PlayerService"; 
 
-    	public IPlayer PlayerInstance {get; private set;}
+	public IPlayer PlayerInstance {get; private set;}
 
-    	public void EnablePlayer(IPlayer _player) =>    	
-    		PlayerInstance = _player;    	
-    }
+	public void EnablePlayer(IPlayer _player) =>    	
+		PlayerInstance = _player;    	
 }

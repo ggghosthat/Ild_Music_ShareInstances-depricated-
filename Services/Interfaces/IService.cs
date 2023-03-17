@@ -1,7 +1,5 @@
-namespace ShareInstances.Services.Interfaces
+namespace ShareInstances.Services.Interfaces;
+public interface IService 
 {
-    public interface IService 
-    {
-        public string ServiceName { get; init ; }
-    }
+    public string ServiceName { get; init ; }
 }
