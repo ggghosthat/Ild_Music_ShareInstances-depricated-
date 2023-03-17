@@ -1,4 +1,4 @@
-using ShareInstances.PlayerResources;
+using ShareInstances.Instances;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace ShareInstances.Services.InstanceProducer
                 tracks.ToList().ForEach(t => playlist.AddTrack(t));
             
             if (artists != null && artists.Count > 0)
-                artists.ToList().ForEach(a => a.AddPlaylist(playlist));
+                artists.ToList().ForEach(a => a.AddPlaylist(playlist.Id));
         }
 
         public InstanceProducer(string pathway,
@@ -41,7 +41,7 @@ namespace ShareInstances.Services.InstanceProducer
             var track = TrackInstance;
 
             if (artists != null && artists.Count > 0)
-                artists.ToList().ForEach(a => a.AddTrack(track));
+                artists.ToList().ForEach(a => a.AddTrack(track.Id));
         }
 
         public void Dispose()

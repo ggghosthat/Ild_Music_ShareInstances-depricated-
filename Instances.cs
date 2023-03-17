@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 
 namespace ShareInstances
 {

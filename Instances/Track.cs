@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
 
 namespace ShareInstances.Instances;
-public record TrackV2(string pathway, string name, string description) : ICoreEntity
+public record Track(string pathway, string name, string description) : ICoreEntity
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Pathway {get; set;} = pathway;

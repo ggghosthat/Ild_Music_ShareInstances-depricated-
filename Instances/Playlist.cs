@@ -6,7 +6,7 @@ using ShareInstances.Instances.Interfaces;
 
 
 namespace ShareInstances.Instances;
-public record PlaylistV2(string name, string description, IList<Guid> tracks = null) : ICoreEntity
+public record Playlist(string name, string description, IList<Guid> tracks = null) : ICoreEntity
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Name {get; set;} = name;
@@ -22,12 +22,12 @@ public record PlaylistV2(string name, string description, IList<Guid> tracks = n
 	public bool IsOrdered { get; private set; } = false;
 
     #region Collection Manipulation Methods
-    public void AddTrack(TrackV2 track)
+    public void AddTrack(Track track)
     {        
     	Tracks.Add(track.Id);
     }
 
-    public void RemoveTrack(TrackV2 track)
+    public void RemoveTrack(Track track)
     {        
     	if(Tracks.Contains(track.Id))
     	{

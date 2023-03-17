@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
 
 namespace ShareInstances.Instances;
-public record ArtistV2 (string name, string description ) : ICoreEntity
+public record Artist (string name, string description ) : ICoreEntity
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Name {get; set;} = name;
