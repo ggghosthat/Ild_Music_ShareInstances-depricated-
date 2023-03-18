@@ -87,12 +87,14 @@ public class Stage
         AssemblyProcess(playerAssembly, PlayerInstance);
         AssemblyProcess(synchAssembly, AreaInstace);
 
-        PlayerInstance = _players[0];
-        AreaInstace = _areas[0];
-
         serviceCenter.ResolveSupporter(AreaInstace);
         serviceCenter.ResolvePlayer(PlayerInstance);
         serviceCenter.ResolveStore(ref StoreInstance);
+
+        if (PlayerInstance != null)
+        {
+            PlayerInstance.DetermineStore(ref StoreInstance);
+        }
     }
 
     public void Init(IEnumerable<string> playerAssemblies, IEnumerable<string> synchAssemblies)
@@ -100,12 +102,14 @@ public class Stage
         AssemblyProcess(playerAssemblies, PlayerInstance);
         AssemblyProcess(synchAssemblies, AreaInstace);
 
-        PlayerInstance = _players[0];
-        AreaInstace = _areas[0];
-
         serviceCenter.ResolveSupporter(AreaInstace);
         serviceCenter.ResolvePlayer(PlayerInstance);
         serviceCenter.ResolveStore(ref StoreInstance);
+
+        if (PlayerInstance != null)
+        {
+            PlayerInstance.DetermineStore(ref StoreInstance);
+        }
     }
     
     private void InitUnit(string path, string type)
@@ -132,12 +136,18 @@ public class Stage
             (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref dlls);
 
             if (typeof(IPlayer).IsAssignableFrom(result.Item1))
+            {
                 result.Item2.ToList()
                             .ForEach(player => _players.Add((IPlayer)player));
-
+                
+                PlayerInstance = _players[0];                            
+            }
             else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+            {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
+                AreaInstace = _areas[0];
+            }
         }
         catch
         {
@@ -152,12 +162,18 @@ public class Stage
             (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref assembliesPaths);
 
             if (typeof(IPlayer).IsAssignableFrom(result.Item1))
+            {
                 result.Item2.ToList()
                             .ForEach(player => _players.Add((IPlayer)player));
+                PlayerInstance = _players[0];
+            }
 
             else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+            {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
+                AreaInstace = _areas[0];
+            }            
         }
         catch
         {
