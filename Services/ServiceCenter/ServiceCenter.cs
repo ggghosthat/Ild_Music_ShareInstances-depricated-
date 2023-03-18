@@ -78,6 +78,6 @@ public class ServiceCenter : ICenter
 
     public void ResolveStore(ref Store store)
     {
-        store = new Store(supporterService);
+        store = new Store(ref supporterService);
     }
 }

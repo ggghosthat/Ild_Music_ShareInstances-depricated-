@@ -1,5 +1,6 @@
 ﻿using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
+using ShareInstances.StoreSpace;
 
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,7 @@ public interface IPlayer : IShare
 {
     public Guid PlayerId { get; }
     public string PlayerName { get; }
+    public Store StoreInstance {get; }
 
     public ICoreEntity CurrentEntity {get;}
     public Track CurrentTrack { get; }

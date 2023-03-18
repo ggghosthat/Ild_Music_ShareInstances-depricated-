@@ -14,7 +14,7 @@ public struct Store
 
 	private static SupporterService supporterService;
 
-	public Store(SupporterService supporter)
+	public Store(ref SupporterService supporter)
 	{
 		supporterService = supporter;
 		InitTime = DateTime.Now;

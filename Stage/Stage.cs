@@ -52,7 +52,8 @@ public class Stage
     #endregion
 
     #region Store Supply
-    public Store StoreInstance = default;
+    private Store StoreInstance = default;
+    public Store Store => StoreInstance;
     #endregion
 
     #region Constructors
