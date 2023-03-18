@@ -77,6 +77,8 @@ public interface IPlayer : IShare
     public event Action TrackStarted;
 
 
+    public void DetermineStore(ref Store store);
+
     public void SetInstance(ICoreEntity entity, int index=0);
 
     public void SetNotifier(Action callBack);
