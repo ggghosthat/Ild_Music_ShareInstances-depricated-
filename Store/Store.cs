@@ -1,35 +1,40 @@
 using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
+using ShareInstances.Services.Interfaces;
+using ShareInstances.Services.Entities;
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
-namespace ShareInstances.Store;
+namespace ShareInstances.StoreSpace;
 public struct Store
 {
 	private static DateTime InitTime;
 
-	public IList<ICoreEntity> ArtistStore {get; set;}
-	public IList<ICoreEntity> PlaylistStore {get; set;}
-	public IList<ICoreEntity> TrackStore {get; set;}
+	private static SupporterService supporterService;
 
-	public Store(DateTime initTime = default)
+	public Store(SupporterService supporter)
 	{
+		supporterService = supporter;
 		InitTime = DateTime.Now;
-
-		ArtistStore = new List<ICoreEntity>();
-		PlaylistStore = new List<ICoreEntity>();
-		TrackStore = new List<ICoreEntity>();
 	}
 
-	public Store(IList<ICoreEntity> artistStore,
-				 IList<ICoreEntity> playlistStore,
-				 IList<ICoreEntity> trackStore)
-	{
-		InitTime = DateTime.Now;
 
-		ArtistStore = artistStore;
-		PlaylistStore = playlistStore;
-		TrackStore = trackStore;
+	#region Getting by id
+	public IList<Artist> GetArtistsById(IList<Guid> ids)
+	{
+		return ids.ToEntity<Artist>(supporterService.ArtistsCollection);
 	}
+
+	public IList<Playlist> GetPlaylistsById(IList<Guid> ids)
+	{
+		return ids.ToEntity<Playlist>(supporterService.PlaylistsCollection);
+	}
+
+	public IList<Track> GetTracksById(IList<Guid> ids)
+	{
+		return ids.ToEntity<Track>(supporterService.TracksCollection);
+	}	
+	#endregion
 }

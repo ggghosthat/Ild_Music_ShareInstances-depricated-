@@ -1,6 +1,7 @@
 using ShareInstances.Services.Center;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
+using ShareInstances.StoreSpace;
 
 using System;
 using System.Linq;
@@ -50,8 +51,11 @@ public class Stage
     public ServiceCenter serviceCenter = new();
     #endregion
 
+    #region Store Supply
+    public Store StoreInstance = default;
+    #endregion
+
     #region Constructors
-    //Pwease, Do not code in this constructor!
     public Stage(){}
     
     public Stage(string file)
@@ -60,6 +64,7 @@ public class Stage
         Deserialize();
         OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
         OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
+        OnComponentMuted += () => serviceCenter.ResolveStore(ref StoreInstance);
         OnComponentMuted?.Invoke();
     }
 
@@ -86,6 +91,7 @@ public class Stage
 
         serviceCenter.ResolveSupporter(AreaInstace);
         serviceCenter.ResolvePlayer(PlayerInstance);
+        serviceCenter.ResolveStore(ref StoreInstance);
     }
 
     public void Init(IEnumerable<string> playerAssemblies, IEnumerable<string> synchAssemblies)
@@ -98,8 +104,8 @@ public class Stage
 
         serviceCenter.ResolveSupporter(AreaInstace);
         serviceCenter.ResolvePlayer(PlayerInstance);
+        serviceCenter.ResolveStore(ref StoreInstance);
     }
-
     
     private void InitUnit(string path, string type)
     {
@@ -117,7 +123,6 @@ public class Stage
     #endregion
     
     #region AssemblySearchingMethods
-    
     private void AssemblyProcess<T>(string assemblyPath, T assemblyType)
     {
         try
@@ -158,7 +163,6 @@ public class Stage
             throw;
         }
     }
-
 
     private IEnumerable<string> FindDlls(string path) 
     {
@@ -252,8 +256,6 @@ public class Stage
             PlayerInstance = playerInstance;
         else if(component is ISynchArea areaInstance)
             AreaInstace = areaInstance;
-
-
         OnComponentMuted?.Invoke();
     }
 
@@ -264,10 +266,7 @@ public class Stage
                 PlayerInstance = playerInstance;
             else if(component is ISynchArea areaInstance)
                 AreaInstace = areaInstance;
-
-
             OnComponentMuted?.Invoke();
-        });  
-
+        }); 
     #endregion  
 }

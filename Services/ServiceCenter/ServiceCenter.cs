@@ -1,14 +1,13 @@
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances;
-
+using ShareInstances.StoreSpace;
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
 
 namespace ShareInstances.Services.Center;
 public class ServiceCenter : ICenter
@@ -75,5 +74,10 @@ public class ServiceCenter : ICenter
         var player = (PlayerService)GetService(((IService)playerService).ServiceName);
         player.EnablePlayer(_player);
         UpdateService(player);
+    }
+
+    public void ResolveStore(ref Store store)
+    {
+        store = new Store(supporterService);
     }
 }
