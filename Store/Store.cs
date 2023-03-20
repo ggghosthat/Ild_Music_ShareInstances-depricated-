@@ -22,6 +22,22 @@ public struct Store
 
 
 	#region Getting by id
+	public Artist GetArtistsById(Guid id)
+	{
+		return id.ToEntity<Artist>(supporterService.ArtistsCollection);
+	}
+
+	public Playlist GetPlaylistsById(Guid id)
+	{
+		return id.ToEntity<Playlist>(supporterService.PlaylistsCollection);
+	}
+
+	public Track GetTracksById(Guid id)
+	{
+		return id.ToEntity<Track>(supporterService.TracksCollection);
+	}	
+	
+
 	public IList<Artist> GetArtistsById(IList<Guid> ids)
 	{
 		return ids.ToEntity<Artist>(supporterService.ArtistsCollection);

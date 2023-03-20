@@ -6,20 +6,42 @@ using ShareInstances.Instances.Interfaces;
 
 
 namespace ShareInstances.Instances;
-public record Playlist(string name, string description, IList<Guid> tracks = null) : ICoreEntity
+public record Playlist : ICoreEntity
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public string Name {get; set;} = name;
-	public string Description {get; set;} = description;
+	public string Name {get; set;}
+	public string Description {get; set;}
     public char[]? AvatarBase64 {get; set;}      
 
-	public IList<Guid> Tracks = new List<Guid>(tracks);
+	public IList<Guid> Tracks = new List<Guid>();
     public int Count => Tracks.Count;
 	public Guid Head {get; private set;}
 	public Guid Tail {get; private set;}
 
 	public int CurrentIndex {get; set;}
 	public bool IsOrdered { get; private set; } = false;
+
+    public Guid this[int i]
+    {
+        get
+        {
+            return Tracks[i];
+        }
+    }
+
+    public Playlist(string name, string description, IList<Guid> tracks = null)
+    {
+        Name = name;
+        Description = description;
+        if(tracks != null)
+        {
+            Tracks = new List<Guid>(tracks);
+        }
+        else 
+        {
+            Tracks = new List<Guid>();
+        }
+    }
 
     #region Collection Manipulation Methods
     public void AddTrack(Track track)

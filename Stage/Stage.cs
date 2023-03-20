@@ -262,8 +262,10 @@ public class Stage
     #endregion    
 
     #region Service Center methods
-    public IService GetServiceInstance(string name) => 
-        serviceCenter.GetService(name);
+    public IService GetServiceInstance(string name)
+    {
+        return serviceCenter.GetService(name);
+    }
     #endregion
 
     #region Mutabillity

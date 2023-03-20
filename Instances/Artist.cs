@@ -24,7 +24,7 @@ public record Artist (string name, string description ) : ICoreEntity
 		Playlists.Add(playlistId);
 	}
 
-	public void RemoveTrack(Guid trackId) 
+	public void DeleteTrack(Guid trackId) 
 	{
 		if (Tracks.Contains(trackId))
 		{
@@ -32,7 +32,7 @@ public record Artist (string name, string description ) : ICoreEntity
 		}
 	}
 
-	public void RemovePlaylist(Guid playlistId) 
+	public void DeletePlaylist(Guid playlistId) 
 	{
 		if (Tracks.Contains(playlistId))
 		{

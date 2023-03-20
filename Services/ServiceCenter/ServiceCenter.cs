@@ -18,6 +18,7 @@ public class ServiceCenter : ICenter
 
     #region App services
     private Entities.SupporterService supporterService = new();
+    private Entities.StoreService storeService = new();
     private Entities.FactoryService factoryService = new();
     private Entities.PlayerService playerService = new();
     #endregion
@@ -36,6 +37,7 @@ public class ServiceCenter : ICenter
     public void OnCenterRegisterActivate()
     {
         RegistService((IService)supporterService);
+        RegistService((IService)storeService);
         RegistService((IService)playerService);
         RegistService((IService)factoryService);
         RegistService((IService)controlService);
@@ -79,5 +81,6 @@ public class ServiceCenter : ICenter
     public void ResolveStore(ref Store store)
     {
         store = new Store(ref supporterService);
+        storeService.SetStore(ref store);
     }
 }

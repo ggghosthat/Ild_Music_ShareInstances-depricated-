@@ -1,10 +1,11 @@
 using ShareInstances.Instances;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ShareInstances.Services.InstanceProducer;
-internal struct InstanceProducer
+internal struct InstanceProducer : IDisposable
 {        
     public Artist ArtistInstance { get; private set; } = null;
     public Playlist PlaylistInstance { get; private set; } = null;
