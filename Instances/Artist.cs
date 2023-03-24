@@ -58,8 +58,7 @@ public record Artist : ICoreEntity
         {
             try
             {
-                var result = Convert.FromBase64String(AvatarBase64);
-                return result;
+                return Convert.FromBase64String(AvatarBase64);
             }
             catch(Exception ex)
             {
