@@ -36,7 +36,7 @@ public record Playlist : ICoreEntity
     {
         Name = name;
         Description = description;
-        AvatarBase64 = SetAvatar(avatar);
+        AvatarBase64 = avatar;
         if(tracks != null)
         {
             Tracks = new List<Guid>(tracks);

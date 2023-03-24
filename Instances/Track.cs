@@ -23,7 +23,7 @@ public record Track : ICoreEntity
         Pathway = pathway;
         Name = name;
         Description = description;
-        AvatarBase64 = SetAvatar(avatar);
+        AvatarBase64 = avatar;
     }
     #endregion
 
