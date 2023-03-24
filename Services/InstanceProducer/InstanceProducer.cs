@@ -12,17 +12,23 @@ internal struct InstanceProducer : IDisposable
     public Track TrackInstance { get; private set; } = null;
 
     public InstanceProducer(string name,
-                            string description)
+                            string description, 
+                            string avatar)
     {
-        ArtistInstance = new Artist(name: name, description: description);
+        ArtistInstance = new Artist(name: name,
+                                    description: description,
+                                    avatar: avatar);
     }
 
     public InstanceProducer(string name,
                             string description,
+                            string avatar,
                             IList<Track> tracks,
                             IList<Artist> artists)
     {
-        PlaylistInstance = new Playlist(name: name, description: description);
+        PlaylistInstance = new Playlist(name: name,
+                                        description: description,
+                                        avatar: avatar);
         var playlist = PlaylistInstance;
         
         if (tracks != null && tracks.Count > 0)
@@ -35,9 +41,13 @@ internal struct InstanceProducer : IDisposable
     public InstanceProducer(string pathway,
                             string name,
                             string description,
+                            string avatar,
                             IList<Artist> artists = null)
     {
-        TrackInstance = new Track(pathway: pathway, name: name, description: description);
+        TrackInstance = new Track(pathway: pathway,
+                                  name: name,
+                                  description: description,
+                                  avatar: avatar);
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)

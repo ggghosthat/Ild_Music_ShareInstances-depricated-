@@ -7,8 +7,9 @@ namespace ShareInstances.Instances.Interfaces
         public Guid Id { get; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public char[]? AvatarBase64 {get; set;}
+        public string AvatarBase64 {get; set;}
         public byte[]? GetAvatar();
-        public void SetAvatar(string path);
+        public void DefineAvatar(string path);
+        public string SetAvatar(string path);
     }
 }

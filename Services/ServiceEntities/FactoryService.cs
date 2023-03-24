@@ -17,11 +17,13 @@ public class FactoryService : IService
     
 
     #region Public Methods
-    public void CreateArtist(string name, string description)
+    public void CreateArtist(string name,
+                             string description,
+                             string avatar = null)
     {
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name, description);
+            producer = new InstanceProducer.InstanceProducer(name, description, avatar);
             SupporterService.AddInstance(producer.ArtistInstance);
             producer.Dispose();
         }
@@ -32,11 +34,15 @@ public class FactoryService : IService
     }
         
 
-    public void CreatePlaylist(string name, string description, IList<Track> tracks = null, IList<Artist> artists = null)
+    public void CreatePlaylist(string name,
+                               string description,
+                               string avatar = null,
+                               IList<Track> tracks = null,
+                               IList<Artist> artists = null)
     {   
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name, description, tracks, artists);
+            producer = new InstanceProducer.InstanceProducer(name, description, avatar, tracks, artists);
             SupporterService.AddInstance(producer.PlaylistInstance);
             producer.Dispose();
         }
@@ -46,11 +52,15 @@ public class FactoryService : IService
         }
     }
 
-    public void CreateTrack(string pathway, string name, string description, IList<Artist> artists = null)
+    public void CreateTrack(string pathway,
+                            string name,
+                            string description,
+                            string avatar = null,
+                            IList<Artist> artists = null)
     {      
         try
         {      
-            producer = new InstanceProducer.InstanceProducer(pathway, name, description, artists);
+            producer = new InstanceProducer.InstanceProducer(pathway, name, description, avatar, artists);
             SupporterService.AddInstance(producer.TrackInstance);
             producer.Dispose();
         }

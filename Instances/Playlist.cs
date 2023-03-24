@@ -11,7 +11,7 @@ public record Playlist : ICoreEntity
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Name {get; set;}
 	public string Description {get; set;}
-    public char[]? AvatarBase64 {get; set;}      
+    public string AvatarBase64 {get; set;}      
 
 	public IList<Guid> Tracks = new List<Guid>();
     public int Count => Tracks.Count;
@@ -29,10 +29,14 @@ public record Playlist : ICoreEntity
         }
     }
 
-    public Playlist(string name, string description, IList<Guid> tracks = null)
+    public Playlist(string name, 
+                    string description,
+                    string avatar = null,
+                    IList<Guid> tracks = null)
     {
         Name = name;
         Description = description;
+        AvatarBase64 = SetAvatar(avatar);
         if(tracks != null)
         {
             Tracks = new List<Guid>(tracks);
@@ -72,7 +76,7 @@ public record Playlist : ICoreEntity
         try
         {
             byte[] result;
-            return Convert.FromBase64CharArray(AvatarBase64, 0, AvatarBase64.Length);
+            return Convert.FromBase64String(AvatarBase64);
         }
         catch(Exception ex)
         {
@@ -81,37 +85,40 @@ public record Playlist : ICoreEntity
         }
     }
 
-    public async void SetAvatar(string path)
+    public void DefineAvatar(string path)
     {
-        if(File.Exists(path))
+        if(path is not null && File.Exists(path))
         {
             try
             {
-                byte[]? fileBytes;
-                using (FileStream fileStream = File.Open(path, FileMode.Open))
-                {
-                    fileBytes = new byte[fileStream.Length];
-                    await fileStream.ReadAsync(fileBytes, 0, (int)fileStream.Length);
-                }
-                if (fileBytes != null)
-                {
-                    AvatarBase64 = null;
-                    AvatarBase64 = new char[fileBytes.Length];
-                    Convert.ToBase64CharArray(fileBytes, 0, fileBytes.Length, AvatarBase64, 0);
-                }
-                fileBytes = null;
+                byte[] file = System.IO.File.ReadAllBytes(path);
+                string result = Convert.ToBase64String(file); 
             }
             catch(Exception ex)
             {
                 //Speciall logging or throwing logic
-                return;
+                throw ex;
             }
         }
     }
-    #endregion
 
-    public IList<Track> GetTracks()
+    public string SetAvatar(string path)
     {
-        return null;
+        if(path is not null && File.Exists(path))
+        {
+            try
+            {
+                byte[] file = System.IO.File.ReadAllBytes(path);
+                string result = Convert.ToBase64String(file); 
+                return result;
+            }
+            catch(Exception ex)
+            {
+                //Speciall logging or throwing logic
+                throw ex;
+            }            
+        }
+        else return null;
     }
+    #endregion
 }
