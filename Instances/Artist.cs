@@ -21,7 +21,7 @@ public record Artist : ICoreEntity
 	{
 		Name = name;
 		Description = description;
-		AvatarBase64 = SetAvatar(avatar);
+        AvatarBase64 = avatar;
 	}
 
 
@@ -54,28 +54,31 @@ public record Artist : ICoreEntity
 	#region Avatar Manipulation
 	public byte[] GetAvatar()
     {
-        try
+        if (AvatarBase64 is not null)
         {
-            var result = Convert.FromBase64String(AvatarBase64);
-            return result;
+            try
+            {
+                var result = Convert.FromBase64String(AvatarBase64);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                //Speciall logging or throwing logic
+                throw ex;
+                // return null;
+            }
         }
-        catch(Exception ex)
-        {
-            //Speciall logging or throwing logic
-            throw ex;
-            // return null;
-        }
+        else return null;
     }
 
 
-    public void DefineAvatar(string path)
+    public void DefineAvatar(string base64)
     {
-        if(path is not null && File.Exists(path))
+        if(base64 is not null)
         {
         	try
         	{
-	        	byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
+                AvatarBase64 = base64;
         	}
             catch(Exception ex)
             {
