@@ -112,6 +112,58 @@ public class Stage
         }
     }
     
+    private async Task<bool> InitAsync(string playerAssembly, string synchAssembly)
+    {
+        bool isCompleted = false;
+        try
+        {
+            AssemblyProcess(playerAssembly, PlayerInstance);
+            AssemblyProcess(synchAssembly, AreaInstace);
+
+            serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
+            serviceCenter.ResolveStore(ref StoreInstance);
+
+            if (PlayerInstance != null)
+            {
+                PlayerInstance.DetermineStore(ref StoreInstance);
+            }
+            isCompleted = true;
+        }
+        catch(Exception ex)
+        {
+            isCompleted = false;
+        }
+        
+        return isCompleted;
+    }
+
+    private async Task<bool> InitAsync(IEnumerable<string> playerAssembly, IEnumerable<string> synchAssembly)
+    {
+        bool isCompleted = false;
+        try
+        {
+            AssemblyProcess(playerAssembly, PlayerInstance);
+            AssemblyProcess(synchAssembly, AreaInstace);
+
+            serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
+            serviceCenter.ResolveStore(ref StoreInstance);
+
+            if (PlayerInstance != null)
+            {
+                PlayerInstance.DetermineStore(ref StoreInstance);
+            }
+            isCompleted = true;
+        }
+        catch(Exception ex)
+        {
+            isCompleted = false;
+        }
+        
+        return isCompleted;
+    }
+
     private void InitUnit(string path, string type)
     {
         if (type == "player")
@@ -124,8 +176,8 @@ public class Stage
             AssemblyProcess(path, AreaInstace);
             AreaInstace = _areas[0];
         }
-    }
-    #endregion
+    }    
+    #endregion    
     
     #region AssemblySearchingMethods
     private void AssemblyProcess<T>(string assemblyPath, T assemblyType)
