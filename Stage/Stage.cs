@@ -5,6 +5,7 @@ using ShareInstances.StoreSpace;
 
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
@@ -19,6 +20,10 @@ public class Stage
     #region Dump Region
     public ICollection<DumpStructure> dumps = new List<DumpStructure>();
     private bool IsDumpIgnore = false;
+    #endregion
+
+    #region Configure Region
+    public IConfigure Configure {get; set;}
     #endregion
 
     #region Player Region
@@ -43,7 +48,7 @@ public class Stage
     #endregion
     
     #region Event
-    public event Action OnInittialized;
+    public event Action OnInitialized;
     public event Action OnComponentMuted;
     #endregion
 
@@ -54,6 +59,10 @@ public class Stage
     #region Store Supply
     private Store StoreInstance = default;
     public Store Store => StoreInstance;
+    #endregion
+
+    #region Properties
+    public bool CompletionResult {get; private set;}
     #endregion
 
     #region Constructors
@@ -71,48 +80,32 @@ public class Stage
 
     public Stage(string playerPath, string synchPath)
     {
-        Init(playerPath, synchPath);
+        // Init(playerPath, synchPath);
+        Task.Factory.StartNew(async () => await ObserveLoading(playerPath, synchPath));
     }
 
     public Stage(IConfigure configure)
     {
-        Init(configure.ConfigSheet.Players, configure.ConfigSheet.Synches);
+        Configure = configure;
+        Task.Factory.StartNew(async () => await ObserveLoading());
     }
     #endregion
 
 
     #region Inits
-    public void Init(string playerAssembly, string synchAssembly)
+    public async Task ObserveLoading(string playerAssembly, string synchAssembly)
     {
-        AssemblyProcess(playerAssembly, PlayerInstance);
-        AssemblyProcess(synchAssembly, AreaInstace);
-
-        serviceCenter.ResolveSupporter(AreaInstace);
-        serviceCenter.ResolvePlayer(PlayerInstance);
-        serviceCenter.ResolveStore(ref StoreInstance);
-
-        if (PlayerInstance != null)
-        {
-            PlayerInstance.DetermineStore(ref StoreInstance);
-        }
+        CompletionResult = await InitAsync(playerAssembly, synchAssembly);
+        OnInitialized?.Invoke();
     }
 
-    public void Init(IEnumerable<string> playerAssemblies, IEnumerable<string> synchAssemblies)
+    public async Task ObserveLoading()
     {
-        AssemblyProcess(playerAssemblies, PlayerInstance);
-        AssemblyProcess(synchAssemblies, AreaInstace);
-
-        serviceCenter.ResolveSupporter(AreaInstace);
-        serviceCenter.ResolvePlayer(PlayerInstance);
-        serviceCenter.ResolveStore(ref StoreInstance);
-
-        if (PlayerInstance != null)
-        {
-            PlayerInstance.DetermineStore(ref StoreInstance);
-        }
+        CompletionResult = await InitAsync(Configure.ConfigSheet.Players, Configure.ConfigSheet.Synches);
+        OnInitialized?.Invoke();
     }
-    
-    private async Task<bool> InitAsync(string playerAssembly, string synchAssembly)
+       
+    public async Task<bool> InitAsync(string playerAssembly, string synchAssembly)
     {
         bool isCompleted = false;
         try
@@ -138,7 +131,7 @@ public class Stage
         return isCompleted;
     }
 
-    private async Task<bool> InitAsync(IEnumerable<string> playerAssembly, IEnumerable<string> synchAssembly)
+    public async Task<bool> InitAsync(IEnumerable<string> playerAssembly, IEnumerable<string> synchAssembly)
     {
         bool isCompleted = false;
         try
