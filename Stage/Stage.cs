@@ -28,7 +28,7 @@ public class Stage
     #endregion
 
     #region EnumerateFileSystemEntries
-    public Filer Filer {get; private set;} = new();
+    public static ShareInstances.Filer.Filer Filer {get; private set;} = new();
     #endregion
 
     #region Player Region

@@ -1,16 +1,17 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 namespace ShareInstances.Filer;
 public class Filer
-{
+{	
+	private static ConcurrentBag<MusicFile> MusicFiles = new();
+
 	public Filer()
 	{}
-
-	public ConcurrentBag<MusicFile> MusicFiles {get; private set;} = new();
 
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{
@@ -30,14 +31,24 @@ public class Filer
        		}
        	}
 	}
+
+	public IList<MusicFile> GetMusicFiles()
+	{
+		return MusicFiles.OrderBy(mf => mf.Token).ToList();
+	}
+
+	public void CleanFiler()
+	{
+		MusicFiles.Clear();
+	}
 }
 
 public record MusicFile(string filepath, long size)
 {
+	public DateTime Token {get; private set;} = DateTime.Now;
 	public string FilePath {get; private set;} = filepath;
 	public string FileName => ExtractTitle();
 	public long Size {get; private set;}
-
 
 	private string ExtractTitle()
 	{
