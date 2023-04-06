@@ -2,6 +2,7 @@ using ShareInstances.Services.Center;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
 using ShareInstances.StoreSpace;
+using ShareInstances.Filer;
 
 using System;
 using System.Linq;
@@ -24,6 +25,10 @@ public class Stage
 
     #region Configure Region
     public IConfigure Configure {get; set;}
+    #endregion
+
+    #region EnumerateFileSystemEntries
+    public Filer Filer {get; private set;} = new();
     #endregion
 
     #region Player Region
