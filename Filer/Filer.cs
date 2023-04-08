@@ -25,7 +25,7 @@ public class Filer
 		if(File.Exists(file))
 		{
 			var ext = Path.GetExtension(file);
-    	    if (ext.Equals("mp3"))
+    	    if (ext.Equals(".mp3"))
         	{
         		MusicFiles.Add(new MusicFile(file, new FileInfo(file).Length));
        		}
@@ -48,11 +48,35 @@ public record MusicFile(string filepath, long size)
 	public DateTime Token {get; private set;} = DateTime.Now;
 	public string FilePath {get; private set;} = filepath;
 	public string FileName => ExtractTitle();
+	public TimeSpan Duration => ExtractDuration();
+	public byte[] Picture => ExtractPicture();
 	public long Size {get; private set;}
-
+	
 	private string ExtractTitle()
 	{
 		using( var taglib = TagLib.File.Create(FilePath))
-        return taglib.Tag.Title ?? "Unknown";
+		{
+        	return taglib.Tag.Title ?? "Unknown";
+    	}
+	}
+
+	private byte[] ExtractPicture()
+	{
+		using( var taglib = TagLib.File.Create(FilePath))
+		{
+			if(taglib.Tag.Pictures.Length > 0)
+			{
+				return taglib.Tag.Pictures[0].Data.Data;
+			}
+			return null;
+    	}
+	}
+
+	private TimeSpan ExtractDuration()
+	{
+		using( var taglib = TagLib.File.Create(FilePath))
+		{
+			return taglib.Properties.Duration;
+    	}
 	}
 }

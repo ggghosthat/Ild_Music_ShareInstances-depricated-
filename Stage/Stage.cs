@@ -85,7 +85,6 @@ public class Stage
 
     public Stage(string playerPath, string synchPath)
     {
-        // Init(playerPath, synchPath);
         Task.Factory.StartNew(async () => await ObserveLoading(playerPath, synchPath));
     }
 
