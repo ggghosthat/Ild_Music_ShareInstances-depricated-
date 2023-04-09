@@ -6,35 +6,41 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 namespace ShareInstances.Filer;
+//Filer is a special class wich perfome temporary file system loading
+//Filer just read special files(music formats, such as .mp3)
 public class Filer
 {	
-	private static ConcurrentBag<MusicFile> MusicFiles = new();
+	private static ConcurrentBag<MusicFile> usicFiles = new();
+    private static ConcurrentDictionary<string, MusicFile> MusicFiles = new ();
+
+	public event Action OnMuted;	
 
 	public Filer()
 	{}
 
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{
-		Parallel.ForEach(inputPaths, ReadFile);
-	}
-
-	//containing file-format restriction.
-    //in the nearest release will be allow mp3 format only!!!
-	private void ReadFile(string file)
-	{
-		if(File.Exists(file))
-		{
-			var ext = Path.GetExtension(file);
-    	    if (ext.Equals(".mp3"))
-        	{
-        		MusicFiles.Add(new MusicFile(file, new FileInfo(file).Length));
-       		}
-       	}
+		Parallel.ForEach(inputPaths,
+						 new ParallelOptions { MaxDegreeOfParallelism = 4 },
+						 (string file) =>
+        {            
+			//containing file-format restriction.
+    		//in the nearest release will be allow mp3 format only!!!
+            if(File.Exists(file))
+			{
+				var ext = Path.GetExtension(file);
+	    	    if (ext.Equals(".mp3"))
+	        	{
+	        		var mFile = new MusicFile(file, new FileInfo(file).Length);
+		            MusicFiles.AddOrUpdate(mFile.FilePath, mFile, (string key, MusicFile oldValue) => mFile);
+	       		}
+	       	}
+        });
 	}
 
 	public IList<MusicFile> GetMusicFiles()
 	{
-		return MusicFiles.OrderBy(mf => mf.Token).ToList();
+		return MusicFiles.Values.ToList();
 	}
 
 	public void CleanFiler()
