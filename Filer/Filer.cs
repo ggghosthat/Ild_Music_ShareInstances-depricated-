@@ -49,6 +49,9 @@ public class Filer
 	}
 }
 
+//MusicFile is a special instance which represent audio in file system.
+//It mustn't be droped to player instance for playing.
+//It just store necessary data to keep tracking audio file.
 public record MusicFile(string filepath, long size)
 {
 	public DateTime Token {get; private set;} = DateTime.Now;

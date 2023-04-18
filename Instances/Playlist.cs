@@ -13,7 +13,11 @@ public record Playlist : ICoreEntity
 	public string Description {get; set;}
     public string AvatarBase64 {get; set;}      
 
+    //Use for user space playing
 	public IList<Guid> Tracks = new List<Guid>();
+    //Use for temporary playing
+    public IList<Track> Temps = new List<Track>();
+
     public int Count => Tracks.Count;
 	public Guid Head {get; private set;}
 	public Guid Tail {get; private set;}
@@ -53,6 +57,11 @@ public record Playlist : ICoreEntity
     	Tracks.Add(track.Id);
     }
 
+    public void AddTemp(Track temp)
+    {
+        Temps.Add(temp);
+    }
+
     public void RemoveTrack(Track track)
     {        
     	if(Tracks.Contains(track.Id))
@@ -60,6 +69,14 @@ public record Playlist : ICoreEntity
     		Tracks.Remove(track.Id);
     	}
     }
+
+    public void RemoveTemp(Track temp)
+    {        
+        if(Temps.Contains(temp))
+        {
+            Temps.Remove(temp);
+        }
+    }    
     #endregion
 
     #region Shuffle

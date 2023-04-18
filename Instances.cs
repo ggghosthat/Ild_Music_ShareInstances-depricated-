@@ -1,6 +1,7 @@
 ﻿using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
 using ShareInstances.StoreSpace;
+using ShareInstances.Filer;
 
 using System;
 using System.Collections.Generic;
@@ -79,7 +80,15 @@ public interface IPlayer : IShare
 
     public void DetermineStore(ref Store store);
 
+    //This method need to play music which created in advance 
+    //and store in user space
     public void SetInstance(ICoreEntity entity, int index=0);
+
+    //This method has disstinction. 
+    //It performs temporary audio playing.
+    public void SetRoad(MusicFile musicFile);
+
+    public void SetRoad(IEnumerable<MusicFile> musicFIles);
 
     public void SetNotifier(Action callBack);
 
