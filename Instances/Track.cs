@@ -9,7 +9,7 @@ public record Track : ICoreEntity
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public string Pathway {get; set;}
 	public string Name {get; set;}
-	public string Description {get; set;}
+	public string? Description {get; set;}
     public string AvatarBase64 {get; set;}
 
 	public TimeSpan Duration => ExtraxtDuration();
@@ -21,14 +21,22 @@ public record Track : ICoreEntity
                  string avatar = null)
     {
         Pathway = pathway;
-        Name = name;
+        Name = name??ExtractName();
         Description = description;
-        AvatarBase64 = avatar;
+        AvatarBase64 = avatar?? ExtractPicture();
     }
     #endregion
 
 
     #region Extraction Methods
+    private string ExtractName()
+    {
+        using( var taglib = TagLib.File.Create(Pathway))
+        {
+            return taglib.Tag.Title ?? "Unknown";
+        }
+    }
+
     private TimeSpan ExtraxtDuration()
     {
     	if (File.Exists(Pathway))
@@ -37,6 +45,18 @@ public record Track : ICoreEntity
             return taglib.Properties.Duration;
         }
         return TimeSpan.FromSeconds(1);
+    }
+
+    private string ExtractPicture()
+    {
+        using( var taglib = TagLib.File.Create(Pathway))
+        {
+            if(taglib.Tag.Pictures.Length > 0)
+            {
+                return Convert.ToBase64String(taglib.Tag.Pictures[0].Data.Data);
+            }
+            return null;
+        }
     }
     #endregion
 
