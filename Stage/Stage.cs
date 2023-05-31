@@ -173,7 +173,7 @@ public class Stage
             AssemblyProcess(path, AreaInstace);
             AreaInstace = _areas[0];
         }
-    }    
+    }   
     #endregion    
     
     #region AssemblySearchingMethods

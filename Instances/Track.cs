@@ -4,60 +4,57 @@ using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
 
 namespace ShareInstances.Instances;
-public record Track : ICoreEntity
+public struct Track
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public string Pathway {get; set;}
-	public string Name {get; set;}
-	public string? Description {get; set;}
-    public string AvatarBase64 {get; set;}
+	public ReadOnlyMemory<char> Pathway {get; private set;}
+	public ReadOnlyMemory<char> Name {get; private set;}
+	public ReadOnlyMemory<char> Description {get; set;}
+    public ReadOnlyMemory<char> AvatarBase64 {get; private set;}
 
-	public TimeSpan Duration => ExtraxtDuration();
+	public TimeSpan Duration {get; private set; }
 
     #region Const
-    public Track(string pathway,
-                 string name,
-                 string description,
-                 string avatar = null)
+    public Track(ReadOnlyMemory<char> pathway,
+                 ReadOnlyMemory<char> name,
+                 ReadOnlyMemory<char> description,
+                 ReadOnlyMemory<char> avatar)
     {
-        Pathway = pathway;
-        Name = name??ExtractName();
+        ExtractData(pathway, name, avatar);
         Description = description;
-        AvatarBase64 = avatar?? ExtractPicture();
     }
     #endregion
 
 
     #region Extraction Methods
-    private string ExtractName()
+    private void ExtractData(ReadOnlyMemory<char> pathway, 
+                             ReadOnlyMemory<char> name,
+                             ReadOnlyMemory<char> avatar)
     {
-        using( var taglib = TagLib.File.Create(Pathway))
+        if(File.Exists(pathway.ToString()))
         {
-            return taglib.Tag.Title ?? "Unknown";
-        }
-    }
-
-    private TimeSpan ExtraxtDuration()
-    {
-    	if (File.Exists(Pathway))
-        {
-            using( var taglib = TagLib.File.Create(Pathway))
-            return taglib.Properties.Duration;
-        }
-        return TimeSpan.FromSeconds(1);
-    }
-
-    private string ExtractPicture()
-    {
-        using( var taglib = TagLib.File.Create(Pathway))
-        {
-            if(taglib.Tag.Pictures.Length > 0)
+            Pathway = pathway;
+            using( var taglib = TagLib.File.Create(pathway.ToString()))
             {
-                return Convert.ToBase64String(taglib.Tag.Pictures[0].Data.Data);
+                if(name.Length == 0)
+                    Name = (taglib.Tag.Title ?? "Unknown").AsMemory();
+                else
+                    Name = name;
+
+                Duration = taglib.Properties.Duration;
+
+                if (string.IsNullOrEmpty(avatar.ToString()))
+                {
+                    if(taglib.tag.Pictures.Length > 0)
+                        AvatarBase64 = Convert.ToBase64String(taglib.Tag.Pictures[0].Data.Data);
+                    else AvatarBase64 = avatar;
+                }
+                else AvatarBase64 = avatar;
             }
-            return null;
         }
+
     }
+
     #endregion
 
     #region Avatar Manipulation
@@ -74,23 +71,7 @@ public record Track : ICoreEntity
         }
     }
 
-    public void DefineAvatar(string path)
-    {
-        if(path is not null && File.Exists(path))
-        {
-            try
-            {
-                byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
-            }
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;
-            }
-        }
-    }
-
+    
     public string SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
@@ -98,8 +79,7 @@ public record Track : ICoreEntity
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
-                return result;
+                return result = Convert.ToBase64String(file); 
             }
             catch(Exception ex)
             {

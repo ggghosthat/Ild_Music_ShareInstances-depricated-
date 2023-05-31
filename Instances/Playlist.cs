@@ -2,23 +2,22 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using ShareInstances.Instances.Interfaces;
 
 
 namespace ShareInstances.Instances;
-public record Playlist : ICoreEntity
+public struct Playlist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public string Name {get; set;}
-	public string Description {get; set;}
-    public string AvatarBase64 {get; set;}      
+	public ReadOnlyMemory<char> Name {get; private set;}
+	public ReadOnlyMemory<char> Description {get; private set;}
+    public ReadOnlyMemory<char> AvatarBase64 {get; private set;}      
 
     //Use for user space playing
-	public IList<Guid> Tracks = new List<Guid>();
-    //Use for temporary playing
-    public IList<Track> Temps = new List<Track>();
+    private Lazy<List<Track>> Tracks; 
 
-    public int Count => Tracks.Count;
+    //Please, be carefull when you call this property and DO NOT call much this property
+    //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
+    public int Count => Tracks.Value.Count;
 	public Guid Head {get; private set;}
 	public Guid Tail {get; private set;}
 
@@ -33,50 +32,35 @@ public record Playlist : ICoreEntity
         }
     }
 
-    public Playlist(string name, 
-                    string description,
-                    string avatar = null,
-                    IList<Guid> tracks = null)
+    public Playlist(ReadOnlyMemory<char> name, 
+                    ReadOnlyMemory<char> description,
+                    ReadOnlyMemory<char> avatarPath)
     {
         Name = name;
         Description = description;
-        AvatarBase64 = avatar;
-        if(tracks != null)
+
+        if(File.Exists(avatarPath.ToString()))
         {
-            Tracks = new List<Guid>(tracks);
+            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString()));
         }
-        else 
-        {
-            Tracks = new List<Guid>();
-        }
+
+        Tracks = new Lazy<List<Track>>();
     }
 
     #region Collection Manipulation Methods
     public void AddTrack(Track track)
     {        
-    	Tracks.Add(track.Id);
-    }
-
-    public void AddTemp(Track temp)
-    {
-        Temps.Add(temp);
+    	Tracks.Value.Add(track.Id);
     }
 
     public void RemoveTrack(Track track)
     {        
-    	if(Tracks.Contains(track.Id))
+    	if(Tracks.Value.Contains(track))
     	{
-    		Tracks.Remove(track.Id);
+    		Tracks.Value.Remove(track);
     	}
     }
 
-    public void RemoveTemp(Track temp)
-    {        
-        if(Temps.Contains(temp))
-        {
-            Temps.Remove(temp);
-        }
-    }    
     #endregion
 
     #region Shuffle
@@ -102,23 +86,6 @@ public record Playlist : ICoreEntity
         }
     }
 
-    public void DefineAvatar(string path)
-    {
-        if(path is not null && File.Exists(path))
-        {
-            try
-            {
-                byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
-            }
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;
-            }
-        }
-    }
-
     public string SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
@@ -126,8 +93,7 @@ public record Playlist : ICoreEntity
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
-                return result;
+                return result = Convert.ToBase64String(file); 
             }
             catch(Exception ex)
             {

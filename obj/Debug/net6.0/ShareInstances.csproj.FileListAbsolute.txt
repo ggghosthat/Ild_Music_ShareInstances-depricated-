@@ -1,24 +1,36 @@
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.deps.json
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.dll
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.pdb
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.csproj.AssemblyReference.cache
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.AssemblyInfoInputs.cache
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.AssemblyInfo.cs
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.csproj.CoreCompileInputs.cache
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.dll
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\refint\ShareInstances.dll
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.pdb
-E:\C# projects\Ild_music_Tests\Ild-Music.ShareInstances\obj\Debug\net6.0\ref\ShareInstances.dll
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.deps.json
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.dll
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\bin\Debug\net6.0\ShareInstances.pdb
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.csproj.AssemblyReference.cache
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.AssemblyInfoInputs.cache
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.AssemblyInfo.cs
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.csproj.CoreCompileInputs.cache
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.dll
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\refint\ShareInstances.dll
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ShareInstances.pdb
-E:\ild_music\Ild-Music\dependencies\Ild-Music.ShareInstances\obj\Debug\net6.0\ref\ShareInstances.dll
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.deps.json
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.dll
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.pdb
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.AssemblyReference.cache
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfoInputs.cache
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfo.cs
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.CoreCompileInputs.cache
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.dll
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/refint/ShareInstances.dll
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.pdb
+E:/C# projects/Ild_music_Tests/Ild-Music.ShareInstances/obj/Debug/net6.0/ref/ShareInstances.dll
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.deps.json
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.dll
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.pdb
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.AssemblyReference.cache
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfoInputs.cache
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfo.cs
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.CoreCompileInputs.cache
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.dll
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/refint/ShareInstances.dll
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.pdb
+E:/ild_music/Ild-Music/dependencies/Ild-Music.ShareInstances/obj/Debug/net6.0/ref/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.deps.json
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/Debug/net6.0/ShareInstances.pdb
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.AssemblyReference.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfoInputs.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.AssemblyInfo.cs
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.csproj.CoreCompileInputs.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/refint/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ShareInstances.pdb
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/Debug/net6.0/ref/ShareInstances.dll

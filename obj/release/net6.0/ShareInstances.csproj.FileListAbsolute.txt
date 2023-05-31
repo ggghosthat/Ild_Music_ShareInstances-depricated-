@@ -1,0 +1,12 @@
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/release/net6.0/ShareInstances.deps.json
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/release/net6.0/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/bin/release/net6.0/ShareInstances.pdb
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.csproj.AssemblyReference.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.AssemblyInfoInputs.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.AssemblyInfo.cs
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.csproj.CoreCompileInputs.cache
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/refint/ShareInstances.dll
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ShareInstances.pdb
+/home/ggghosthat/repos/share/Ild-Music.ShareInstances/obj/release/net6.0/ref/ShareInstances.dll
