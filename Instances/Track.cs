@@ -7,31 +7,20 @@ namespace ShareInstances.Instances;
 public struct Track
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public ReadOnlyMemory<char> Pathway {get; private set;}
-	public ReadOnlyMemory<char> Name {get; private set;}
-	public ReadOnlyMemory<char> Description {get; set;}
-    public ReadOnlyMemory<char> AvatarBase64 {get; private set;}
+	public ReadOnlyMemory<char> Pathway {get; private set;} = string.Empty.AsMemory();
+	public ReadOnlyMemory<char> Name {get; private set;} = string.Empty.AsMemory();
+	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
+    public ReadOnlyMemory<char> AvatarBase64 {get; private set;} = string.Empty.AsMemory();
 
-	public TimeSpan Duration {get; private set; }
+	public TimeSpan Duration {get; private set; } = TimeSpan.FromSeconds(0);
 
     #region Const
     public Track(ReadOnlyMemory<char> pathway,
                  ReadOnlyMemory<char> name,
                  ReadOnlyMemory<char> description,
-                 ReadOnlyMemory<char> avatar)
+                 ReadOnlyMemory<char> avatarPath)
     {
-        ExtractData(pathway, name, avatar);
-        Description = description;
-    }
-    #endregion
-
-
-    #region Extraction Methods
-    private void ExtractData(ReadOnlyMemory<char> pathway, 
-                             ReadOnlyMemory<char> name,
-                             ReadOnlyMemory<char> avatar)
-    {
-        if(File.Exists(pathway.ToString()))
+        if(System.IO.File.Exists(pathway.ToString()))
         {
             Pathway = pathway;
             using( var taglib = TagLib.File.Create(pathway.ToString()))
@@ -42,19 +31,29 @@ public struct Track
                     Name = name;
 
                 Duration = taglib.Properties.Duration;
+                Description = description;
 
-                if (string.IsNullOrEmpty(avatar.ToString()))
+                if (string.IsNullOrEmpty(avatarPath.ToString()))
                 {
-                    if(taglib.tag.Pictures.Length > 0)
-                        AvatarBase64 = Convert.ToBase64String(taglib.Tag.Pictures[0].Data.Data);
-                    else AvatarBase64 = avatar;
+                    if(taglib.Tag.Pictures.Length > 0)
+                        AvatarBase64 = Convert.ToBase64String(taglib.Tag.Pictures[0].Data.Data).AsMemory();
+                    else 
+                        AvatarBase64 = string.Empty.AsMemory();
+
+                    return;
                 }
-                else AvatarBase64 = avatar;
+                else if(File.Exists(avatarPath.ToString()))
+                {
+                    AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString())).AsMemory();
+                }
+                else
+                {
+                    AvatarBase64 = string.Empty.AsMemory();
+                }           
             }
         }
-
+        else return;
     }
-
     #endregion
 
     #region Avatar Manipulation
@@ -62,7 +61,7 @@ public struct Track
     {
         try
         {
-            return Convert.FromBase64String(AvatarBase64);
+            return Convert.FromBase64String(AvatarBase64.ToString());
         }
         catch(Exception ex)
         {
@@ -79,7 +78,7 @@ public struct Track
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                return result = Convert.ToBase64String(file); 
+                return Convert.ToBase64String(file); 
             }
             catch(Exception ex)
             {

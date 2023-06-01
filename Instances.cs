@@ -1,6 +1,5 @@
 ﻿using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
-using ShareInstances.StoreSpace;
 using ShareInstances.Filer;
 
 using System;
@@ -59,7 +58,6 @@ public interface IPlayer : IShare
 {
     public Guid PlayerId { get; }
     public string PlayerName { get; }
-    public Store StoreInstance {get; }
 
     public ICoreEntity CurrentEntity {get;}
     public Track CurrentTrack { get; }
@@ -77,8 +75,6 @@ public interface IPlayer : IShare
 
     public event Action TrackStarted;
 
-
-    public void DetermineStore(ref Store store);
 
     //This method need to play music which created in advance 
     //and store in user space

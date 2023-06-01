@@ -4,24 +4,32 @@ using System.Collections.Generic;
 using ShareInstances.Instances.Interfaces;
 
 namespace ShareInstances.Instances;
-public record Artist : ICoreEntity
+public struct Artist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public string Name {get; set;}
-	public string Description {get; set;}
-	public string AvatarBase64 {get; set;}
+	public ReadOnlyMemory<char> Name {get; set;}
+	public ReadOnlyMemory<char> Description {get; set;}
+	public ReadOnlyMemory<char> AvatarBase64 {get; set;}
 
 	public IList<Guid> Tracks {get; private set;} = new List<Guid>();
 	public IList<Guid> Playlists {get; private set;} = new List<Guid>();
 
 
-	public Artist (string name,
-				   string description,
-				   string avatar = null )
+	public Artist (ReadOnlyMemory<char> name,
+				   ReadOnlyMemory<char> description,
+				   ReadOnlyMemory<char> avatarPath)
 	{
 		Name = name;
 		Description = description;
-        AvatarBase64 = avatar;
+        
+        if(File.Exists(avatarPath.ToString()))
+        {
+            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString())).AsMemory();
+        }
+        else
+        {
+            AvatarBase64 = string.Empty.AsMemory();
+        }
 	}
 
 
@@ -54,11 +62,11 @@ public record Artist : ICoreEntity
 	#region Avatar Manipulation
 	public byte[] GetAvatar()
     {
-        if (AvatarBase64 is not null)
+        if (AvatarBase64.ToString() is not null)
         {
             try
             {
-                return Convert.FromBase64String(AvatarBase64);
+                return Convert.FromBase64String(AvatarBase64.ToString());
             }
             catch(Exception ex)
             {
@@ -70,23 +78,6 @@ public record Artist : ICoreEntity
         else return null;
     }
 
-
-    public void DefineAvatar(string base64)
-    {
-        if(base64 is not null)
-        {
-        	try
-        	{
-                AvatarBase64 = base64;
-        	}
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;
-            }
-        }
-    }
-
     public string SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
@@ -94,8 +85,7 @@ public record Artist : ICoreEntity
         	try
         	{
 	        	byte[] file = System.IO.File.ReadAllBytes(path);
-                string result = Convert.ToBase64String(file); 
-                return result;
+                return Convert.ToBase64String(file); 
         	}
             catch(Exception ex)
             {

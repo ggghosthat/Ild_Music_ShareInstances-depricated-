@@ -8,9 +8,9 @@ namespace ShareInstances.Instances;
 public struct Playlist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public ReadOnlyMemory<char> Name {get; private set;}
-	public ReadOnlyMemory<char> Description {get; private set;}
-    public ReadOnlyMemory<char> AvatarBase64 {get; private set;}      
+	public ReadOnlyMemory<char> Name {get; private set;} = string.Empty.AsMemory(); 
+	public ReadOnlyMemory<char> Description {get; private set;} = string.Empty.AsMemory();
+    public ReadOnlyMemory<char> AvatarBase64 {get; private set;} = string.Empty.AsMemory(); 
 
     //Use for user space playing
     private Lazy<List<Track>> Tracks; 
@@ -18,17 +18,15 @@ public struct Playlist
     //Please, be carefull when you call this property and DO NOT call much this property
     //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
     public int Count => Tracks.Value.Count;
-	public Guid Head {get; private set;}
-	public Guid Tail {get; private set;}
-
-	public int CurrentIndex {get; set;}
+	
+    public int CurrentIndex {get; set;} = 0;
 	public bool IsOrdered { get; private set; } = false;
 
-    public Guid this[int i]
+    public Track this[int i]
     {
         get
         {
-            return Tracks[i];
+            return Tracks.Value[i];
         }
     }
 
@@ -41,7 +39,7 @@ public struct Playlist
 
         if(File.Exists(avatarPath.ToString()))
         {
-            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString()));
+            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString())).AsMemory();
         }
 
         Tracks = new Lazy<List<Track>>();
@@ -50,7 +48,12 @@ public struct Playlist
     #region Collection Manipulation Methods
     public void AddTrack(Track track)
     {        
-    	Tracks.Value.Add(track.Id);
+    	Tracks.Value.Add(track);
+    }
+
+    public void AddTrackRange(IList<Track> tracks)
+    {
+        Tracks.Value.AddRange(tracks);
     }
 
     public void RemoveTrack(Track track)
@@ -66,8 +69,8 @@ public struct Playlist
     #region Shuffle
     public void Shuffle() 
     {
-        IList<Guid> shuffledList = Tracks.OrderBy(i => Guid.NewGuid()).ToList();
-        Tracks = shuffledList;
+        IList<Track> shuffledList = Tracks.Value.OrderBy(i => Guid.NewGuid()).ToList();
+        //Tracks.Value = shuffledList;
     }
     #endregion
 
@@ -77,7 +80,7 @@ public struct Playlist
         try
         {
             byte[] result;
-            return Convert.FromBase64String(AvatarBase64);
+            return Convert.FromBase64String(AvatarBase64.ToString());
         }
         catch(Exception ex)
         {
@@ -93,7 +96,7 @@ public struct Playlist
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                return result = Convert.ToBase64String(file); 
+                return Convert.ToBase64String(file); 
             }
             catch(Exception ex)
             {

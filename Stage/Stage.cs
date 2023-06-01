@@ -1,7 +1,6 @@
 using ShareInstances.Services.Center;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
-using ShareInstances.StoreSpace;
 using ShareInstances.Filer;
 
 using System;
@@ -62,8 +61,6 @@ public class Stage
     #endregion
 
     #region Store Supply
-    private Store StoreInstance = default;
-    public Store Store => StoreInstance;
     #endregion
 
     #region Properties
@@ -79,7 +76,6 @@ public class Stage
         Deserialize();
         OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
         OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
-        OnComponentMuted += () => serviceCenter.ResolveStore(ref StoreInstance);
         OnComponentMuted?.Invoke();
     }
 
@@ -119,12 +115,7 @@ public class Stage
 
             serviceCenter.ResolveSupporter(AreaInstace);
             serviceCenter.ResolvePlayer(PlayerInstance);
-            serviceCenter.ResolveStore(ref StoreInstance);
-
-            if (PlayerInstance != null)
-            {
-                PlayerInstance.DetermineStore(ref StoreInstance);
-            }
+           
             isCompleted = true;
         }
         catch(Exception ex)
@@ -145,12 +136,7 @@ public class Stage
 
             serviceCenter.ResolveSupporter(AreaInstace);
             serviceCenter.ResolvePlayer(PlayerInstance);
-            serviceCenter.ResolveStore(ref StoreInstance);
 
-            if (PlayerInstance != null)
-            {
-                PlayerInstance.DetermineStore(ref StoreInstance);
-            }
             isCompleted = true;
         }
         catch(Exception ex)
