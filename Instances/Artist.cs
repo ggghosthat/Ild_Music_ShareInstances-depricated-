@@ -21,15 +21,7 @@ public struct Artist
 	{
 		Name = name;
 		Description = description;
-        
-        if(File.Exists(avatarPath.ToString()))
-        {
-            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString())).AsMemory();
-        }
-        else
-        {
-            AvatarBase64 = string.Empty.AsMemory();
-        }
+        AvatarBase64 = avatarPath; 
 	}
 
 

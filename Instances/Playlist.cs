@@ -36,11 +36,7 @@ public struct Playlist
     {
         Name = name;
         Description = description;
-
-        if(File.Exists(avatarPath.ToString()))
-        {
-            AvatarBase64 = Convert.ToBase64String(File.ReadAllBytes(avatarPath.ToString())).AsMemory();
-        }
+        AvatarBase64 = avatarPath;
 
         Tracks = new Lazy<List<Track>>();
     }
