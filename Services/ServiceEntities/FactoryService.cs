@@ -23,8 +23,10 @@ public class FactoryService : IService
     {
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name, description, avatar);
-            SupporterService.AddInstance(producer.ArtistInstance);
+            producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
+                                                             description.AsMemory(),
+                                                             avatar.AsMemory());
+            SupporterService.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }
         catch (InvalidArtistException ex)
@@ -42,8 +44,12 @@ public class FactoryService : IService
     {   
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name, description, avatar, tracks, artists);
-            SupporterService.AddInstance(producer.PlaylistInstance);
+            producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
+                                                             description.AsMemory(),
+                                                             avatar.AsMemory(),
+                                                             tracks,
+                                                             artists);
+            SupporterService.AddPlaylistInstance(producer.PlaylistInstance);
             producer.Dispose();
         }
         catch (InvalidPlaylistException ex)
@@ -60,8 +66,12 @@ public class FactoryService : IService
     {      
         try
         {      
-            producer = new InstanceProducer.InstanceProducer(pathway, name, description, avatar, artists);
-            SupporterService.AddInstance(producer.TrackInstance);
+            producer = new InstanceProducer.InstanceProducer(pathway.AsMemory(),
+                                                             name.AsMemory(),
+                                                             description.AsMemory(),
+                                                             avatar.AsMemory(),
+                                                             artists);
+            SupporterService.AddTrackInstance(producer.TrackInstance);
             producer.Dispose();
         }
         catch (InvalidTrackException ex)

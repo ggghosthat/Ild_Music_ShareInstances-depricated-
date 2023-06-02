@@ -32,72 +32,71 @@ public class SupporterService : IService
     
     
 
-    public void AddInstance(ICoreEntity instance)
+    public void AddArtistInstance(Artist artist)
     {
-        if (instance is Artist artist)            
-        {
-            SynchArea.AddArtistObj(artist);
-            SynchArea.SaveArtists();
-            OnArtistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Playlist playlist)
-        {
-            SynchArea.AddPlaylistObj(playlist);
-            SynchArea.SavePlaylists();
-            OnPlaylistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Track track)
-        {
-            SynchArea.AddTrackObj(track);
-            SynchArea.SaveTracks();
-            OnTracksNotifyRefresh?.Invoke();
-        }
+        SynchArea.AddArtistObj(artist);
+        SynchArea.SaveArtists();
+        OnArtistsNotifyRefresh?.Invoke();
     }
 
-    public void EditInstance(ICoreEntity instance)
+    public void AddPlaylistInstance(Playlist playlist)
     {
-        if (instance is Artist artist)            
-        {
-            SynchArea.EditArtistObj(artist);
-            SynchArea.SaveArtists();
-            OnArtistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Playlist playlist)
-        {
-            SynchArea.EditPlaylistObj(playlist);
-            SynchArea.SavePlaylists();
-            OnPlaylistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Track track)
-        {
-            SynchArea.EditTrackObj(track);
-            SynchArea.SaveTracks();
-            OnTracksNotifyRefresh?.Invoke();
-        }  
+        SynchArea.AddPlaylistObj(playlist);
+        SynchArea.SavePlaylists();
+        OnPlaylistsNotifyRefresh?.Invoke();
     }
 
-    public void DeleteInstance(ICoreEntity instance)
+    public void AddTrackInstance(Track track)
     {
-        if(instance is Track track)
-        {
-            SynchArea.RemoveTrackObj(track);
-            SynchArea.SaveTracks();
-            OnArtistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Playlist playlist) 
-        {
-            SynchArea.RemovePlaylistObj(playlist);
-            SynchArea.SavePlaylists();
-            OnPlaylistsNotifyRefresh?.Invoke();
-        }
-        else if (instance is Artist artist) 
-        {
-            SynchArea.RemoveArtistObj(artist);
-            SynchArea.SaveArtists();
-            OnTracksNotifyRefresh?.Invoke();
-        }
+        SynchArea.AddTrackObj(track);
+        SynchArea.SaveTracks();
+        OnTracksNotifyRefresh?.Invoke();
     }
 
+
+    public void EditArtistInstance(Artist artist)
+    {
+        SynchArea.EditArtistObj(artist);
+        SynchArea.SaveArtists();
+        OnArtistsNotifyRefresh?.Invoke();
+    }
+    
+    public void EditPlaylistInstance(Playlist playlist)
+    {
+        SynchArea.EditPlaylistObj(playlist);
+        SynchArea.SavePlaylists();
+        OnPlaylistsNotifyRefresh?.Invoke();
+    }
+    
+    public void EditTrackInstance(Track track)
+    {
+        SynchArea.EditTrackObj(track);
+        SynchArea.SaveTracks();
+        OnTracksNotifyRefresh?.Invoke();  
+    }
+
+
+    public void DeleteArtistInstance(Artist artist) 
+    {
+        SynchArea.RemoveArtistObj(artist);
+        SynchArea.SaveArtists();
+        OnTracksNotifyRefresh?.Invoke();
+    }
+    
+    public void DeletePlaylistInstance(Playlist playlist) 
+    {
+        SynchArea.RemovePlaylistObj(playlist);
+        SynchArea.SavePlaylists();
+        OnPlaylistsNotifyRefresh?.Invoke();
+    }
+
+    public void DeleteTrackInstance(Track track)
+    {
+        SynchArea.RemoveTrackObj(track);
+        SynchArea.SaveTracks();
+        OnArtistsNotifyRefresh?.Invoke();
+    }
+       
     public void DumpState(int i = 0)
     {
         switch(i)
