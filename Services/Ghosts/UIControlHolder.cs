@@ -1,10 +1,10 @@
 using ShareInstances.Services.Interfaces;
 
 namespace ShareInstances.Services.Entities;
-public class UIControlService<T> : IService
+public class UIControlHolder<T>
 {
     private int size;
-    public string ServiceName {get; init;} = "ControlsService";    
+    public ReadOnlyMemory<char> ServiceName {get; init;} = "ControlsHolder";    
     private T[] controls;
 
     public UIControlService(int size = 5)

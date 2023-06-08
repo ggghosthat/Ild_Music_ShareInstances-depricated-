@@ -7,9 +7,9 @@ using ShareInstances.Instances.Interfaces;
 using System;
 
 namespace ShareInstances.Services.Entities;
-public class SupporterService : IService
+public ref struct SupportGhost
 {
-    public string ServiceName {get; init;} = "SupporterService";
+    public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService";
 
     //temp solution
     public static ISynchArea SynchArea;
@@ -24,7 +24,7 @@ public class SupporterService : IService
     public event Action OnTracksNotifyRefresh = null;
 
     //Initialize and start Synch Area instance 
-    public void StartSynchArea(ISynchArea synchArea) 
+    public SupportGhost(ISynchArea synchArea) 
     {
         SynchArea = synchArea;
         SynchArea.Init();

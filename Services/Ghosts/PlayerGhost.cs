@@ -9,12 +9,21 @@ using System;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public class PlayerService : IService
+public ref struct PlayerGhost
 {
-	public string ServiceName {get; init;} = "PlayerService"; 
+	public ReadOnlyMemory<char> GhostName {get; init;} = "PlayerGhost"; 
+
+    private int emptry;
 
 	public IPlayer PlayerInstance {get; private set;}
 
-	public void EnablePlayer(IPlayer _player) =>    	
-		PlayerInstance = _player;    	
+	public PlayerGhost(ref IPlayer player)
+    {
+		PlayerInstance = player;    	
+    }
+
+    public void SwitchPlayer(ref IPlayer player)
+    {
+        PlayerInstance = player;
+    }
 }

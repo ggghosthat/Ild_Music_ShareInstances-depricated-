@@ -8,13 +8,18 @@ using System;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public class FactoryService : IService
+public ref struct FactoryGhost
 {
-    public string ServiceName {get; init;} = "FactoryService";        
+    public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost";        
 
-    public SupporterService SupporterService {get; set;}
+    public SupportGhost SupportGhost {get; private set;}
     private InstanceProducer.InstanceProducer producer = default;
     
+
+    public FactoryGhost(ref SupportGhost supportGhost)
+    {
+        SupportGhost = supportGhost;
+    }
 
     #region Public Methods
     public void CreateArtist(string name,
@@ -26,7 +31,7 @@ public class FactoryService : IService
             producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
                                                              description.AsMemory(),
                                                              avatar.AsMemory());
-            SupporterService.AddArtistInstance(producer.ArtistInstance);
+            SupportGhost.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }
         catch (InvalidArtistException ex)
@@ -49,7 +54,7 @@ public class FactoryService : IService
                                                              avatar.AsMemory(),
                                                              tracks,
                                                              artists);
-            SupporterService.AddPlaylistInstance(producer.PlaylistInstance);
+            SupportGhost.AddPlaylistInstance(producer.PlaylistInstance);
             producer.Dispose();
         }
         catch (InvalidPlaylistException ex)
@@ -71,7 +76,7 @@ public class FactoryService : IService
                                                              description.AsMemory(),
                                                              avatar.AsMemory(),
                                                              artists);
-            SupporterService.AddTrackInstance(producer.TrackInstance);
+            SupportGhost.AddTrackInstance(producer.TrackInstance);
             producer.Dispose();
         }
         catch (InvalidTrackException ex)

@@ -13,15 +13,15 @@ public class ServiceCenter : ICenter
 {
     public bool IsCenterActive { get; set; } = false;
 
-    private Dictionary<string, IService> serviceRegister = new();
+    private Dictionary<ReadOnlyMemory<char>, object> serviceRegister = new();
 
     #region App services
-    private Entities.SupporterService supporterService = new();
-    private Entities.FactoryService factoryService = new();
-    private Entities.PlayerService playerService = new();
+    private Entities.SupportGhost supporterService = new();
+    private Entities.FactoryGhost factoryService = new();
+    private Entities.PlayerGhost playerService = new();
     #endregion
     #region UI services
-    private Entities.UIControlService<object> controlService = new ();
+    private Entities.UIControlHolder<object> controlHolder = new ();
     private Entities.ViewModelHolder<object> holder = new();
     #endregion
 
@@ -49,7 +49,7 @@ public class ServiceCenter : ICenter
     public void UpdateService(IService service) =>
         serviceRegister[service.ServiceName] = service;
     
-    public IService GetService(string name)
+    public struct GetService(Memory<char> name)
     {
         if (serviceRegister.Keys.ToList().Contains(name))
             return serviceRegister[name];
