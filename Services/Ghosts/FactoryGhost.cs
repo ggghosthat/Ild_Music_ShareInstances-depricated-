@@ -8,15 +8,16 @@ using System;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public ref struct FactoryGhost
+public class FactoryGhost : IGhost
 {
-    public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost";        
+    public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
 
-    public SupportGhost SupportGhost {get; private set;}
-    private InstanceProducer.InstanceProducer producer = default;
+    public static SupportGhost SupportGhost {get; private set;}
+    private static InstanceProducer.InstanceProducer producer = default;
     
+    public FactoryGhost(){}
 
-    public FactoryGhost(ref SupportGhost supportGhost)
+    public void Init(ref SupportGhost supportGhost)
     {
         SupportGhost = supportGhost;
     }

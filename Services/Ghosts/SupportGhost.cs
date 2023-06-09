@@ -7,9 +7,9 @@ using ShareInstances.Instances.Interfaces;
 using System;
 
 namespace ShareInstances.Services.Entities;
-public ref struct SupportGhost
+public class SupportGhost : IGhost
 {
-    public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService";
+    public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
     //temp solution
     public static ISynchArea SynchArea;
@@ -23,8 +23,10 @@ public ref struct SupportGhost
     public event Action OnPlaylistsNotifyRefresh = null;
     public event Action OnTracksNotifyRefresh = null;
 
+    public SupportGhost(){}
+
     //Initialize and start Synch Area instance 
-    public SupportGhost(ISynchArea synchArea) 
+    public void Init(ref ISynchArea synchArea) 
     {
         SynchArea = synchArea;
         SynchArea.Init();

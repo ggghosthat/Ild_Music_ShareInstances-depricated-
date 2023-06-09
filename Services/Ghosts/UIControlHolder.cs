@@ -1,13 +1,15 @@
+using System;
 using ShareInstances.Services.Interfaces;
 
 namespace ShareInstances.Services.Entities;
 public class UIControlHolder<T>
 {
+    public ReadOnlyMemory<char> ServiceName {get; init;} = "ControlsHolder".AsMemory();
+
     private int size;
-    public ReadOnlyMemory<char> ServiceName {get; init;} = "ControlsHolder";    
     private T[] controls;
 
-    public UIControlService(int size = 5)
+    public UIControlHolder(int size = 5)
     {
         this.size = size;
         controls = new T[size];

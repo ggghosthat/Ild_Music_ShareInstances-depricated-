@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace ShareInstances.Services.Entities;
 public class ViewModelHolder<T>
 {
-    public ReadOnlyMemory<char> GhostName {get; init;} = "HolderService";  
+    public ReadOnlyMemory<char> GhostName {get; init;} = "HolderService".AsMemory();
 
     private static IDictionary<Memory<char>, T> holder = new Dictionary<Memory<char>, T>();
 

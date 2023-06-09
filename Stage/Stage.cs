@@ -34,14 +34,16 @@ public class Stage
     private IList<IPlayer> _players = new List<IPlayer>();
     public IList<IPlayer> Players => _players;
 
-    public IPlayer PlayerInstance { get; private set; }
+    private IPlayer _playerInstance;
+    public IPlayer PlayerInstance => _playerInstance;
     #endregion
 
     #region Synch Region
     private IList<ISynchArea> _areas = new List<ISynchArea> ();
     public IList<ISynchArea> Areas => _areas;
 
-    public ISynchArea AreaInstace { get; private set; }
+    private ISynchArea _areaInstance;
+    public ISynchArea AreaInstace => _areaInstance;
     #endregion
     
     #region Paths
@@ -74,8 +76,8 @@ public class Stage
     {
         DumpPath = file;
         Deserialize();
-        OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
-        OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
+        OnComponentMuted += () => serviceCenter.ResolveSupporter(ref this._areaInstace);
+        OnComponentMuted += () => serviceCenter.ResolvePlayer(_playerInstance);
         OnComponentMuted?.Invoke();
     }
 
@@ -110,11 +112,11 @@ public class Stage
         bool isCompleted = false;
         try
         {
-            AssemblyProcess(playerAssembly, PlayerInstance);
-            AssemblyProcess(synchAssembly, AreaInstace);
+            AssemblyProcess(playerAssembly, _playerInstance);
+            AssemblyProcess(synchAssembly, _areaInstace);
 
-            serviceCenter.ResolveSupporter(AreaInstace);
-            serviceCenter.ResolvePlayer(PlayerInstance);
+            serviceCenter.ResolveSupporter(ref _areaInstace);
+            serviceCenter.ResolvePlayer(_playerInstance);
            
             isCompleted = true;
         }
@@ -134,8 +136,8 @@ public class Stage
             AssemblyProcess(playerAssembly, PlayerInstance);
             AssemblyProcess(synchAssembly, AreaInstace);
 
-            serviceCenter.ResolveSupporter(AreaInstace);
-            serviceCenter.ResolvePlayer(PlayerInstance);
+            serviceCenter.ResolveSupporter(ref _areaInstace);
+            serviceCenter.ResolvePlayer(_playerInstance);
 
             isCompleted = true;
         }
@@ -175,13 +177,13 @@ public class Stage
                 result.Item2.ToList()
                             .ForEach(player => _players.Add((IPlayer)player));
                 
-                PlayerInstance = _players[0];                            
+                _playerInstance = _players[0];                            
             }
             else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
             {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
-                AreaInstace = _areas[0];
+                _areaInstace = _areas[0];
             }
         }
         catch
@@ -200,14 +202,14 @@ public class Stage
             {
                 result.Item2.ToList()
                             .ForEach(player => _players.Add((IPlayer)player));
-                PlayerInstance = _players[0];
+                _playerInstance = _players[0];
             }
 
             else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
             {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
-                AreaInstace = _areas[0];
+                _areaInstace = _areas[0];
             }            
         }
         catch
@@ -297,9 +299,9 @@ public class Stage
     #endregion    
 
     #region Service Center methods
-    public IService GetServiceInstance(string name)
+    public IGhost GetGhostInstance(Memory<char> name)
     {
-        return serviceCenter.GetService(name);
+        return serviceCenter.GetGhost(name);
     }
     #endregion
 

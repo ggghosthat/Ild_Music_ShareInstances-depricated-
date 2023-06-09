@@ -9,15 +9,15 @@ using System;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public ref struct PlayerGhost
+public class PlayerGhost : IGhost
 {
-	public ReadOnlyMemory<char> GhostName {get; init;} = "PlayerGhost"; 
+	public ReadOnlyMemory<char> GhostName {get; init;} = "PlayerGhost".AsMemory(); 
 
-    private int emptry;
+	public static IPlayer PlayerInstance {get; private set;}
 
-	public IPlayer PlayerInstance {get; private set;}
+    public PlayerGhost(){}
 
-	public PlayerGhost(ref IPlayer player)
+	public void Init(ref IPlayer player)
     {
 		PlayerInstance = player;    	
     }

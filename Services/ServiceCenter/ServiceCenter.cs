@@ -13,16 +13,16 @@ public class ServiceCenter : ICenter
 {
     public bool IsCenterActive { get; set; } = false;
 
-    private Dictionary<ReadOnlyMemory<char>, object> serviceRegister = new();
+    private static Dictionary<ReadOnlyMemory<char>, IGhost> serviceRegister = new();
 
     #region App services
-    private Entities.SupportGhost supporterService = new();
-    private Entities.FactoryGhost factoryService = new();
-    private Entities.PlayerGhost playerService = new();
+    private SupportGhost supporterService = new();
+    private FactoryGhost factoryService = new();
+    private PlayerGhost playerService = new();
     #endregion
     #region UI services
-    private Entities.UIControlHolder<object> controlHolder = new ();
-    private Entities.ViewModelHolder<object> holder = new();
+    private UIControlHolder<object> controlHolder = new ();
+    private ViewModelHolder<object> holder = new();
     #endregion
 
     //I dont know what here happens,
@@ -34,44 +34,55 @@ public class ServiceCenter : ICenter
 
     public void OnCenterRegisterActivate()
     {
-        RegistService((IService)supporterService);
-        RegistService((IService)playerService);
-        RegistService((IService)factoryService);
-        RegistService((IService)controlService);
-        RegistService((IService)holder);
+        LodgeGhost((IGhost)supporterService);
+        LodgeGhost((IGhost)playerService);
+        LodgeGhost((IGhost)factoryService);
+
+        LodgeGhost((IGhost)controlHolder);
+        LodgeGhost((IGhost)holder);
         
         IsCenterActive = true;
     }
 
-    public void RegistService(IService service) =>
-        serviceRegister.Add(service.ServiceName, service);
 
-    public void UpdateService(IService service) =>
-        serviceRegister[service.ServiceName] = service;
+
+    //accomodate ghost from entire scope 
+    private void LodgeGhost(IGhost ghost) =>
+        serviceRegister.Add(ghost.GhostName, ghost);
+
+    //accomodate ghost from external scope
+    public void RegistGhost(ref IGhost ghost) =>
+        serviceRegister.Add(ghost.GhostName, ghost);
+
+    public void UpdateGhost(ref IGhost ghost) =>
+        serviceRegister[ghost.GhostName] = ghost;
     
-    public struct GetService(Memory<char> name)
+    public IGhost GetGhost(ReadOnlyMemory<char> name)
     {
         if (serviceRegister.Keys.ToList().Contains(name))
             return serviceRegister[name];
         return null;
     }
-    public IList<string> GetServices() =>
-        serviceRegister.ToList().Select(x => x.Value.ServiceName).ToList();
+
+    public IList<ReadOnlyMemory<char>> GetGhosts() =>
+        serviceRegister.ToList().Select(x => x.Value.GhostName).ToList();
     
 
-    public void ResolveSupporter(ISynchArea synchArea)
+    public void ResolveSupporter(ref ISynchArea synchArea)
     {
-        var supporter = (SupporterService)GetService(((IService)supporterService).ServiceName);
-        var factory = (FactoryService)GetService(((IService)factoryService).ServiceName);
+        var supporter = (SupportGhost)GetGhost(((IGhost)supporterService).GhostName);
+        var factory = (FactoryGhost)GetGhost(((IGhost)factoryService).GhostName);
 
-        supporter.StartSynchArea(synchArea);
-        factory.SupporterService = supporter;
+        supporter.Init(ref synchArea);
+        factory.Init(ref supporter);
+
+        //UpdateGhost(ref (IGhost)supporter);
+        //UpdateGhost(ref (IGhost)factory);
     }
 
     public void ResolvePlayer(IPlayer _player)
     {
-        var player = (PlayerService)GetService(((IService)playerService).ServiceName);
-        player.EnablePlayer(_player);
-        UpdateService(player);
+        var player = (PlayerGhost)GetGhost(((IGhost)playerService).GhostName);
+        player.Init(ref _player);
     } 
 }
