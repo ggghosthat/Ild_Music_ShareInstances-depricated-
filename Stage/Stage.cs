@@ -76,8 +76,8 @@ public class Stage
     {
         DumpPath = file;
         Deserialize();
-        OnComponentMuted += () => serviceCenter.ResolveSupporter(ref this._areaInstace);
-        OnComponentMuted += () => serviceCenter.ResolvePlayer(_playerInstance);
+        OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
+        OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
         OnComponentMuted?.Invoke();
     }
 
@@ -112,11 +112,11 @@ public class Stage
         bool isCompleted = false;
         try
         {
-            AssemblyProcess(playerAssembly, _playerInstance);
-            AssemblyProcess(synchAssembly, _areaInstace);
+            AssemblyProcess(playerAssembly, PlayerInstance);
+            AssemblyProcess(synchAssembly, AreaInstace);
 
-            serviceCenter.ResolveSupporter(ref _areaInstace);
-            serviceCenter.ResolvePlayer(_playerInstance);
+            serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
            
             isCompleted = true;
         }
@@ -136,8 +136,8 @@ public class Stage
             AssemblyProcess(playerAssembly, PlayerInstance);
             AssemblyProcess(synchAssembly, AreaInstace);
 
-            serviceCenter.ResolveSupporter(ref _areaInstace);
-            serviceCenter.ResolvePlayer(_playerInstance);
+            serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
 
             isCompleted = true;
         }
@@ -154,12 +154,12 @@ public class Stage
         if (type == "player")
         {
             AssemblyProcess(path, PlayerInstance);
-            PlayerInstance = _players[0];
+            _playerInstance = _players[0];
         }
         if (type == "syncharea")
         {
             AssemblyProcess(path, AreaInstace);
-            AreaInstace = _areas[0];
+            _areaInstance = _areas[0];
         }
     }   
     #endregion    
@@ -183,7 +183,7 @@ public class Stage
             {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
-                _areaInstace = _areas[0];
+                _areaInstance = _areas[0];
             }
         }
         catch
@@ -209,7 +209,7 @@ public class Stage
             {
                 result.Item2.ToList()
                             .ForEach(area => _areas.Add((ISynchArea)area));
-                _areaInstace = _areas[0];
+                _areaInstance = _areas[0];
             }            
         }
         catch
@@ -309,9 +309,9 @@ public class Stage
     public void ChangeComponent(IShare component)
     {
         if (component is IPlayer playerInstance)
-            PlayerInstance = playerInstance;
+            _playerInstance = playerInstance;
         else if(component is ISynchArea areaInstance)
-            AreaInstace = areaInstance;
+            _areaInstance = areaInstance;
         OnComponentMuted?.Invoke();
     }
 
@@ -319,9 +319,9 @@ public class Stage
         await new Task( () =>
         {
             if (component is IPlayer playerInstance)
-                PlayerInstance = playerInstance;
+                _playerInstance = playerInstance;
             else if(component is ISynchArea areaInstance)
-                AreaInstace = areaInstance;
+                _areaInstance = areaInstance;
             OnComponentMuted?.Invoke();
         }); 
     #endregion  

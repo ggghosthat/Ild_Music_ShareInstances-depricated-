@@ -51,10 +51,10 @@ public class ServiceCenter : ICenter
         serviceRegister.Add(ghost.GhostName, ghost);
 
     //accomodate ghost from external scope
-    public void RegistGhost(ref IGhost ghost) =>
+    public void RegistGhost(IGhost ghost) =>
         serviceRegister.Add(ghost.GhostName, ghost);
 
-    public void UpdateGhost(ref IGhost ghost) =>
+    public void UpdateGhost(IGhost ghost) =>
         serviceRegister[ghost.GhostName] = ghost;
     
     public IGhost GetGhost(ReadOnlyMemory<char> name)
@@ -68,7 +68,7 @@ public class ServiceCenter : ICenter
         serviceRegister.ToList().Select(x => x.Value.GhostName).ToList();
     
 
-    public void ResolveSupporter(ref ISynchArea synchArea)
+    public void ResolveSupporter(ISynchArea synchArea)
     {
         var supporter = (SupportGhost)GetGhost(((IGhost)supporterService).GhostName);
         var factory = (FactoryGhost)GetGhost(((IGhost)factoryService).GhostName);

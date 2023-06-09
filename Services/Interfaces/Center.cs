@@ -14,7 +14,7 @@ public interface ICenter
     public void OnCenterRegisterActivate();
 
     
-    public void RegistGhost(ref IGhost service); 
+    public void RegistGhost(IGhost service); 
 
    
     public IGhost GetGhost(ReadOnlyMemory<char> name);
