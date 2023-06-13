@@ -1,5 +1,4 @@
 ﻿using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
 using ShareInstances.Filer;
 
 using System;
@@ -59,7 +58,7 @@ public interface IPlayer : IShare
     public Guid PlayerId { get; }
     public string PlayerName { get; }
 
-    public ICoreEntity CurrentEntity {get;}
+    public CurrentEntity CurrentEntity { get; }
     public Track CurrentTrack { get; }
 
     public bool IsSwipe { get; }
@@ -76,15 +75,9 @@ public interface IPlayer : IShare
     public event Action TrackStarted;
 
 
-    //This method need to play music which created in advance 
-    //and store in user space
-    public void SetInstance(ICoreEntity entity, int index=0);
+    public void DropTrack(Track track);
 
-    //This method has disstinction. 
-    //It performs temporary audio playing.
-    public void SetRoad(MusicFile musicFile);
-
-    public void SetRoad(IEnumerable<MusicFile> musicFIles);
+    public void DropPlaylist(Playlist playlist, int index=0);
 
     public void SetNotifier(Action callBack);
 

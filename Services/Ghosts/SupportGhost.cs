@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using ShareInstances;
 using ShareInstances.Instances;
 using ShareInstances.Services.Interfaces;
-using ShareInstances.Instances.Interfaces;
 
 using System;
 
