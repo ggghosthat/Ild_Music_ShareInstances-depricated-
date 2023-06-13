@@ -11,11 +11,11 @@ public class SupportGhost : IGhost
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
     //temp solution
-    public static ISynchArea SynchArea;
+    public static ICube CubeArea;
 
-    public IList<Artist> ArtistsCollection => SynchArea.existedArtists;
-    public IList<Playlist> PlaylistsCollection => SynchArea.existedPlaylists;
-    public IList<Track> TracksCollection => SynchArea.existedTracks;
+    public IList<Artist> ArtistsCollection => CubeArea.existedArtists;
+    public IList<Playlist> PlaylistsCollection => CubeArea.existedPlaylists;
+    public IList<Track> TracksCollection => CubeArea.existedTracks;
 
 
     public event Action OnArtistsNotifyRefresh = null;
@@ -25,76 +25,76 @@ public class SupportGhost : IGhost
     public SupportGhost(){}
 
     //Initialize and start Synch Area instance 
-    public void Init(ref ISynchArea synchArea) 
+    public void Init(ref ICube syncCube) 
     {
-        SynchArea = synchArea;
-        SynchArea.Init();
+        CubeArea = syncCube;
+        CubeArea.Init();
     }
     
     
 
     public void AddArtistInstance(Artist artist)
     {
-        SynchArea.AddArtistObj(artist);
-        SynchArea.SaveArtists();
+        CubeArea.AddArtistObj(artist);
+        CubeArea.SaveArtists();
         OnArtistsNotifyRefresh?.Invoke();
     }
 
     public void AddPlaylistInstance(Playlist playlist)
     {
-        SynchArea.AddPlaylistObj(playlist);
-        SynchArea.SavePlaylists();
+        CubeArea.AddPlaylistObj(playlist);
+        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void AddTrackInstance(Track track)
     {
-        SynchArea.AddTrackObj(track);
-        SynchArea.SaveTracks();
+        CubeArea.AddTrackObj(track);
+        CubeArea.SaveTracks();
         OnTracksNotifyRefresh?.Invoke();
     }
 
 
     public void EditArtistInstance(Artist artist)
     {
-        SynchArea.EditArtistObj(artist);
-        SynchArea.SaveArtists();
+        CubeArea.EditArtistObj(artist);
+        CubeArea.SaveArtists();
         OnArtistsNotifyRefresh?.Invoke();
     }
     
     public void EditPlaylistInstance(Playlist playlist)
     {
-        SynchArea.EditPlaylistObj(playlist);
-        SynchArea.SavePlaylists();
+        CubeArea.EditPlaylistObj(playlist);
+        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
     
     public void EditTrackInstance(Track track)
     {
-        SynchArea.EditTrackObj(track);
-        SynchArea.SaveTracks();
+        CubeArea.EditTrackObj(track);
+        CubeArea.SaveTracks();
         OnTracksNotifyRefresh?.Invoke();  
     }
 
 
     public void DeleteArtistInstance(Artist artist) 
     {
-        SynchArea.RemoveArtistObj(artist);
-        SynchArea.SaveArtists();
+        CubeArea.RemoveArtistObj(artist);
+        CubeArea.SaveArtists();
         OnTracksNotifyRefresh?.Invoke();
     }
     
     public void DeletePlaylistInstance(Playlist playlist) 
     {
-        SynchArea.RemovePlaylistObj(playlist);
-        SynchArea.SavePlaylists();
+        CubeArea.RemovePlaylistObj(playlist);
+        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void DeleteTrackInstance(Track track)
     {
-        SynchArea.RemoveTrackObj(track);
-        SynchArea.SaveTracks();
+        CubeArea.RemoveTrackObj(track);
+        CubeArea.SaveTracks();
         OnArtistsNotifyRefresh?.Invoke();
     }
        
@@ -103,16 +103,16 @@ public class SupportGhost : IGhost
         switch(i)
         {
             case 0:
-                SynchArea.Save();
+                CubeArea.Save();
                 break;
             case 1:
-                SynchArea.SaveArtists();
+                CubeArea.SaveArtists();
                 break;
             case 2:
-                SynchArea.SavePlaylists();
+                CubeArea.SavePlaylists();
                 break;
             case 3:
-                SynchArea.SaveTracks();
+                CubeArea.SaveTracks();
                 break;
         }
     }

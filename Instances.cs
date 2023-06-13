@@ -10,11 +10,11 @@ public interface IShare
 {        
 }
 
-//Represent Synchronization block instance
-public interface ISynchArea : IShare
+//Represent Cube instance wich interacts with file system
+public interface ICube : IShare
 {
     public Guid AreaId { get; }
-    public string AreaName { get; }
+    public ReadOnlyMemory<char> CubeName { get; }
 
     #region ToggleMethods
     void Init();
@@ -56,7 +56,7 @@ public interface ISynchArea : IShare
 public interface IPlayer : IShare
 {
     public Guid PlayerId { get; }
-    public string PlayerName { get; }
+    public ReadOnlyMemory<char> PlayerName { get; }
 
     public CurrentEntity CurrentEntity { get; }
     public Track CurrentTrack { get; }

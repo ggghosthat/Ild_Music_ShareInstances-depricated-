@@ -39,11 +39,11 @@ public class Stage
     #endregion
 
     #region Synch Region
-    private IList<ISynchArea> _areas = new List<ISynchArea> ();
-    public IList<ISynchArea> Areas => _areas;
+    private IList<ICube> _areas = new List<ICube> ();
+    public IList<ICube> Areas => _areas;
 
-    private ISynchArea _areaInstance;
-    public ISynchArea AreaInstace => _areaInstance;
+    private ICube _areaInstance;
+    public ICube AreaInstace => _areaInstance;
     #endregion
     
     #region Paths
@@ -179,10 +179,10 @@ public class Stage
                 
                 _playerInstance = _players[0];                            
             }
-            else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+            else if (typeof(ICube).IsAssignableFrom(result.Item1))
             {
                 result.Item2.ToList()
-                            .ForEach(area => _areas.Add((ISynchArea)area));
+                            .ForEach(area => _areas.Add((ICube)area));
                 _areaInstance = _areas[0];
             }
         }
@@ -205,10 +205,10 @@ public class Stage
                 _playerInstance = _players[0];
             }
 
-            else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+            else if (typeof(ICube).IsAssignableFrom(result.Item1))
             {
                 result.Item2.ToList()
-                            .ForEach(area => _areas.Add((ISynchArea)area));
+                            .ForEach(area => _areas.Add((ICube)area));
                 _areaInstance = _areas[0];
             }            
         }
@@ -241,9 +241,9 @@ public class Stage
                             if (!IsDumpIgnore)
                             {
                                 if (instance is IPlayer player) 
-                                    dumps.Add(new DumpStructure(player.PlayerName, path.Replace("\\","/"), "player"));
-                                if (instance is ISynchArea area)
-                                    dumps.Add(new DumpStructure(area.AreaName, path.Replace("\\","/"), "syncharea"));
+                                    dumps.Add(new DumpStructure(player.PlayerName.ToString(), path.Replace("\\","/"), "player"));
+                                if (instance is ICube area)
+                                    dumps.Add(new DumpStructure(area.CubeName.ToString(), path.Replace("\\","/"), "syncharea"));
                             }
                             list.Add(instance);
                          });
@@ -310,7 +310,7 @@ public class Stage
     {
         if (component is IPlayer playerInstance)
             _playerInstance = playerInstance;
-        else if(component is ISynchArea areaInstance)
+        else if(component is ICube areaInstance)
             _areaInstance = areaInstance;
         OnComponentMuted?.Invoke();
     }
@@ -320,7 +320,7 @@ public class Stage
         {
             if (component is IPlayer playerInstance)
                 _playerInstance = playerInstance;
-            else if(component is ISynchArea areaInstance)
+            else if(component is ICube areaInstance)
                 _areaInstance = areaInstance;
             OnComponentMuted?.Invoke();
         }); 

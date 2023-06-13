@@ -68,12 +68,12 @@ public class Castle : ICenter
         serviceRegister.ToList().Select(x => x.Value.GhostName).ToList();
     
 
-    public void ResolveSupporter(ISynchArea synchArea)
+    public void ResolveSupporter(ICube syncCube)
     {
         var supporter = (SupportGhost)GetGhost(((IGhost)supporterService).GhostName);
         var factory = (FactoryGhost)GetGhost(((IGhost)factoryService).GhostName);
 
-        supporter.Init(ref synchArea);
+        supporter.Init(ref syncCube);
         factory.Init(ref supporter);
 
         //UpdateGhost(ref (IGhost)supporter);
