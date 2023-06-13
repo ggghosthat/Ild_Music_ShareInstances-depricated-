@@ -15,8 +15,25 @@ public class Filer
 
 	public event Action OnMuted;	
 
+    private static Memory<byte> buffer;
+
 	public Filer()
 	{}
+
+    public static async Task<Memory<byte>> ReadFileAsync(string path)
+    {
+        if(File.Exists(path))
+        {
+            using(FileStream fs = File.OpenRead(path))
+            {
+                buffer = new byte[fs.Length];
+                await fs.ReadAsync(buffer);
+            }
+            return buffer;
+        }
+        
+        throw new FileNotFoundException($"Could not find file: {path}");
+    }
 
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{

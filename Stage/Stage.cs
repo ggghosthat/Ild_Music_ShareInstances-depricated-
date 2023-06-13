@@ -1,4 +1,4 @@
-using ShareInstances.Services.Center;
+using ShareInstances.Services.Castle;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
 using ShareInstances.Filer;
@@ -59,7 +59,7 @@ public class Stage
     #endregion
 
     #region Service Supply
-    public ServiceCenter serviceCenter = new();
+    public Castle serviceCenter = new();
     #endregion
 
     #region Store Supply

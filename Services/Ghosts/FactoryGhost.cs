@@ -25,13 +25,13 @@ public class FactoryGhost : IGhost
     #region Public Methods
     public void CreateArtist(string name,
                              string description,
-                             string avatar = null)
+                             string avatarPath = null)
     {
         try
         {
             producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
                                                              description.AsMemory(),
-                                                             avatar.AsMemory());
+                                                             avatarPath.AsMemory());
             SupportGhost.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }

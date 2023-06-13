@@ -8,8 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShareInstances.Services.Center;
-public class ServiceCenter : ICenter
+namespace ShareInstances.Services.Castle;
+public class Castle : ICenter
 {
     public bool IsCenterActive { get; set; } = false;
 
@@ -27,7 +27,7 @@ public class ServiceCenter : ICenter
 
     //I dont know what here happens,
     //but please dont remove constructor params
-    public ServiceCenter()
+    public Castle()
     {
         OnCenterRegisterActivate();
     }
