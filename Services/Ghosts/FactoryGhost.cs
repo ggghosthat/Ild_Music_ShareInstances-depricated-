@@ -78,12 +78,22 @@ public class FactoryGhost : IGhost
             using(var taglib = TagLib.File.Create(pathway))
             {
                 
-                Memory<char> trackName = taglib.Tag.Title.ToCharArray()
-                                    ?? Path.GetFileName(pathway).ToCharArray();
-                Memory<char> trackDescription = description.ToCharArray();
-
-
+                Memory<char> trackName;
+                Memory<char> trackDescription;
                 Memory<byte> trackAvatarSource;
+
+                if(name is null)
+                {
+                    trackName = taglib.Tag.Title.ToCharArray()
+                                    ?? Path.GetFileName(pathway).ToCharArray();
+                }
+                else trackName = name.ToCharArray();
+
+                if(description is not null)
+                {
+                    trackDescription = description.ToCharArray();
+                }
+
                 if (string.IsNullOrEmpty(avatarPath))
                 {
                     if(taglib.Tag.Pictures.Length > 0)
@@ -91,10 +101,8 @@ public class FactoryGhost : IGhost
                          trackAvatarSource = taglib.Tag.Pictures[0].Data.Data;
                     }
                 }
-                else 
-                {
-                    trackAvatarSource = ExtractTrackAvatar(avatarPath.AsMemory()).Result;
-                }
+                else trackAvatarSource = ExtractTrackAvatar(avatarPath.AsMemory()).Result;
+                
 
                 producer = new InstanceProducer.InstanceProducer(pathway.AsMemory(),
                                                                  name.AsMemory(),
