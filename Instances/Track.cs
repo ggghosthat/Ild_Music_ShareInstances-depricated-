@@ -12,20 +12,22 @@ public struct Track
     public ReadOnlyMemory<char> AvatarBase64 {get; private set;} = string.Empty.AsMemory();
 
     public bool IsValid {get; private set;} = false;
-	public TimeSpan Duration {get; set; } = TimeSpan.FromSeconds(0);
+	public TimeSpan Duration {get; private set; } = TimeSpan.FromSeconds(0);
 
     #region Const
     public Track(ReadOnlyMemory<char> pathway,
                  ReadOnlyMemory<char> name,
                  ReadOnlyMemory<char> description,
-                 ReadOnlyMemory<char> avatarPath)
+                 ReadOnlyMemory<char> avatarPath,
+                 TimeSpan duration)
     {
         if(System.IO.File.Exists(pathway.ToString()))
         { 
             Pathway = pathway;
             Name = name;
             Description = description;
-            AvatarBase64 = avatarPath;           
+            AvatarBase64 = avatarPath;      
+            Duration = duration;
             IsValid = true;
         }
     }

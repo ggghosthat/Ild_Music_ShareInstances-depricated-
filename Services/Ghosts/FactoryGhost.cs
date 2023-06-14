@@ -108,6 +108,7 @@ public class FactoryGhost : IGhost
                                                                  name.AsMemory(),
                                                                  description.AsMemory(),
                                                                  avatarPath.AsMemory(),
+                                                                 taglib.Properties.Duration,
                                                                  artists);
                 SupportGhost.AddTrackInstance(producer.TrackInstance);
                 producer.Dispose();

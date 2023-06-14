@@ -43,12 +43,14 @@ internal struct InstanceProducer : IDisposable
                             ReadOnlyMemory<char> name,
                             ReadOnlyMemory<char> description,
                             ReadOnlyMemory<char> avatar,
+                            TimeSpan duration,
                             IList<Artist> artists = null)
     {
         TrackInstance = new Track(pathway: pathway,
                                   name: name,
                                   description: description,
-                                  avatarPath: avatar);
+                                  avatarPath: avatar,
+                                  duration: duration);
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)
