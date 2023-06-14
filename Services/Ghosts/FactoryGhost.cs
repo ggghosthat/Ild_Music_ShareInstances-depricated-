@@ -101,7 +101,7 @@ public class FactoryGhost : IGhost
                          trackAvatarSource = taglib.Tag.Pictures[0].Data.Data;
                     }
                 }
-                else trackAvatarSource = ExtractTrackAvatar(avatarPath.AsMemory()).Result;
+                else trackAvatarSource = ExtractTrackAvatar(avatarPath).Result;
                 
 
                 producer = new InstanceProducer.InstanceProducer(pathway.AsMemory(),
@@ -122,9 +122,20 @@ public class FactoryGhost : IGhost
 
     #region Accessory Methods
 
-    private async ValueTask<Memory<byte>> ExtractTrackAvatar(ReadOnlyMemory<char> pathway)
+    private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway)
     {
-        return await ShareInstances.Filer.Filer.ReadFileAsync(pathway.ToString());
+        Memory<byte> buffer;
+        if(File.Exists(pathway))
+        {
+            using(FileStream fs = File.OpenRead(pathway))
+            {
+                buffer = new byte[fs.Length];
+                await fs.ReadAsync(buffer);
+            }
+            return buffer;
+        }
+
+        throw new FileNotFoundException($"Could not find file: {pathway}");
     }
     #endregion
 }
