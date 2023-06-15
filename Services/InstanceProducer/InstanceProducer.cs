@@ -11,18 +11,18 @@ internal struct InstanceProducer : IDisposable
     public Playlist PlaylistInstance { get; private set; } = default!;
     public Track TrackInstance { get; private set; } = default!;
 
-    public InstanceProducer(ReadOnlyMemory<char> name,
-                            ReadOnlyMemory<char> description, 
-                            ReadOnlyMemory<char> avatar)
+    public InstanceProducer(Memory<char> name,
+                            Memory<char> description, 
+                            Memory<char> avatar)
     {
         ArtistInstance = new Artist(name: name,
                                     description: description,
                                     avatarPath: avatar);
     }
 
-    public InstanceProducer(ReadOnlyMemory<char> name,
-                            ReadOnlyMemory<char> description,
-                            ReadOnlyMemory<char> avatar,
+    public InstanceProducer(Memory<char> name,
+                            Memory<char> description,
+                            Memory<char> avatar,
                             IList<Track> tracks,
                             IList<Artist> artists)
     {
@@ -39,17 +39,17 @@ internal struct InstanceProducer : IDisposable
         PlaylistInstance = playlist;
     }
 
-    public InstanceProducer(ReadOnlyMemory<char> pathway,
-                            ReadOnlyMemory<char> name,
-                            ReadOnlyMemory<char> description,
-                            ReadOnlyMemory<char> avatar,
+    public InstanceProducer(Memory<char> pathway,
+                            Memory<char> name,
+                            Memory<char> description,
+                            Memory<byte> avatar,
                             TimeSpan duration,
                             IList<Artist> artists = null)
     {
         TrackInstance = new Track(pathway: pathway,
                                   name: name,
                                   description: description,
-                                  avatarPath: avatar,
+                                  avatarSource: avatar,
                                   duration: duration);
         var track = TrackInstance;
 

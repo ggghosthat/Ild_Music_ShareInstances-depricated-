@@ -1,3 +1,5 @@
+using ShareInstances.Services.Entities;
+
 using System;
 using System.IO;
 using System.Linq;
@@ -13,12 +15,16 @@ public class Filer
 	private static ConcurrentBag<MusicFile> usicFiles = new();
     private static ConcurrentDictionary<string, MusicFile> MusicFiles = new ();
 
+    private FactoryGhost factoryGhost;
+
 	public event Action OnMuted;	
 
     private static Memory<byte> buffer;
 
-	public Filer()
-	{}
+	public Filer(ref FactoryGhost ghost)
+	{
+        factoryGhost = ghost;
+    }
 
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{

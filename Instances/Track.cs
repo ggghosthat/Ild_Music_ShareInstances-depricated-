@@ -9,7 +9,7 @@ public struct Track
 	public ReadOnlyMemory<char> Pathway {get; private set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Name {get; private set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
-    public ReadOnlyMemory<char> AvatarBase64 {get; private set;} = string.Empty.AsMemory();
+    public ReadOnlyMemory<byte> AvatarSource {get; private set;} = new byte[0];
 
     public bool IsValid {get; private set;} = false;
 	public TimeSpan Duration {get; private set; } = TimeSpan.FromSeconds(0);
@@ -18,7 +18,7 @@ public struct Track
     public Track(ReadOnlyMemory<char> pathway,
                  ReadOnlyMemory<char> name,
                  ReadOnlyMemory<char> description,
-                 ReadOnlyMemory<char> avatarPath,
+                 ReadOnlyMemory<byte> avatarSource,
                  TimeSpan duration)
     {
         if(System.IO.File.Exists(pathway.ToString()))
@@ -26,7 +26,7 @@ public struct Track
             Pathway = pathway;
             Name = name;
             Description = description;
-            AvatarBase64 = avatarPath;      
+            AvatarSource = avatarSource;      
             Duration = duration;
             IsValid = true;
         }
@@ -38,7 +38,7 @@ public struct Track
     {
         try
         {
-            return Convert.FromBase64String(AvatarBase64.ToString());
+            return AvatarSource.ToArray();
         }
         catch(Exception ex)
         {
@@ -47,15 +47,15 @@ public struct Track
         }
     }
 
-    
-    public string SetAvatar(string path)
+    //here is a bottleneck, please do not still use this method
+    public void SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
         {
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                return Convert.ToBase64String(file); 
+                AvatarSource = file; 
             }
             catch(Exception ex)
             {
@@ -63,7 +63,6 @@ public struct Track
                 throw ex;   
             }            
         }
-        else return null;
     }
     #endregion
 }

@@ -25,16 +25,16 @@ public class FactoryGhost : IGhost
         SupportGhost = supportGhost;
     }
 
-    #region Public Methods
+    #region Instance Creation Methods
     public void CreateArtist(string name,
                              string description,
                              string avatarPath = null)
     {
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
-                                                             description.AsMemory(),
-                                                             avatarPath.AsMemory());
+            producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
+                                                             description.ToCharArray(),
+                                                             avatarPath.ToCharArray());
             SupportGhost.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }
@@ -53,9 +53,9 @@ public class FactoryGhost : IGhost
     {   
         try
         {
-            producer = new InstanceProducer.InstanceProducer(name.AsMemory(),
-                                                             description.AsMemory(),
-                                                             avatar.AsMemory(),
+            producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
+                                                             description.ToCharArray(),
+                                                             avatar.ToCharArray(),
                                                              tracks,
                                                              artists);
             SupportGhost.AddPlaylistInstance(producer.PlaylistInstance);
@@ -80,7 +80,7 @@ public class FactoryGhost : IGhost
                 
                 Memory<char> trackName;
                 Memory<char> trackDescription;
-                Memory<byte> trackAvatarSource;
+                Memory<byte> trackAvatarSource = default!;
 
                 if(name is null)
                 {
@@ -89,25 +89,22 @@ public class FactoryGhost : IGhost
                 }
                 else trackName = name.ToCharArray();
 
-                if(description is not null)
-                {
-                    trackDescription = description.ToCharArray();
-                }
-
+                trackDescription = description.ToCharArray();
+                
                 if (string.IsNullOrEmpty(avatarPath))
                 {
                     if(taglib.Tag.Pictures.Length > 0)
                     {
-                         trackAvatarSource = taglib.Tag.Pictures[0].Data.Data;
+                        trackAvatarSource = taglib.Tag.Pictures[0].Data.Data;
                     }
                 }
                 else trackAvatarSource = ExtractTrackAvatar(avatarPath).Result;
-                
 
-                producer = new InstanceProducer.InstanceProducer(pathway.AsMemory(),
-                                                                 name.AsMemory(),
-                                                                 description.AsMemory(),
-                                                                 avatarPath.AsMemory(),
+                               
+                producer = new InstanceProducer.InstanceProducer(pathway.ToCharArray(),
+                                                                 trackName,
+                                                                 trackDescription,
+                                                                 trackAvatarSource,
                                                                  taglib.Properties.Duration,
                                                                  artists);
                 SupportGhost.AddTrackInstance(producer.TrackInstance);
@@ -120,9 +117,13 @@ public class FactoryGhost : IGhost
         }
     }
     #endregion
+    
+    #region Filer Methods
+    
+    #endregion
 
     #region Accessory Methods
-
+ 
     private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway)
     {
         Memory<byte> buffer;
@@ -137,6 +138,14 @@ public class FactoryGhost : IGhost
         }
 
         throw new FileNotFoundException($"Could not find file: {pathway}");
+    }
+
+    private void ToBase64(ref byte[] source, ref char[] raw)
+    {
+        if(source is not null)
+        {
+            Convert.ToBase64CharArray(source, 0, source.Length, raw, 0);
+        }
     }
     #endregion
 }
