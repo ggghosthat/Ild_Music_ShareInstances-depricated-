@@ -2,7 +2,6 @@ using ShareInstances.Services.Castle;
 using ShareInstances.Services.Entities;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
-using ShareInstances.Filer;
 
 using System;
 using System.Linq;
@@ -28,7 +27,7 @@ public class Stage
     #endregion
 
     #region Filer
-    public static ShareInstances.Filer.Filer Filer {get; private set;}
+    public static Filer Filer {get; private set;}
     #endregion
 
     #region Player Region
@@ -80,7 +79,7 @@ public class Stage
         OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
         OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
         FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-        Filer = new Filer.Filer(ref factory);
+        Filer = new Filer(ref factory);
         OnComponentMuted?.Invoke();
     }
 
@@ -122,7 +121,7 @@ public class Stage
             serviceCenter.ResolvePlayer(PlayerInstance);
 
             FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-            Filer = new Filer.Filer(ref factory);
+            Filer = new Filer(ref factory);
            
             isCompleted = true;
         }
@@ -146,7 +145,7 @@ public class Stage
             serviceCenter.ResolvePlayer(PlayerInstance);
 
             FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-            Filer = new Filer.Filer(ref factory);
+            Filer = new Filer(ref factory);
 
             isCompleted = true;
         }

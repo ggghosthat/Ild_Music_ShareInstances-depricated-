@@ -1,5 +1,4 @@
 using ShareInstances.Instances;
-using ShareInstances.Filer;
 using ShareInstances.Services.Entities;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.InstanceProducer;
@@ -119,7 +118,43 @@ public class FactoryGhost : IGhost
     #endregion
     
     #region Filer Methods
-    
+    public Track CreateTrackBrowsed(Memory<char> pathway)
+    {      
+        try
+        {        
+            Track trackResult = default!;
+            using(var taglib = TagLib.File.Create(pathway.ToString()))
+            {
+                Memory<char> trackName;
+                Memory<char> trackDescription = default!;
+                Memory<byte> trackAvatarSource = default!;
+
+                trackName = taglib.Tag.Title.ToCharArray() ?? "Unknown track".ToCharArray();
+                
+                if(taglib.Tag.Pictures.Length > 0)
+                {
+                    trackAvatarSource = taglib.Tag.Pictures[0].Data.Data;
+                }
+
+                               
+                producer = new InstanceProducer.InstanceProducer(pathway,
+                                                                 trackName,
+                                                                 trackDescription,
+                                                                 trackAvatarSource,
+                                                                 taglib.Properties.Duration,
+                                                                 null);
+                SupportGhost.AddTrackInstance(producer.TrackInstance);
+                trackResult = producer.TrackInstance;
+                producer.Dispose();
+            }
+            return trackResult;
+        }
+        catch (InvalidTrackException ex)
+        {
+            throw ex;
+        }
+    }
+
     #endregion
 
     #region Accessory Methods
