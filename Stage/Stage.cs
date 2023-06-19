@@ -5,11 +5,9 @@ using ShareInstances.Configure;
 
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace ShareInstances.Stage;
@@ -55,9 +53,6 @@ public class Stage
 
     #region Service Supply
     public Castle castle = new();
-    #endregion
-
-    #region Store Supply
     #endregion
 
     #region Properties
@@ -223,13 +218,6 @@ public class Stage
                          .ForEach(t => 
                          {
                             var instance = (T)Activator.CreateInstance(t);
-                            if (!IsDumpIgnore)
-                            {
-                                if (instance is IPlayer player) 
-                                    dumps.Add(new DumpStructure(player.PlayerName.ToString(), path.Replace("\\","/"), "player"));
-                                if (instance is ICube area)
-                                    dumps.Add(new DumpStructure(area.CubeName.ToString(), path.Replace("\\","/"), "syncharea"));
-                            }
                             list.Add(instance);
                          });
             dllsPath.ToList().Remove(path);
@@ -243,7 +231,6 @@ public class Stage
     {
         _players.Clear();
         _areas.Clear();
-        dumps.Clear();
     }
     #endregion    
 
