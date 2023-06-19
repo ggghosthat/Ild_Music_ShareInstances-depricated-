@@ -17,11 +17,6 @@ public record struct DumpStructure(string Name, string Path, string Type);
 
 public class Stage 
 {
-    #region Dump Region
-    public ICollection<DumpStructure> dumps = new List<DumpStructure>();
-    private bool IsDumpIgnore = false;
-    #endregion
-
     #region Configure Region
     public IConfigure Configure {get; set;}
     #endregion
@@ -72,23 +67,6 @@ public class Stage
     #region Constructors
     public Stage(){}
     
-    public Stage(string file)
-    {
-        DumpPath = file;
-        Deserialize();
-        OnComponentMuted += () => castle.ResolveSupporter(AreaInstace);
-        OnComponentMuted += () => castle.ResolvePlayer(PlayerInstance);
-
-        Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
-
-        OnComponentMuted?.Invoke();
-    }
-
-    public Stage(string playerPath, string synchPath)
-    {
-        Task.Factory.StartNew(async () => await ObserveLoading(playerPath, synchPath));
-    }
-
     public Stage(IConfigure configure)
     {
         Configure = configure;
@@ -260,42 +238,6 @@ public class Stage
     }
     #endregion
     
-    #region Serialize&Desirialize
-    public void Serialize()
-    {
-        try
-        {
-            if (!File.Exists(DumpPath))
-                File.Create(DumpPath);
-
-            var jsonString = JsonConvert.SerializeObject(dumps);
-            File.WriteAllText(DumpPath, string.Empty);
-            File.WriteAllText(DumpPath, jsonString);
-        }
-        catch 
-        {
-            throw; 
-        }
-    }
-
-    public void Deserialize()
-    {
-        try
-        {
-            string jsonString = File.ReadAllText(DumpPath);
-            dumps = JsonConvert.DeserializeObject<List<DumpStructure>>(jsonString);
-            IsDumpIgnore = true;
-
-            foreach (var dump in dumps)
-                InitUnit(dump.Path, dump.Type);
-        }
-        catch
-        {
-            throw;
-        }
-    }
-    #endregion
-
     #region Clear
     public void Clear()
     {
