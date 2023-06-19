@@ -9,20 +9,24 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShareInstances.Services.Castle;
-public class Castle : ICenter
+public class Castle : ICastle
 {
     public bool IsCenterActive { get; set; } = false;
 
-    private static Dictionary<ReadOnlyMemory<char>, IGhost> serviceRegister = new();
+    private static Dictionary<ReadOnlyMemory<char>, IGhost> ghostRegister = new();
 
-    #region App services
+    private static Dictionary<ReadOnlyMemory<char>, IWaiter> waiterRegister = new();
+
+    #region Constant ghosts
     private SupportGhost supporterService = new();
     private FactoryGhost factoryService = new();
     private PlayerGhost playerService = new();
-    #endregion
-    #region UI services
     private UIControlHolder<object> controlHolder = new ();
     private ViewModelHolder<object> holder = new();
+    #endregion
+
+    #region Constant waiters
+    private Filer filer;
     #endregion
 
     //I dont know what here happens,
@@ -41,33 +45,60 @@ public class Castle : ICenter
         LodgeGhost((IGhost)controlHolder);
         LodgeGhost((IGhost)holder);
         
+        var factory = (FactoryGhost)ghostRegister["FactoryGhost".AsMemory()];
+        filer = new Filer(ref factory);
+        RegistWaiter(filer);
+
         IsCenterActive = true;
     }
 
 
-
+    #region Accomodation & recieving region
     //accomodate ghost from entire scope 
     private void LodgeGhost(IGhost ghost) =>
-        serviceRegister.Add(ghost.GhostName, ghost);
+        ghostRegister.Add(ghost.GhostName, ghost);
+
+
 
     //accomodate ghost from external scope
     public void RegistGhost(IGhost ghost) =>
-        serviceRegister.Add(ghost.GhostName, ghost);
+        ghostRegister.Add(ghost.GhostName, ghost);
 
+    //recover ghost instance
     public void UpdateGhost(IGhost ghost) =>
-        serviceRegister[ghost.GhostName] = ghost;
+        ghostRegister[ghost.GhostName] = ghost;
     
+    //return ghost by its own name
     public IGhost GetGhost(ReadOnlyMemory<char> name)
     {
-        if (serviceRegister.Keys.ToList().Contains(name))
-            return serviceRegister[name];
+        if (ghostRegister.Keys.ToList().Contains(name))
+            return ghostRegister[name];
         return null;
     }
 
-    public IList<ReadOnlyMemory<char>> GetGhosts() =>
-        serviceRegister.ToList().Select(x => x.Value.GhostName).ToList();
-    
+    //accomodating waiter inside the castle
+    public void RegistWaiter(IWaiter waiter) =>
+        waiterRegister.Add(waiter.WaiterName, waiter);
+        
+    //return waiter by its own name
+    public IWaiter GetWaiter(ReadOnlyMemory<char> name) 
+    {
+        if (waiterRegister.Keys.ToList().Contains(name))
+            return waiterRegister[name];
+        return null;
+    }
 
+    //return all ghost instances
+    public IList<ReadOnlyMemory<char>> GetGhosts() =>
+        ghostRegister.ToList().Select(x => x.Value.GhostName).ToList();
+    
+    //return all ghost instances
+    public IList<ReadOnlyMemory<char>> GetWaiters() =>
+        waiterRegister.ToList().Select(x => x.Value.WaiterName).ToList();
+
+    #endregion
+
+    #region resolve region
     public void ResolveSupporter(ICube syncCube)
     {
         var supporter = (SupportGhost)GetGhost(((IGhost)supporterService).GhostName);
@@ -85,4 +116,5 @@ public class Castle : ICenter
         var player = (PlayerGhost)GetGhost(((IGhost)playerService).GhostName);
         player.Init(ref _player);
     } 
+    #endregion
 }

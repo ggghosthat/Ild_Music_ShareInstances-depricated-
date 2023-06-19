@@ -20,8 +20,6 @@ public class Filer : IWaiter
 
     private FactoryGhost factoryGhost;
 
-	public event Action OnMuted;	
-
     private static Memory<byte> buffer;
 
 	public Filer(ref FactoryGhost ghost)

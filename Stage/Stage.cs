@@ -59,7 +59,7 @@ public class Stage
     #endregion
 
     #region Service Supply
-    public Castle serviceCenter = new();
+    public Castle castle = new();
     #endregion
 
     #region Store Supply
@@ -76,10 +76,11 @@ public class Stage
     {
         DumpPath = file;
         Deserialize();
-        OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
-        OnComponentMuted += () => serviceCenter.ResolvePlayer(PlayerInstance);
-        FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-        Filer = new Filer(ref factory);
+        OnComponentMuted += () => castle.ResolveSupporter(AreaInstace);
+        OnComponentMuted += () => castle.ResolvePlayer(PlayerInstance);
+
+        Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
+
         OnComponentMuted?.Invoke();
     }
 
@@ -117,11 +118,10 @@ public class Stage
             AssemblyProcess(playerAssembly, PlayerInstance);
             AssemblyProcess(synchAssembly, AreaInstace);
 
-            serviceCenter.ResolveSupporter(AreaInstace);
-            serviceCenter.ResolvePlayer(PlayerInstance);
+            castle.ResolveSupporter(AreaInstace);
+            castle.ResolvePlayer(PlayerInstance);
 
-            FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-            Filer = new Filer(ref factory);
+            Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
            
             isCompleted = true;
         }
@@ -141,11 +141,10 @@ public class Stage
             AssemblyProcess(playerAssembly, PlayerInstance);
             AssemblyProcess(synchAssembly, AreaInstace);
 
-            serviceCenter.ResolveSupporter(AreaInstace);
-            serviceCenter.ResolvePlayer(PlayerInstance);
+            castle.ResolveSupporter(AreaInstace);
+            castle.ResolvePlayer(PlayerInstance);
 
-            FactoryGhost factory = (FactoryGhost)serviceCenter.GetGhost("factoryGhost".AsMemory());
-            Filer = new Filer(ref factory);
+            Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
 
             isCompleted = true;
         }
@@ -309,7 +308,7 @@ public class Stage
     #region Service Center methods
     public IGhost GetGhostInstance(Memory<char> name)
     {
-        return serviceCenter.GetGhost(name);
+        return castle.GetGhost(name);
     }
     #endregion
 
