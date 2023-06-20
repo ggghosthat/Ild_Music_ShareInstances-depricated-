@@ -60,15 +60,12 @@ public struct Playlist
     	}
     }
 
-    #endregion
-
-    #region Shuffle
-    public void Shuffle() 
+    public void Clear()
     {
-        IList<Track> shuffledList = Tracks.Value.OrderBy(i => Guid.NewGuid()).ToList();
-        //Tracks.Value = shuffledList;
+        Tracks.Value.Clear();
     }
     #endregion
+
 
     #region Avatar Manipulation
     public byte[] GetAvatar()
