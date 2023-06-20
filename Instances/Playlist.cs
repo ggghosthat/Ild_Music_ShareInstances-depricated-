@@ -14,6 +14,7 @@ public struct Playlist
 
     //Use for user space playing
     private Lazy<List<Track>> Tracks; 
+    private Lazy<IList<Track>> Shuffled = null;
 
     //Please, be carefull when you call this property and DO NOT call much this property
     //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
@@ -58,6 +59,16 @@ public struct Playlist
     	{
     		Tracks.Value.Remove(track);
     	}
+    }
+
+    public IList<Track> GetTracks()
+    {
+        return Tracks.Value;
+    }
+
+    public void Recover(IList<Track> newTracks)
+    {
+        Shuffled = new Lazy<IList<Track>>(newTracks);
     }
 
     public void Clear()
