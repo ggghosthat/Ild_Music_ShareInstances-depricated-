@@ -4,10 +4,10 @@ using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace ShareInstances.Stage;
@@ -70,13 +70,14 @@ public class Stage
         OnInitialized?.Invoke();
     }       
 
-    public async Task<bool> InitAsync(IEnumerable<string> playerAssembly, IEnumerable<string> synchAssembly)
+    public async Task<bool> InitAsync(IEnumerable<Memory<char>> playerAssembly,
+                                      IEnumerable<Memory<char>> synchAssembly)
     {
         bool isCompleted = false;
         try
         {
-            AssemblyProcess(playerAssembly, PlayerInstance);
-            AssemblyProcess(synchAssembly, AreaInstace);
+            AssemblyProcess(ref playerAssembly, PlayerInstance);
+            AssemblyProcess(ref synchAssembly, AreaInstace);
 
             castle.ResolveSupporter(AreaInstace);
             castle.ResolvePlayer(PlayerInstance);
@@ -95,7 +96,8 @@ public class Stage
     #endregion    
     
     #region Assembly loading methods
-    private void AssemblyProcess<T>(IEnumerable<string> assembliesPaths, T assemblyType)
+    private void AssemblyProcess<T>(ref IEnumerable<Memory<char>> assembliesPaths,
+                                    T assemblyType)
     {
         (Type, IEnumerable<T>) components = FindComponents<T>(ref assembliesPaths);
 
@@ -113,22 +115,25 @@ public class Stage
         }
     }
 
-    private (Type,IEnumerable<T>) FindComponents<T>(ref IEnumerable<string> dllsPath)
+    private (Type,IEnumerable<T>) FindComponents<T>(ref IEnumerable<Memory<char>> dllsPath)
     {
         var list = new List<T>();
-        foreach (string path in dllsPath)
+        foreach (Memory<char> path in dllsPath)
         {
-            var assembly = Assembly.LoadFrom(path);
-            var exportedTypes = assembly.ExportedTypes;
-            exportedTypes.Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
-                         .Select(t => t)
-                         .ToList()
-                         .ForEach(t => 
-                         {
-                            T instance = (T)Activator.CreateInstance(t);
-                            list.Add(instance);
-                         });
-            dllsPath.ToList().Remove(path);
+            if(File.Exists(path.ToString()))
+            {
+                var assembly = Assembly.LoadFrom(path.ToString());
+                var exportedTypes = assembly.ExportedTypes;
+                exportedTypes.Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
+                            .Select(t => t)
+                            .ToList()
+                            .ForEach(t => 
+                            {
+                                T instance = (T)Activator.CreateInstance(t);
+                                list.Add(instance);
+                            });
+                dllsPath.ToList().Remove(path);
+            }
         }
         return (typeof(T), list);
     }
