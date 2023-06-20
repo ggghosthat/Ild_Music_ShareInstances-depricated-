@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.IO;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace ShareInstances.Stage;
@@ -38,20 +38,13 @@ public class Stage
     private ICube _areaInstance;
     public ICube AreaInstace => _areaInstance;
     #endregion
-    
-    #region Paths
-    public List<string> PlayerPaths { get; set; }
-    public List<string> SynchPaths { get; set; }
-
-    public string DumpPath { get; set; } = Environment.CurrentDirectory + "\\components.json";
-    #endregion
-    
+        
     #region Event
     public event Action OnInitialized;
     public event Action OnComponentMuted;
     #endregion
 
-    #region Service Supply
+    #region Castle
     public Castle castle = new();
     #endregion
 
@@ -70,41 +63,12 @@ public class Stage
     #endregion
 
 
-    #region Inits
-    public async Task ObserveLoading(string playerAssembly, string synchAssembly)
-    {
-        CompletionResult = await InitAsync(playerAssembly, synchAssembly);
-        OnInitialized?.Invoke();
-    }
-
+    #region Init methods
     public async Task ObserveLoading()
     {
         CompletionResult = await InitAsync(Configure.ConfigSheet.Players, Configure.ConfigSheet.Synches);
         OnInitialized?.Invoke();
-    }
-       
-    public async Task<bool> InitAsync(string playerAssembly, string synchAssembly)
-    {
-        bool isCompleted = false;
-        try
-        {
-            AssemblyProcess(playerAssembly, PlayerInstance);
-            AssemblyProcess(synchAssembly, AreaInstace);
-
-            castle.ResolveSupporter(AreaInstace);
-            castle.ResolvePlayer(PlayerInstance);
-
-            Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
-           
-            isCompleted = true;
-        }
-        catch(Exception ex)
-        {
-            isCompleted = false;
-        }
-        
-        return isCompleted;
-    }
+    }       
 
     public async Task<bool> InitAsync(IEnumerable<string> playerAssembly, IEnumerable<string> synchAssembly)
     {
@@ -128,84 +92,28 @@ public class Stage
         
         return isCompleted;
     }
-
-    private void InitUnit(string path, string type)
-    {
-        if (type == "player")
-        {
-            AssemblyProcess(path, PlayerInstance);
-            _playerInstance = _players[0];
-        }
-        if (type == "syncharea")
-        {
-            AssemblyProcess(path, AreaInstace);
-            _areaInstance = _areas[0];
-        }
-    }   
     #endregion    
     
-    #region AssemblySearchingMethods
-    private void AssemblyProcess<T>(string assemblyPath, T assemblyType)
-    {
-        try
-        {
-            IEnumerable<string> dlls = FindDlls(assemblyPath);
-            (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref dlls);
-
-            if (typeof(IPlayer).IsAssignableFrom(result.Item1))
-            {
-                result.Item2.ToList()
-                            .ForEach(player => _players.Add((IPlayer)player));
-                
-                _playerInstance = _players[0];                            
-            }
-            else if (typeof(ICube).IsAssignableFrom(result.Item1))
-            {
-                result.Item2.ToList()
-                            .ForEach(area => _areas.Add((ICube)area));
-                _areaInstance = _areas[0];
-            }
-        }
-        catch
-        {
-            throw;
-        }
-    }
-
+    #region Assembly loading methods
     private void AssemblyProcess<T>(IEnumerable<string> assembliesPaths, T assemblyType)
     {
-        try
+        (Type, IEnumerable<T>) components = FindComponents<T>(ref assembliesPaths);
+
+        if (typeof(IPlayer).IsAssignableFrom(components.Item1))
         {
-            (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref assembliesPaths);
-
-            if (typeof(IPlayer).IsAssignableFrom(result.Item1))
-            {
-                result.Item2.ToList()
-                            .ForEach(player => _players.Add((IPlayer)player));
-                _playerInstance = _players[0];
-            }
-
-            else if (typeof(ICube).IsAssignableFrom(result.Item1))
-            {
-                result.Item2.ToList()
-                            .ForEach(area => _areas.Add((ICube)area));
-                _areaInstance = _areas[0];
-            }            
+            components.Item2.ToList()
+                        .ForEach(player => _players.Add((IPlayer)player));
+            _playerInstance = _players[0];
         }
-        catch
+        else if (typeof(ICube).IsAssignableFrom(components.Item1))
         {
-            throw;
+            components.Item2.ToList()
+                        .ForEach(area => _areas.Add((ICube)area));
+            _areaInstance = _areas[0];
         }
     }
 
-    private IEnumerable<string> FindDlls(string path) 
-    {
-        if (path.EndsWith(".dll"))
-            return new List<string>(){path};
-        return Directory.EnumerateFileSystemEntries(path, "*.dll");
-    }
-    
-    private (Type,IEnumerable<T>) FindSpecialTypes<T>(ref IEnumerable<string> dllsPath)
+    private (Type,IEnumerable<T>) FindComponents<T>(ref IEnumerable<string> dllsPath)
     {
         var list = new List<T>();
         foreach (string path in dllsPath)
@@ -217,7 +125,7 @@ public class Stage
                          .ToList()
                          .ForEach(t => 
                          {
-                            var instance = (T)Activator.CreateInstance(t);
+                            T instance = (T)Activator.CreateInstance(t);
                             list.Add(instance);
                          });
             dllsPath.ToList().Remove(path);
@@ -240,25 +148,4 @@ public class Stage
         return castle.GetGhost(name);
     }
     #endregion
-
-    #region Mutabillity
-    public void ChangeComponent(IShare component)
-    {
-        if (component is IPlayer playerInstance)
-            _playerInstance = playerInstance;
-        else if(component is ICube areaInstance)
-            _areaInstance = areaInstance;
-        OnComponentMuted?.Invoke();
-    }
-
-    public async Task ChangeComponentAsync(IShare component) =>
-        await new Task( () =>
-        {
-            if (component is IPlayer playerInstance)
-                _playerInstance = playerInstance;
-            else if(component is ICube areaInstance)
-                _areaInstance = areaInstance;
-            OnComponentMuted?.Invoke();
-        }); 
-    #endregion  
 }

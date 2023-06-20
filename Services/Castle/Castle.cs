@@ -14,7 +14,6 @@ public class Castle : ICastle
     public bool IsCenterActive { get; set; } = false;
 
     private static Dictionary<ReadOnlyMemory<char>, IGhost> ghostRegister = new();
-
     private static Dictionary<ReadOnlyMemory<char>, IWaiter> waiterRegister = new();
 
     #region Constant ghosts
@@ -58,15 +57,9 @@ public class Castle : ICastle
     private void LodgeGhost(IGhost ghost) =>
         ghostRegister.Add(ghost.GhostName, ghost);
 
-
-
     //accomodate ghost from external scope
     public void RegistGhost(IGhost ghost) =>
         ghostRegister.Add(ghost.GhostName, ghost);
-
-    //recover ghost instance
-    public void UpdateGhost(IGhost ghost) =>
-        ghostRegister[ghost.GhostName] = ghost;
     
     //return ghost by its own name
     public IGhost GetGhost(ReadOnlyMemory<char> name)
@@ -80,6 +73,10 @@ public class Castle : ICastle
     public void RegistWaiter(IWaiter waiter) =>
         waiterRegister.Add(waiter.WaiterName, waiter);
         
+    //Recover waiter instance
+    public void UpdateWaiter(IWaiter waiter) =>
+        waiterRegister[waiter.WaiterName] = waiter;
+
     //return waiter by its own name
     public IWaiter GetWaiter(ReadOnlyMemory<char> name) 
     {
