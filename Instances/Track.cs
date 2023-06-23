@@ -6,13 +6,13 @@ namespace ShareInstances.Instances;
 public struct Track
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public ReadOnlyMemory<char> Pathway {get; private set;} = string.Empty.AsMemory();
-	public ReadOnlyMemory<char> Name {get; private set;} = string.Empty.AsMemory();
+	public ReadOnlyMemory<char> Pathway {get; set;} = string.Empty.AsMemory();
+	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
-    public ReadOnlyMemory<byte> AvatarSource {get; private set;} = new byte[0];
+    public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0];
 
     public bool IsValid {get; private set;} = false;
-	public TimeSpan Duration {get; private set; } = TimeSpan.FromSeconds(0);
+	public TimeSpan Duration {get; set; } = TimeSpan.FromSeconds(0);
 
     #region Const
     public Track(ReadOnlyMemory<char> pathway,

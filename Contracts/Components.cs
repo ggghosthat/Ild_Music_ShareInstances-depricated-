@@ -13,7 +13,7 @@ public interface IShare
 public interface ICube : IShare
 {
     public Guid AreaId { get; }
-    public ReadOnlyMemory<char> CubeName { get; }
+    public string CubeName { get; }
 
     #region ToggleMethods
     void Init();
@@ -55,7 +55,7 @@ public interface ICube : IShare
 public interface IPlayer : IShare
 {
     public Guid PlayerId { get; }
-    public ReadOnlyMemory<char> PlayerName { get; }
+    public string PlayerName { get; }
 
     public CurrentEntity CurrentEntity { get; }
     public Track CurrentTrack { get; }
@@ -96,10 +96,4 @@ public interface IPlayer : IShare
     public Task ShuffleTrackCollection();
 
     public Task ChangeVolume(float volume);
-}
-
-public enum PlayerState
-{
-    ACTIVE,
-    PAUSED
 }

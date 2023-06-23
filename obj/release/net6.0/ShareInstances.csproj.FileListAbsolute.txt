@@ -1,0 +1,12 @@
+D:\repos\Ild-Music.ShareInstances\bin\release\net6.0\ShareInstances.deps.json
+D:\repos\Ild-Music.ShareInstances\bin\release\net6.0\ShareInstances.dll
+D:\repos\Ild-Music.ShareInstances\bin\release\net6.0\ShareInstances.pdb
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.csproj.AssemblyReference.cache
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.AssemblyInfoInputs.cache
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.AssemblyInfo.cs
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.csproj.CoreCompileInputs.cache
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.dll
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\refint\ShareInstances.dll
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ShareInstances.pdb
+D:\repos\Ild-Music.ShareInstances\obj\release\net6.0\ref\ShareInstances.dll

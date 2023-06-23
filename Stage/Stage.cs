@@ -6,12 +6,12 @@ using ShareInstances.Configure;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Generic;
 
 namespace ShareInstances.Stage;
-public record struct DumpStructure(string Name, string Path, string Type);
 
 public class Stage 
 {
@@ -55,33 +55,47 @@ public class Stage
     #region Constructors
     public Stage(){}
     
-    public Stage(IConfigure configure)
+    public Stage(ref IConfigure configure)
     {
         Configure = configure;
-        Task.Factory.StartNew(async () => await ObserveLoading());
+        ObserveLoading().Wait();
     }
     #endregion
 
 
-    #region Init methods
     public async Task ObserveLoading()
     {
-        CompletionResult = await InitAsync(Configure.ConfigSheet.Players, Configure.ConfigSheet.Synches);
+        CompletionResult = await InitAsync(Configure.ConfigSheet.Players, Configure.ConfigSheet.Cubes);
         OnInitialized?.Invoke();
     }       
 
-    public async Task<bool> InitAsync(IEnumerable<Memory<char>> playerAssembly,
-                                      IEnumerable<Memory<char>> synchAssembly)
+    public async Task<bool> InitAsync(IEnumerable<string> playerAssembly,
+                                      IEnumerable<string> synchAssembly)
     {
         bool isCompleted = false;
         try
         {
-            AssemblyProcess(ref playerAssembly, PlayerInstance);
-            AssemblyProcess(ref synchAssembly, AreaInstace);
+            using (var docker = new Docker(Configure))
+            {
+                var dock = docker.Dock();
+                dock.Wait();
 
+                if(dock.IsCompleted)
+                {
+                    _players = docker.Players;
+                    _areas = docker.Cubes;
+
+                    _playerInstance = _players.FirstOrDefault();
+                    _areaInstance = _areas.FirstOrDefault();
+                    System.Console.WriteLine(_playerInstance.PlayerName);
+                }
+            }
+
+            //resolve components
             castle.ResolveSupporter(AreaInstace);
             castle.ResolvePlayer(PlayerInstance);
 
+            //init filer
             Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
 
             isCompleted = true;
@@ -93,52 +107,6 @@ public class Stage
         
         return isCompleted;
     }
-    #endregion    
-    
-    #region Assembly loading methods
-    private void AssemblyProcess<T>(ref IEnumerable<Memory<char>> assembliesPaths,
-                                    T assemblyType)
-    {
-        (Type, IEnumerable<T>) components = FindComponents<T>(ref assembliesPaths);
-
-        if (typeof(IPlayer).IsAssignableFrom(components.Item1))
-        {
-            components.Item2.ToList()
-                        .ForEach(player => _players.Add((IPlayer)player));
-            _playerInstance = _players[0];
-        }
-        else if (typeof(ICube).IsAssignableFrom(components.Item1))
-        {
-            components.Item2.ToList()
-                        .ForEach(area => _areas.Add((ICube)area));
-            _areaInstance = _areas[0];
-        }
-    }
-
-    private (Type,IEnumerable<T>) FindComponents<T>(ref IEnumerable<Memory<char>> dllsPath)
-    {
-        var list = new List<T>();
-        foreach (Memory<char> path in dllsPath)
-        {
-            if(File.Exists(path.ToString()))
-            {
-                var assembly = Assembly.LoadFrom(path.ToString());
-                var exportedTypes = assembly.ExportedTypes;
-                exportedTypes.Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
-                            .Select(t => t)
-                            .ToList()
-                            .ForEach(t => 
-                            {
-                                T instance = (T)Activator.CreateInstance(t);
-                                list.Add(instance);
-                            });
-                dllsPath.ToList().Remove(path);
-            }
-        }
-        return (typeof(T), list);
-    }
-    #endregion
-    
     #region Clear
     public void Clear()
     {

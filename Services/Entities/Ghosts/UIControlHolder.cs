@@ -2,9 +2,9 @@ using System;
 using ShareInstances.Services.Interfaces;
 
 namespace ShareInstances.Services.Entities;
-public class UIControlHolder<T>
+public class UIControlHolder<T> : IGhost
 {
-    public ReadOnlyMemory<char> ServiceName {get; init;} = "ControlsHolder".AsMemory();
+    public ReadOnlyMemory<char> GhostName {get; init;} = "ControlsHolder".AsMemory();
 
     private int size;
     private T[] controls;

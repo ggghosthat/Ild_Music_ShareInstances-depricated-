@@ -8,13 +8,11 @@ namespace ShareInstances.Instances;
 public struct Playlist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-	public ReadOnlyMemory<char> Name {get; private set;} = string.Empty.AsMemory(); 
-	public ReadOnlyMemory<char> Description {get; private set;} = string.Empty.AsMemory();
-    public ReadOnlyMemory<char> AvatarBase64 {get; private set;} = string.Empty.AsMemory(); 
-
-    //Use for user space playing
+	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
+	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
+    public ReadOnlyMemory<char> AvatarBase64 {get; set;} = string.Empty.AsMemory(); 
+    
     private Lazy<List<Track>> Tracks; 
-    private Lazy<IList<Track>> Shuffled = null;
 
     //Please, be carefull when you call this property and DO NOT call much this property
     //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
@@ -48,10 +46,6 @@ public struct Playlist
     	Tracks.Value.Add(track);
     }
 
-    public void AddTrackRange(IList<Track> tracks)
-    {
-        Tracks.Value.AddRange(tracks);
-    }
 
     public void RemoveTrack(Track track)
     {        
@@ -66,9 +60,9 @@ public struct Playlist
         return Tracks.Value;
     }
 
-    public void Recover(IList<Track> newTracks)
+    public void RecoverTracks(List<Track> tracks)
     {
-        Shuffled = new Lazy<IList<Track>>(newTracks);
+        Tracks = new Lazy<List<Track>>(tracks);
     }
 
     public void Clear()

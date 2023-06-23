@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "OvXaSL31m86JnykwUf/s2F5zDW3y4RUjIaFMvIPuhtQYpYTiqvl5sE0BSq/aluyDr5tpPy6h4kmoT4PHh+Lb4w==",
+  "dgSpecHash": "U7282EaR+5mtT9dDQLu6y+4/UIl60PppJieGFg9d1p4s4wmo6Fj0D+5c6WVZDSoQCkqAaspo+RW1JyIHIILNJQ==",
   "success": true,
   "projectFilePath": "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\LEYA\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\LEYA\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\LEYA\\.nuget\\packages\\taglibsharp\\2.2.0\\taglibsharp.2.2.0.nupkg.sha512"
   ],
   "logs": []

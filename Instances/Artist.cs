@@ -10,8 +10,8 @@ public struct Artist
 	public ReadOnlyMemory<char> Description {get; set;}
 	public ReadOnlyMemory<char> AvatarBase64 {get; set;}
 
-	public IList<Guid> Tracks {get; private set;} = new List<Guid>();
-	public IList<Guid> Playlists {get; private set;} = new List<Guid>();
+	public IList<Guid> Tracks {get; set;} = new List<Guid>();
+	public IList<Guid> Playlists {get; set;} = new List<Guid>();
 
 
 	public Artist (ReadOnlyMemory<char> name,
