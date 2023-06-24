@@ -12,42 +12,44 @@ public interface IShare
 //Represent Cube instance wich interacts with file system
 public interface ICube : IShare
 {
-    public Guid AreaId { get; }
+    public Guid CubeId { get; }
     public string CubeName { get; }
+
+    public int CubePage {get;}
 
     #region ToggleMethods
     void Init();
     #endregion
 
     #region ResourceCollections
-    public IList<Artist> existedArtists {get;}
-    public IList<Playlist> existedPlaylists { get; }
-    public IList<Track> existedTracks { get; }        
+    public IList<Artist> Artists {get;}
+    public IList<Playlist> Playlists { get; }
+    public IList<Track> Tracks { get; }        
     #endregion
 
     #region AddMethods
-    void AddArtistObj(Artist artist);
-    void AddTrackObj(Track artist);
-    void AddPlaylistObj(Playlist artist);
+    public void AddArtistObj(Artist artist);
+    public void AddTrackObj(Track artist);
+    public void AddPlaylistObj(Playlist artist);
     #endregion
 
     #region EditMethods
-    void EditArtistObj(Artist artist);
-    void EditTrackObj(Track artist);
-    void EditPlaylistObj(Playlist artist);
+    public void EditArtistObj(Artist artist);
+    public void EditTrackObj(Track artist);
+    public void EditPlaylistObj(Playlist artist);
     #endregion
 
     #region RemoveMethods
-    void RemoveArtistObj(Artist artist);
-    void RemoveTrackObj(Track artist);
-    void RemovePlaylistObj(Playlist artist);
+    public void RemoveArtistObj(Artist artist);
+    public void RemoveTrackObj(Track artist);
+    public void RemovePlaylistObj(Playlist artist);
     #endregion
 
     #region SaveMethods
-    void Save();
-    void SaveArtists();
-    void SaveTracks();
-    void SavePlaylists();
+    public void Save();
+    public void SaveArtists();
+    public void SaveTracks();
+    public void SavePlaylists();
     #endregion
 }
 

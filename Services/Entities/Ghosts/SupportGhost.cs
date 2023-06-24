@@ -13,9 +13,9 @@ public class SupportGhost : IGhost
     //temp solution
     public static ICube CubeArea;
 
-    public IList<Artist> ArtistsCollection => CubeArea.existedArtists;
-    public IList<Playlist> PlaylistsCollection => CubeArea.existedPlaylists;
-    public IList<Track> TracksCollection => CubeArea.existedTracks;
+    public IList<Artist> ArtistsCollection => CubeArea.Artists;
+    public IList<Playlist> PlaylistsCollection => CubeArea.Playlists;
+    public IList<Track> TracksCollection => CubeArea.Tracks;
 
 
     public event Action OnArtistsNotifyRefresh = null;
