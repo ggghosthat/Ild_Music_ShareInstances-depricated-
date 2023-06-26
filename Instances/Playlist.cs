@@ -8,6 +8,7 @@ namespace ShareInstances.Instances;
 public struct Playlist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
+    public Guid ArtistId {get; set;} = Guid.Empty;
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
     public ReadOnlyMemory<char> AvatarBase64 {get; set;} = string.Empty.AsMemory(); 
