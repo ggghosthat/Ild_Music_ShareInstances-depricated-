@@ -31,10 +31,18 @@ internal struct InstanceProducer : IDisposable
                                      avatarPath: avatar);
 
         if (tracks != null && tracks.Count > 0)
+        {
             tracks.ToList().ForEach(t => playlist.AddTrack(t));
-        
+        }
+
         if (artists != null && artists.Count > 0)
-            artists.ToList().ForEach(a => a.AddPlaylist(playlist.Id));
+        {
+            artists.ToList().ForEach(a => 
+            {
+                a.AddPlaylist(playlist.Id);
+                playlist.Artists.Add(a.Id);
+            });            
+        }
 
         PlaylistInstance = playlist;
     }
@@ -54,7 +62,14 @@ internal struct InstanceProducer : IDisposable
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)
-            artists.ToList().ForEach(a => a.AddTrack(track.Id));
+        {
+            artists.ToList().ForEach(a => 
+            {
+                a.AddTrack(track.Id);
+                track.Artists.Add(a.Id);
+            });
+
+        }
     }
 
     public void Dispose()
