@@ -13,22 +13,22 @@ internal struct InstanceProducer : IDisposable
 
     public InstanceProducer(Memory<char> name,
                             Memory<char> description, 
-                            Memory<char> avatar)
+                            Memory<byte> avatar)
     {
         ArtistInstance = new Artist(name: name,
                                     description: description,
-                                    avatarPath: avatar);
+                                    avatarSource: avatar);
     }
 
     public InstanceProducer(Memory<char> name,
                             Memory<char> description,
-                            Memory<char> avatar,
+                            Memory<byte> avatar,
                             IList<Track> tracks,
                             IList<Artist> artists)
     {
         var playlist  = new Playlist(name: name,
                                      description: description,
-                                     avatarPath: avatar);
+                                     avatarSource: avatar);
 
         if (tracks != null && tracks.Count > 0)
         {

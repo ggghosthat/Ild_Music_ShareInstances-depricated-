@@ -6,8 +6,6 @@ namespace ShareInstances.Instances;
 public struct Track
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
-    public ICollection<Guid> Playlists {get; set;} = new List<Guid>(20);
 
 	public ReadOnlyMemory<char> Pathway {get; set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory();
@@ -16,6 +14,10 @@ public struct Track
 
     public bool IsValid {get; private set;} = false;
 	public TimeSpan Duration {get; set; } = TimeSpan.FromSeconds(0);
+
+    
+    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
+    public ICollection<Guid> Playlists {get; set;} = new List<Guid>(20);
 
     #region Const
     public Track(ReadOnlyMemory<char> pathway,

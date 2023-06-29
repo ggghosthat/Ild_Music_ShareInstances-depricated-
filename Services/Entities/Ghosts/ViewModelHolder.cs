@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public class ViewModelHolder<T> : IGhost
+public sealed class ViewModelHolder<T> : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "HolderService".AsMemory();
 

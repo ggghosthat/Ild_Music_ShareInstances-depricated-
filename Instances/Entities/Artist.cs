@@ -8,7 +8,7 @@ public struct Artist
 	public Guid Id {get; init;} = Guid.NewGuid();
 	public ReadOnlyMemory<char> Name {get; set;}
 	public ReadOnlyMemory<char> Description {get; set;}
-	public ReadOnlyMemory<char> AvatarBase64 {get; set;}
+	public ReadOnlyMemory<byte> AvatarSource {get; set;}
 
 	public IList<Guid> Tracks {get; set;} = new List<Guid>();
 	public IList<Guid> Playlists {get; set;} = new List<Guid>();
@@ -16,11 +16,11 @@ public struct Artist
 
 	public Artist (ReadOnlyMemory<char> name,
 				   ReadOnlyMemory<char> description,
-				   ReadOnlyMemory<char> avatarPath)
+				   ReadOnlyMemory<byte> avatarSource)
 	{
 		Name = name;
 		Description = description;
-        AvatarBase64 = avatarPath; 
+        AvatarSource = avatarSource; 
 	}
 
 
@@ -53,38 +53,33 @@ public struct Artist
 	#region Avatar Manipulation
 	public byte[] GetAvatar()
     {
-        if (AvatarBase64.ToString() is not null)
-        {
-            try
-            {
-                return Convert.FromBase64String(AvatarBase64.ToString());
-            }
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;
-                // return null;
-            }
-        }
-        else return null;
+		try
+		{
+			return AvatarSource.ToArray();
+		}
+		catch(Exception ex)
+		{
+			//Speciall logging or throwing logic
+			throw ex;
+			// return null;
+		}
     }
 
-    public string SetAvatar(string path)
+    public void SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
         {
-        	try
-        	{
-	        	byte[] file = System.IO.File.ReadAllBytes(path);
-                return Convert.ToBase64String(file); 
-        	}
+            try
+            {
+                byte[] file = System.IO.File.ReadAllBytes(path);
+                AvatarSource = file; 
+            }
             catch(Exception ex)
             {
                 //Speciall logging or throwing logic
-                throw ex;
+                throw ex;   
             }            
         }
-        else return null;
     }
     #endregion
 }

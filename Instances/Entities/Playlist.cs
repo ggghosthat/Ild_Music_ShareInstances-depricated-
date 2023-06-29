@@ -8,14 +8,15 @@ namespace ShareInstances.Instances;
 public struct Playlist
 {
 	public Guid Id {get; init;} = Guid.NewGuid();
-    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
-    public ICollection<Guid> Playlists {get; set;} = new List<Guid>(20);
 
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
-    public ReadOnlyMemory<char> AvatarBase64 {get; set;} = string.Empty.AsMemory(); 
+    public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0]; 
     
     private Lazy<List<Track>> Tracks; 
+    
+    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
+    public ICollection<Guid> Playlists {get; set;} = new List<Guid>(20);
 
     //Please, be carefull when you call this property and DO NOT call much this property
     //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
@@ -34,11 +35,11 @@ public struct Playlist
 
     public Playlist(ReadOnlyMemory<char> name, 
                     ReadOnlyMemory<char> description,
-                    ReadOnlyMemory<char> avatarPath)
+                    ReadOnlyMemory<byte> avatarSource)
     {
         Name = name;
         Description = description;
-        AvatarBase64 = avatarPath;
+        AvatarSource = avatarSource;
 
         Tracks = new Lazy<List<Track>>();
     }
@@ -80,8 +81,7 @@ public struct Playlist
     {
         try
         {
-            byte[] result;
-            return Convert.FromBase64String(AvatarBase64.ToString());
+            return AvatarSource.ToArray();
         }
         catch(Exception ex)
         {
@@ -90,22 +90,21 @@ public struct Playlist
         }
     }
 
-    public string SetAvatar(string path)
+    public void SetAvatar(string path)
     {
         if(path is not null && File.Exists(path))
         {
             try
             {
                 byte[] file = System.IO.File.ReadAllBytes(path);
-                return Convert.ToBase64String(file); 
+                AvatarSource = file; 
             }
             catch(Exception ex)
             {
                 //Speciall logging or throwing logic
-                throw ex;
+                throw ex;   
             }            
         }
-        else return null;
     }
     #endregion
 }

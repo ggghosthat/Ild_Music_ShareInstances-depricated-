@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public class FactoryGhost : IGhost
+public sealed class FactoryGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
 
@@ -27,13 +27,15 @@ public class FactoryGhost : IGhost
     #region Instance Creation Methods
     public void CreateArtist(string name,
                              string description,
-                             string avatarPath = null)
+                             string avatar = null)
     {
         try
         {
+            Memory<byte> artistAvatarSource = ExtractTrackAvatar(avatar).Result;
+
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
                                                              description.ToCharArray(),
-                                                             avatarPath.ToCharArray());
+                                                             artistAvatarSource);
             SupportGhost.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }
@@ -52,9 +54,11 @@ public class FactoryGhost : IGhost
     {   
         try
         {
+            Memory<byte> playlistAvatarSource = ExtractTrackAvatar(avatar).Result;
+
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
                                                              description.ToCharArray(),
-                                                             avatar.ToCharArray(),
+                                                             playlistAvatarSource,
                                                              tracks,
                                                              artists);
             SupportGhost.AddPlaylistInstance(producer.PlaylistInstance);
@@ -173,14 +177,6 @@ public class FactoryGhost : IGhost
         }
 
         throw new FileNotFoundException($"Could not find file: {pathway}");
-    }
-
-    private void ToBase64(ref byte[] source, ref char[] raw)
-    {
-        if(source is not null)
-        {
-            Convert.ToBase64CharArray(source, 0, source.Length, raw, 0);
-        }
     }
     #endregion
 }

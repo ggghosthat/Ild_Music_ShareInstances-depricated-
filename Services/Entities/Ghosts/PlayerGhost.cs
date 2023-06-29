@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 
 namespace ShareInstances.Services.Entities;
-public class PlayerGhost : IGhost
+public sealed class PlayerGhost : IGhost
 {
 	public ReadOnlyMemory<char> GhostName {get; init;} = "PlayerGhost".AsMemory(); 
 

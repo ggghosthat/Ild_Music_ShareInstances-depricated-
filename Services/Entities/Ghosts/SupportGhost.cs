@@ -6,7 +6,7 @@ using ShareInstances.Services.Interfaces;
 using System;
 
 namespace ShareInstances.Services.Entities;
-public class SupportGhost : IGhost
+public sealed class SupportGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
