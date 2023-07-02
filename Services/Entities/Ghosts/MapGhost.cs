@@ -49,7 +49,7 @@ public sealed class MapGhost : Profile, IGhost
             .ConvertUsing((src) => GenerateStore<Artist>(3, src.Id, src.Artists));
 
         CreateMap<Playlist, Store<Track>>()
-            .ConvertUsing((src) => GenerateStore<Track>(4, src.Id, src.Tracky));
+            .ConvertUsing((src) => GenerateTrackStoreFromPlaylist(src.Id, src.GetTracks() ));
     }
 
     private Store<T> GenerateStore<T>(int tag, Guid main, ICollection<Guid> items)
@@ -58,6 +58,17 @@ public sealed class MapGhost : Profile, IGhost
         items.ToList().ForEach(i =>
         {
             store.Pairs.Add(new Pair(main, i));
+        });
+
+        return store;
+    }
+
+    private Store<Track> GenerateTrackStoreFromPlaylist(Guid playlistId, IList<Track> tracks)
+    {
+        var store = new Store<Track>(4);
+        tracks.ToList().ForEach(t =>
+        {
+            store.Pairs.Add(new Pair(playlistId, t.Id));
         });
 
         return store;
