@@ -32,14 +32,14 @@ internal struct InstanceProducer : IDisposable
 
         if (tracks != null && tracks.Count > 0)
         {
-            tracks.ToList().ForEach(t => playlist.AddTrack(t));
+            tracks.ToList().ForEach(t => playlist.AddTrack(ref t));
         }
 
         if (artists != null && artists.Count > 0)
         {
             artists.ToList().ForEach(a => 
             {
-                a.AddPlaylist(playlist.Id);
+                a.AddPlaylist(ref playlist);
                 playlist.Artists.Add(a.Id);
             });            
         }
@@ -65,7 +65,7 @@ internal struct InstanceProducer : IDisposable
         {
             artists.ToList().ForEach(a => 
             {
-                a.AddTrack(track.Id);
+                a.AddTrack(ref track);
                 track.Artists.Add(a.Id);
             });
 

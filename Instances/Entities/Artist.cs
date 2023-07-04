@@ -24,29 +24,39 @@ public struct Artist
 	}
 
 
-	public void AddTrack(Guid trackId)
+	public void AddTrack(ref Track track)
 	{
-		Tracks.Add(trackId);
-	}
-
-	public void AddPlaylist(Guid playlistId)
-	{
-		Playlists.Add(playlistId);
-	}
-
-	public void DeleteTrack(Guid trackId) 
-	{
-		if (Tracks.Contains(trackId))
+		if(!Tracks.Contains(track.Id))
 		{
-			Tracks.Remove(trackId);
+			Tracks.Add(track.Id);
+			track.Artists.Add(Id);
 		}
 	}
 
-	public void DeletePlaylist(Guid playlistId) 
+	public void AddPlaylist(ref Playlist playlist)
 	{
-		if (Tracks.Contains(playlistId))
+		if(!Playlists.Contains(playlist.Id))
 		{
-			Tracks.Remove(playlistId);
+			Playlists.Add(playlist.Id);
+			playlist.Artists.Add(Id);
+		}
+	}
+
+	public void DeleteTrack(ref Track track) 
+	{
+		if (Tracks.Contains(track.Id))
+		{
+			Tracks.Remove(track.Id);
+			track.Artists.Remove(Id);
+		}
+	}
+
+	public void DeletePlaylist(ref Playlist playlist) 
+	{
+		if (!Playlists.Contains(playlist.Id))
+		{
+			Playlists.Remove(playlist.Id);
+			playlist.Artists.Remove(Id);
 		}
 	}
 

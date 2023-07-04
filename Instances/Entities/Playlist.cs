@@ -45,17 +45,22 @@ public struct Playlist
     }
 
     #region Collection Manipulation Methods
-    public void AddTrack(Track track)
+    public void AddTrack(ref Track track)
     {        
-    	Tracks.Value.Add(track);
+        if(!Tracks.Value.Contains(track))
+        {
+    	    Tracks.Value.Add(track);
+            track.Playlists.Add(Id);
+        }
     }
 
 
-    public void RemoveTrack(Track track)
+    public void RemoveTrack(ref Track track)
     {        
     	if(Tracks.Value.Contains(track))
     	{
     		Tracks.Value.Remove(track);
+            track.Playlists.Remove(Id);
     	}
     }
 
