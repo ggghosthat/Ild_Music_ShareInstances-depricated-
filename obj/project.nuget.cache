@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "BDRIOgD/k2CufjTd7tLfBLho6h5tYa1QkGssaS/7AUHKzp+s7R9jBjty5kxuvRgBwJQL0MX/FMhKKvtukgv8vg==",
+  "dgSpecHash": "VcRtj7HzQnmQVwWrGph8+dTTN4whMR+faqgs8cf4EILenVUd3JiE2w+0fo1s+kBTtYIdHESbkzv4Ts24EII/jg==",
   "success": true,
-  "projectFilePath": "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+  "projectFilePath": "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\ShareInstances.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\LEYA\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
-    "C:\\Users\\LEYA\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\LEYA\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\LEYA\\.nuget\\packages\\taglibsharp\\2.2.0\\taglibsharp.2.2.0.nupkg.sha512"
+    "C:\\Users\\ildar\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\ildar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\ildar\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\ildar\\.nuget\\packages\\taglibsharp\\2.2.0\\taglibsharp.2.2.0.nupkg.sha512"
   ],
   "logs": []
 }

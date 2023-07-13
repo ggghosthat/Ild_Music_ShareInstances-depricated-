@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj": {}
+    "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\ShareInstances.csproj": {}
   },
   "projects": {
-    "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj": {
+    "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\ShareInstances.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+        "projectUniqueName": "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\ShareInstances.csproj",
         "projectName": "ShareInstances",
-        "projectPath": "D:\\repos\\Ild-Music.ShareInstances\\ShareInstances.csproj",
-        "packagesPath": "C:\\Users\\LEYA\\.nuget\\packages\\",
-        "outputPath": "D:\\repos\\Ild-Music.ShareInstances\\obj\\",
+        "projectPath": "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\ShareInstances.csproj",
+        "packagesPath": "C:\\Users\\ildar\\.nuget\\packages\\",
+        "outputPath": "D:\\repos\\Ild_Music\\Ild-Music.ShareInstances\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LEYA\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\ildar\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -67,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.410\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.412\\RuntimeIdentifierGraph.json"
         }
       }
     }

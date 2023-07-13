@@ -18,6 +18,7 @@ public struct Track
     
     public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
     public ICollection<Guid> Playlists {get; set;} = new List<Guid>(20);
+	public ICollection<Tag> Tags {get; set;} = new List<Tag>();
 
     #region Const
     public Track(ReadOnlyMemory<char> pathway,

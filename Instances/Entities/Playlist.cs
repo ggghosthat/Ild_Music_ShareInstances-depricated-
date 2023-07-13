@@ -17,6 +17,7 @@ public struct Playlist
     
     public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
     public ICollection<Guid> Tracky {get; set;} = new List<Guid>(20);
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
     //Please, be carefull when you call this property and DO NOT call much this property
     //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
