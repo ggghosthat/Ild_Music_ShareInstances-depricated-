@@ -75,6 +75,17 @@ public struct Playlist
         Tracks = new Lazy<List<Track>>(tracks);
     }
 
+    public void DumpTracks()
+    {
+        if (Tracky.Count > 0)
+            Tracky.Clear();
+
+        foreach(var track in Tracks.Value)
+            Tracky.Add(track.Id);
+
+        Tracks.Value.Clear();
+    }
+
     public void Clear()
     {
         Tracks.Value.Clear();
