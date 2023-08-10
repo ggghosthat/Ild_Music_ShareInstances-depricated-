@@ -22,9 +22,9 @@ public interface ICube : IShare
     #endregion
 
     #region ResourceCollections
-    public IList<Artist> Artists {get;}
-    public IList<Playlist> Playlists { get; }
-    public IList<Track> Tracks { get; }        
+    public IEnumerable<Artist> Artists {get;}
+    public IEnumerable<Playlist> Playlists { get; }
+    public IEnumerable<Track> Tracks { get; }        
     #endregion
 
     #region AddMethods
@@ -43,14 +43,7 @@ public interface ICube : IShare
     public void RemoveArtistObj(Artist artist);
     public void RemoveTrackObj(Track artist);
     public void RemovePlaylistObj(Playlist artist);
-    #endregion
-
-    #region SaveMethods
-    public void Save();
-    public void SaveArtists();
-    public void SaveTracks();
-    public void SavePlaylists();
-    #endregion
+    #endregion 
 }
 
 //Represent Player instance

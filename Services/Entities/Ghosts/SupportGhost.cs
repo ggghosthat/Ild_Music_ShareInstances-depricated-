@@ -13,9 +13,9 @@ public sealed class SupportGhost : IGhost
     //temp solution
     public static ICube CubeArea;
 
-    public IList<Artist> ArtistsCollection => CubeArea.Artists;
-    public IList<Playlist> PlaylistsCollection => CubeArea.Playlists;
-    public IList<Track> TracksCollection => CubeArea.Tracks;
+    public IEnumerable<Artist> ArtistsCollection => CubeArea.Artists;
+    public IEnumerable<Playlist> PlaylistsCollection => CubeArea.Playlists;
+    public IEnumerable<Track> TracksCollection => CubeArea.Tracks;
 
 
     public event Action OnArtistsNotifyRefresh = null;
@@ -36,21 +36,18 @@ public sealed class SupportGhost : IGhost
     public void AddArtistInstance(Artist artist)
     {
         CubeArea.AddArtistObj(artist);
-        CubeArea.SaveArtists();
         OnArtistsNotifyRefresh?.Invoke();
     }
 
     public void AddPlaylistInstance(Playlist playlist)
     {
         CubeArea.AddPlaylistObj(playlist);
-        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void AddTrackInstance(Track track)
     {
         CubeArea.AddTrackObj(track);
-        CubeArea.SaveTracks();
         OnTracksNotifyRefresh?.Invoke();
     }
 
@@ -58,21 +55,18 @@ public sealed class SupportGhost : IGhost
     public void EditArtistInstance(Artist artist)
     {
         CubeArea.EditArtistObj(artist);
-        CubeArea.SaveArtists();
         OnArtistsNotifyRefresh?.Invoke();
     }
     
     public void EditPlaylistInstance(Playlist playlist)
     {
         CubeArea.EditPlaylistObj(playlist);
-        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
     
     public void EditTrackInstance(Track track)
     {
         CubeArea.EditTrackObj(track);
-        CubeArea.SaveTracks();
         OnTracksNotifyRefresh?.Invoke();  
     }
 
@@ -80,40 +74,19 @@ public sealed class SupportGhost : IGhost
     public void DeleteArtistInstance(Artist artist) 
     {
         CubeArea.RemoveArtistObj(artist);
-        CubeArea.SaveArtists();
         OnTracksNotifyRefresh?.Invoke();
     }
     
     public void DeletePlaylistInstance(Playlist playlist) 
     {
         CubeArea.RemovePlaylistObj(playlist);
-        CubeArea.SavePlaylists();
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void DeleteTrackInstance(Track track)
     {
         CubeArea.RemoveTrackObj(track);
-        CubeArea.SaveTracks();
         OnArtistsNotifyRefresh?.Invoke();
     }
        
-    public void DumpState(int i = 0)
-    {
-        switch(i)
-        {
-            case 0:
-                CubeArea.Save();
-                break;
-            case 1:
-                CubeArea.SaveArtists();
-                break;
-            case 2:
-                CubeArea.SavePlaylists();
-                break;
-            case 3:
-                CubeArea.SaveTracks();
-                break;
-        }
-    }
 }
