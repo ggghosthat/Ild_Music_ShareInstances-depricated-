@@ -9,6 +9,7 @@ public struct Artist
 	public ReadOnlyMemory<char> Name {get; set;}
 	public ReadOnlyMemory<char> Description {get; set;}
 	public ReadOnlyMemory<byte> AvatarSource {get; set;}
+    public int Year {get; set;} = DateTime.Now.Year;
 
 	public ICollection<Guid> Tracks {get; set;} = new List<Guid>();
 	public ICollection<Guid> Playlists {get; set;} = new List<Guid>();
@@ -18,11 +19,13 @@ public struct Artist
 
 	public Artist (ReadOnlyMemory<char> name,
 				   ReadOnlyMemory<char> description,
-				   ReadOnlyMemory<byte> avatarSource)
+				   ReadOnlyMemory<byte> avatarSource,
+                   int year)
 	{
 		Name = name;
 		Description = description;
-        AvatarSource = avatarSource; 
+        AvatarSource = avatarSource;
+        Year = year;
 	}
 
 

@@ -11,6 +11,7 @@ public struct Track
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
     public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0];
+    public int Year {get; set;} = DateTime.Now.Year;
 
     public bool IsValid {get; private set;} = false;
 	public TimeSpan Duration {get; set; } = TimeSpan.FromSeconds(0);
@@ -25,7 +26,8 @@ public struct Track
                  ReadOnlyMemory<char> name,
                  ReadOnlyMemory<char> description,
                  ReadOnlyMemory<byte> avatarSource,
-                 TimeSpan duration)
+                 TimeSpan duration,
+                 int year)
     {
         if(System.IO.File.Exists(pathway.ToString()))
         { 
@@ -34,6 +36,7 @@ public struct Track
             Description = description;
             AvatarSource = avatarSource;      
             Duration = duration;
+            Year = year;
             IsValid = true;
         }
     }

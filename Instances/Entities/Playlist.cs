@@ -12,7 +12,8 @@ public struct Playlist
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
     public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0]; 
-    
+    public int Year {get; set;} = DateTime.Now.Year;
+
     private Lazy<List<Track>> Tracks; 
     
     public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
@@ -36,11 +37,13 @@ public struct Playlist
 
     public Playlist(ReadOnlyMemory<char> name, 
                     ReadOnlyMemory<char> description,
-                    ReadOnlyMemory<byte> avatarSource)
+                    ReadOnlyMemory<byte> avatarSource,
+                    int year)
     {
         Name = name;
         Description = description;
         AvatarSource = avatarSource;
+        Year = year;
 
         Tracks = new Lazy<List<Track>>();
     }

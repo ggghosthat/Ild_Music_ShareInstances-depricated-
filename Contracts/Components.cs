@@ -18,6 +18,7 @@ public interface ICube : IShare
     public int CubePage {get;}
 
     #region ToggleMethods
+    void SetPath(ref string inputPath); 
     void Init();
     #endregion
 
@@ -28,22 +29,33 @@ public interface ICube : IShare
     #endregion
 
     #region AddMethods
-    public void AddArtistObj(Artist artist);
-    public void AddTrackObj(Track artist);
-    public void AddPlaylistObj(Playlist artist);
+    public Task AddArtistObj(Artist artist);
+    public Task AddTrackObj(Track artist);
+    public Task AddPlaylistObj(Playlist artist);
     #endregion
 
     #region EditMethods
-    public void EditArtistObj(Artist artist);
-    public void EditTrackObj(Track artist);
-    public void EditPlaylistObj(Playlist artist);
+    public Task EditArtistObj(Artist artist);
+    public Task EditTrackObj(Track artist);
+    public Task EditPlaylistObj(Playlist artist);
     #endregion
 
     #region RemoveMethods
-    public void RemoveArtistObj(Artist artist);
-    public void RemoveTrackObj(Track artist);
-    public void RemovePlaylistObj(Playlist artist);
+    public Task RemoveArtistObj(Artist artist);
+    public Task RemoveTrackObj(Track artist);
+    public Task RemovePlaylistObj(Playlist artist);
     #endregion 
+
+    #region LoadMethods
+    public Task LoadItems<T>();
+    public Task UnloadItems<T>();
+    #endregion
+
+    #region ExtendMethods
+    public Task<Artist> ExtendSingle(Artist artist);
+    public Task<Playlist> ExtendSingle(Playlist playlist);
+    public Task<Track> ExtendSingle(Track track);
+    #endregion
 }
 
 //Represent Player instance

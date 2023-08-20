@@ -27,6 +27,7 @@ public sealed class FactoryGhost : IGhost
     #region Instance Creation Methods
     public void CreateArtist(string name,
                              string description,
+                             int year,    
                              string avatar = null)
     {
         try
@@ -35,7 +36,8 @@ public sealed class FactoryGhost : IGhost
 
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
                                                              description.ToCharArray(),
-                                                             artistAvatarSource);
+                                                             artistAvatarSource, 
+                                                             year);
             SupportGhost.AddArtistInstance(producer.ArtistInstance);
             producer.Dispose();
         }
@@ -48,6 +50,7 @@ public sealed class FactoryGhost : IGhost
 
     public void CreatePlaylist(string name,
                                string description,
+                               int year,
                                string avatar = null,
                                IList<Track> tracks = null,
                                IList<Artist> artists = null)
@@ -59,6 +62,7 @@ public sealed class FactoryGhost : IGhost
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
                                                              description.ToCharArray(),
                                                              playlistAvatarSource,
+                                                             year,
                                                              tracks,
                                                              artists);
             SupportGhost.AddPlaylistInstance(producer.PlaylistInstance);
@@ -71,6 +75,7 @@ public sealed class FactoryGhost : IGhost
     }
 
     public void CreateTrack(string pathway,
+                            int year,
                             string name=null,
                             string description=null,
                             string avatarPath = null,
@@ -109,6 +114,7 @@ public sealed class FactoryGhost : IGhost
                                                                  trackDescription,
                                                                  trackAvatarSource,
                                                                  taglib.Properties.Duration,
+                                                                 year,
                                                                  artists);
                 SupportGhost.AddTrackInstance(producer.TrackInstance);
                 producer.Dispose();
@@ -132,6 +138,7 @@ public sealed class FactoryGhost : IGhost
                 Memory<char> trackName;
                 Memory<char> trackDescription = default!;
                 Memory<byte> trackAvatarSource = default!;
+                int year = DateTime.Now.Year;
 
                 trackName = taglib.Tag.Title.ToCharArray() ?? "Unknown track".ToCharArray();
                 
@@ -146,6 +153,7 @@ public sealed class FactoryGhost : IGhost
                                                                  trackDescription,
                                                                  trackAvatarSource,
                                                                  taglib.Properties.Duration,
+                                                                 year,
                                                                  null);
                 SupportGhost.AddTrackInstance(producer.TrackInstance);
                 trackResult = producer.TrackInstance;

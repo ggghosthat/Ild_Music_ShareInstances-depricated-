@@ -13,22 +13,26 @@ internal struct InstanceProducer : IDisposable
 
     public InstanceProducer(Memory<char> name,
                             Memory<char> description, 
-                            Memory<byte> avatar)
+                            Memory<byte> avatar,
+                            int year)
     {
         ArtistInstance = new Artist(name: name,
                                     description: description,
-                                    avatarSource: avatar);
+                                    avatarSource: avatar,
+                                    year: year);
     }
 
     public InstanceProducer(Memory<char> name,
                             Memory<char> description,
                             Memory<byte> avatar,
+                            int year,
                             IList<Track> tracks,
                             IList<Artist> artists)
     {
         var playlist  = new Playlist(name: name,
                                      description: description,
-                                     avatarSource: avatar);
+                                     avatarSource: avatar,
+                                     year: year);
 
         if (tracks != null && tracks.Count > 0)
         {
@@ -52,13 +56,15 @@ internal struct InstanceProducer : IDisposable
                             Memory<char> description,
                             Memory<byte> avatar,
                             TimeSpan duration,
+                            int year,
                             IList<Artist> artists = null)
     {
         TrackInstance = new Track(pathway: pathway,
                                   name: name,
                                   description: description,
                                   avatarSource: avatar,
-                                  duration: duration);
+                                  duration: duration,
+                                  year: year);
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)
