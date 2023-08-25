@@ -56,6 +56,12 @@ public interface ICube : IShare
     public Task<Playlist> ExtendSingle(Playlist playlist);
     public Task<Track> ExtendSingle(Track track);
     #endregion
+
+    #region IntegrityChecks
+    public Task<bool> CheckArtistIntegrity(Artist artist);
+    public Task<bool> CheckPlaylistIntegrity(Playlist playlist);
+    public Task<bool> CheckTrackIntegrity(Track track);
+    #endregion
 }
 
 //Represent Player instance
