@@ -1,4 +1,5 @@
 ﻿using ShareInstances.Instances;
+using ShareInstances.Statistics;
 
 using System;
 using System.Collections.Generic;
@@ -57,11 +58,13 @@ public interface ICube : IShare
     public Task<Track> ExtendSingle(Track track);
     #endregion
 
-    #region IntegrityChecks
-    public Task<bool> CheckArtistIntegrity(Artist artist);
-    public Task<bool> CheckPlaylistIntegrity(Playlist playlist);
-    public Task<bool> CheckTrackIntegrity(Track track);
+    #region instanceRelatesChecks
+    public Task<InspectFrame> CheckArtistRelates(Artist artist);
+    public Task<InspectFrame> CheckPlaylistRelates(Playlist playlist);
+    public Task<InspectFrame> CheckTrackRelates(Track track);
     #endregion
+
+    public Task<CounterFrame> SnapCounterFrame();
 }
 
 //Represent Player instance
