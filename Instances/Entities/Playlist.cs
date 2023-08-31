@@ -68,7 +68,7 @@ public struct Playlist
     	}
     }
 
-    public IList<Track> GetTracks()
+    public IEnumerable<Track> GetTracks()
     {
         return Tracks.Value;
     }

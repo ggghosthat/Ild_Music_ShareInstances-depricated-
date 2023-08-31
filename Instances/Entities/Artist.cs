@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 
@@ -44,6 +45,10 @@ public struct Artist
 		{
 			Playlists.Add(playlist.Id);
 			playlist.Artists.Add(Id);
+
+            Tracks.ToList().AddRange(playlist.Tracky);
+            foreach (var track in playlist.GetTracks())
+                 track.Artists.Add(Id);
 		}
 	}
 
@@ -62,6 +67,9 @@ public struct Artist
 		{
 			Playlists.Remove(playlist.Id);
 			playlist.Artists.Remove(Id);
+
+            foreach (var tid in playlist.Tracky)
+                Tracks.Remove(tid);
 		}
 	}
 
