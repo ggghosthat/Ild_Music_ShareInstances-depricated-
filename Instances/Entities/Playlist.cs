@@ -55,6 +55,10 @@ public struct Playlist
         {
     	    Tracks.Value.Add(track);
             track.Playlists.Add(Id);
+
+            foreach (var art in Artists)
+                track.Artists.Add(art);
+            
         }
     }
 
@@ -65,6 +69,9 @@ public struct Playlist
     	{
     		Tracks.Value.Remove(track);
             track.Playlists.Remove(Id);
+
+            foreach (var art in Artists)
+                track.Artists.Remove(art);
     	}
     }
 
