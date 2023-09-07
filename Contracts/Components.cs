@@ -58,13 +58,15 @@ public interface ICube : IShare
     public Task<Track> ExtendSingle(Track track);
     #endregion
 
-    #region instanceRelatesChecks
+    #region InstanceRelatesChecks
     public Task<InspectFrame> CheckArtistRelates(Artist artist);
     public Task<InspectFrame> CheckPlaylistRelates(Playlist playlist);
     public Task<InspectFrame> CheckTrackRelates(Track track);
     #endregion
 
     public Task<CounterFrame> SnapCounterFrame();
+
+    public Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm); 
 }
 
 //Represent Player instance

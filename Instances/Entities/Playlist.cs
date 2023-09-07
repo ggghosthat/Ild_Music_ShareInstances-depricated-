@@ -87,13 +87,16 @@ public struct Playlist
 
     public void DumpTracks()
     {
-        if (Tracky.Count > 0)
-            Tracky.Clear();
+        if (Tracky?.Count > 0)
+            Tracky?.Clear();
+        
+        if(Tracks is not null)
+        {
+            foreach(var track in Tracks.Value)
+                Tracky.Add(track.Id);
 
-        foreach(var track in Tracks.Value)
-            Tracky.Add(track.Id);
-
-        Tracks.Value.Clear();
+            Tracks.Value.Clear();
+        }
     }
 
     public void Clear()
