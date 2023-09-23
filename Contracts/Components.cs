@@ -75,12 +75,13 @@ public interface IPlayer : IShare
     public Guid PlayerId { get; }
     public string PlayerName { get; }
 
-    public CurrentEntity CurrentEntity { get; }
-    public Track CurrentTrack { get; }
+    public Track? CurrentTrack { get; }
+    public Playlist? CurrentPlaylist {get;}
 
     public bool IsSwipe { get; }
     public bool IsEmpty { get; }
-    public bool PlayerState { get; }
+    public bool ToggleState { get; }
+    public int PlaylistPoint {get;}
 
     public TimeSpan TotalTime { get; }
     public TimeSpan CurrentTime { get; set; }
@@ -89,29 +90,27 @@ public interface IPlayer : IShare
     public float MinVolume {get;}
     public float CurrentVolume {get; set;}
 
-    public event Action TrackStarted;
 
 
-    public void DropTrack(Track track);
+    public Task DropTrack(Track track);
 
-    public void DropPlaylist(Playlist playlist, int index=0);
+    public Task DropPlaylist(Playlist playlist, int index=0);
+
+    public Task DropNetworkStream(ReadOnlyMemory<char> uri);
 
     public void SetNotifier(Action callBack);
 
 
-    public Task Play();
+    public void Stop();
 
-    public Task StopPlayer();
+    public void Toggle();
 
-    public Task Pause_ResumePlayer();
+    public Task Repeat();
 
-    public Task RepeatTrack();
+    public void SkipPrev();
 
-    public void DropPrevious();
+    public void SkipNext();
 
-    public void DropNext();
+    public Task Shuffle();
 
-    public Task ShuffleTrackCollection();
-
-    public Task ChangeVolume(float volume);
 }
