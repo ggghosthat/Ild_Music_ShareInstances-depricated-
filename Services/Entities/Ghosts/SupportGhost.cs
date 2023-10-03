@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ShareInstances;
 using ShareInstances.Instances;
 using ShareInstances.Services.Interfaces;
+using ShareInstances.Stage;
 
 using System;
 
@@ -22,7 +23,11 @@ public sealed class SupportGhost : IGhost
     public event Action OnPlaylistsNotifyRefresh = null;
     public event Action OnTracksNotifyRefresh = null;
 
-    public SupportGhost(){}
+
+    public SupportGhost(IPluginBag pluginBag)
+    {
+        CubeArea = pluginBag.CurrentCube;
+    }
 
     //Initialize and start Synch Area instance 
     public void Init(ref ICube syncCube) 

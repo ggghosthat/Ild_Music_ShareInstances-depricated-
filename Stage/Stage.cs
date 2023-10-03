@@ -10,11 +10,13 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Generic;
-
+using Autofac;
 namespace ShareInstances.Stage;
 
 public class Stage 
 {
+    ContainerBuilder builder = new ();
+
     #region Configure Region
     public IConfigure Configure {get; set;}
     #endregion
@@ -65,12 +67,11 @@ public class Stage
 
     public async Task ObserveLoading()
     {
-        CompletionResult = await InitAsync(Configure.ConfigSheet.Players, Configure.ConfigSheet.Cubes);
+        CompletionResult = await InitAsync();
         OnInitialized?.Invoke();
     }       
 
-    public async Task<bool> InitAsync(IEnumerable<string> playerAssembly,
-                                      IEnumerable<string> synchAssembly)
+    public async Task<bool> InitAsync()
     {
         bool isCompleted = false;
         try
@@ -87,13 +88,12 @@ public class Stage
 
                     _playerInstance = _players.FirstOrDefault();
                     _areaInstance = _areas.FirstOrDefault();
-                    System.Console.WriteLine(_playerInstance.PlayerName);
                 }
             }
 
             //resolve components
-            castle.ResolveSupporter(AreaInstace);
-            castle.ResolvePlayer(PlayerInstance);
+            //castle.ResolveSupporter(AreaInstace);
+            //castle.ResolvePlayer(PlayerInstance);
 
             //init filer
             Filer = (Filer)castle.GetWaiter("Filer".AsMemory());

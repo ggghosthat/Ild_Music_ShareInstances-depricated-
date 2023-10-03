@@ -17,7 +17,10 @@ public sealed class FactoryGhost : IGhost
     public static SupportGhost SupportGhost {get; private set;}
     private static InstanceProducer.InstanceProducer producer = default;
     
-    public FactoryGhost(){}
+    public FactoryGhost(SupportGhost supportGhost)
+    {
+        SupportGhost = supportGhost;
+    }
 
     public void Init(ref SupportGhost supportGhost)
     {

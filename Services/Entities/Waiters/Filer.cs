@@ -22,7 +22,7 @@ public class Filer : IWaiter
 
     private static Memory<byte> buffer;
 
-	public Filer(ref FactoryGhost ghost)
+	public Filer(FactoryGhost ghost)
 	{
         factoryGhost = ghost;
     }
