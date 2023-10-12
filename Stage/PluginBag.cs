@@ -1,6 +1,7 @@
 using ShareInstances.Instances;
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace ShareInstances.Stage;
@@ -15,6 +16,8 @@ public class PluginBag : IPluginBag
     public IPlayer CurrentPlayer => currentPlayer;
     public ICube CurrentCube => currentCube;
 
+    public int PlayersCount => playerPlugins.Count;
+    public int CubesCount => cubePlugins.Count;
 
     public PluginBag(){}
 
@@ -23,12 +26,19 @@ public class PluginBag : IPluginBag
     {
         if(!playerPlugins.ContainsKey(newPlayer.PlayerId))
             playerPlugins.Add(newPlayer.PlayerId, newPlayer);
+
+        if(playerPlugins.Values.Count > 0)
+            currentPlayer = playerPlugins.Values.First();
     }
 
     public void AddCubePlugin(ICube newCube)
     {
         if(!cubePlugins.ContainsKey(newCube.CubeId))
             cubePlugins.Add(newCube.CubeId, newCube);
+
+        if(cubePlugins.Values.Count > 0)
+            currentCube = cubePlugins.Values.First();
+
     }
 
     public async Task AddPlayerPluginsAsync(IEnumerable<IPlayer> players)
@@ -38,6 +48,10 @@ public class PluginBag : IPluginBag
             if(!playerPlugins.ContainsKey(player.PlayerId))
                 playerPlugins.Add(player.PlayerId, player);
         }
+
+        if(playerPlugins.Values.Count > 0)
+            currentPlayer = playerPlugins.Values.First();
+
     }
     
     public async Task AddCubePluginsAsync(IEnumerable<ICube> cubes)
@@ -47,8 +61,21 @@ public class PluginBag : IPluginBag
             if(!cubePlugins.ContainsKey(cube.CubeId))
                 cubePlugins.Add(cube.CubeId, cube);
         }
+
+        if(playerPlugins.Values.Count > 0)
+            currentPlayer = playerPlugins.Values.First();
+
     }
 
+    public IEnumerable<IPlayer> GetPlayers()
+    {
+        return playerPlugins.Values;
+    }
+
+    public IEnumerable<ICube> GetCubes()
+    {
+        return cubePlugins.Values;
+    }
 
     public void SetCurrentPlayer(Guid newPlayerId)
     {
@@ -74,6 +101,7 @@ public class PluginBag : IPluginBag
         if(cubePlugins.ContainsKey(cubeId))
             cubePlugins.Remove(cubeId);
     }
+
 
     public void ClearPlayers()
     {

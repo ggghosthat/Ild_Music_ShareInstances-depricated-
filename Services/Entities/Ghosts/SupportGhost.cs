@@ -27,6 +27,7 @@ public sealed class SupportGhost : IGhost
     public SupportGhost(IPluginBag pluginBag)
     {
         CubeArea = pluginBag.CurrentCube;
+        CubeArea.Init();
     }
 
     //Initialize and start Synch Area instance 

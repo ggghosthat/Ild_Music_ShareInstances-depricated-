@@ -91,12 +91,8 @@ public class Stage
                 }
             }
 
-            //resolve components
-            //castle.ResolveSupporter(AreaInstace);
-            //castle.ResolvePlayer(PlayerInstance);
-
             //init filer
-            Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
+            //Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
 
             isCompleted = true;
         }
@@ -115,10 +111,4 @@ public class Stage
     }
     #endregion    
 
-    #region Service Center methods
-    public IGhost GetGhostInstance(Memory<char> name)
-    {
-        return castle.GetGhost(name);
-    }
-    #endregion
 }

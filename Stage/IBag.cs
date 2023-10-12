@@ -14,6 +14,9 @@ public interface IPluginBag
 
     public Task AddPlayerPluginsAsync(IEnumerable<IPlayer> players);
     public Task AddCubePluginsAsync(IEnumerable<ICube> cubes);
+    
+    public IEnumerable<IPlayer> GetPlayers();
+    public IEnumerable<ICube> GetCubes();
 
     public void SetCurrentPlayer(Guid newPlayerId);
     public void SetCurrentCube(Guid newCubeId);
