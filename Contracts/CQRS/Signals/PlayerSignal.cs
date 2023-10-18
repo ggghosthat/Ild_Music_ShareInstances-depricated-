@@ -1,12 +1,12 @@
 namespace ShareInstances.CQRS.Signals;
 public enum PlayerSignal 
 {
-    ON,
-    OFF,
-    PAUSE,
-    TRACK,
-    PLAYLIST,
-    REPEAT,
-    SHIFT_LEFT,
-    SHIFT_RIGHT
+    PLAYER_ON,
+    PLAYER_OFF,
+    PLAYER_PAUSE,
+    PLAYER_SET_TRACK,
+    PLAYER_SET_PLAYLIST,
+    PLAYER_REPEAT,
+    PLAYER_SHIFT_LEFT,
+    PLAYER_SHIFT_RIGHT
 }
