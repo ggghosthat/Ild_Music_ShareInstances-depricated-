@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ShareInstances.CQRS.Handlers.Delegatebag;
 public sealed class DelegateBag
 {
-    private IDictionary<PlayerSignal, Func<int>> _bag = new Dictionary<PlayerSignal, Func<int>>();
+    private static IDictionary<PlayerSignal, Func<int>> _bag = new Dictionary<PlayerSignal, Func<int>>();
 
     public void Allocate(PlayerSignal signal, Func<int> action) =>
        _bag[signal] = action;

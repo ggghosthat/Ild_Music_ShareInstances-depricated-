@@ -32,12 +32,20 @@ public class Docker : IDocker, IDisposable
         GC.Collect();
     }
 
-    public async Task Dock()
+    public Task<int> Dock()
     {
-        Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._playerSource,
+        try
+        {
+            Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._playerSource,
                                              ref configure.ConfigSheet._players);
-        Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubeSource,
-                                         ref configure.ConfigSheet._cubes);
+            Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubeSource,
+                                            ref configure.ConfigSheet._cubes);
+            return Task.FromResult(0);
+        }
+        catch
+        {
+            return Task.FromResult(-1);
+        } 
     }
     
     private IList<T>? DefaultDockProcess<T>(ref string source,

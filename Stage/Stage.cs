@@ -1,19 +1,14 @@
 using ShareInstances.Services.Castle;
 using ShareInstances.Services.Entities;
-using ShareInstances.Services.Interfaces;
 using ShareInstances.Configure;
 
 using System;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Reflection;
 using System.Collections.Generic;
-using Autofac;
 namespace ShareInstances.Stage;
 
-public class Stage 
+public sealed class Stage 
 {
     #region Configure Region
     public IConfigure Configure {get; set;}
@@ -58,34 +53,44 @@ public class Stage
     public Stage(ref IConfigure configure)
     {
         Configure = configure;
-        ObserveLoading().Wait();
     }
     #endregion
 
 
-    public async Task ObserveLoading()
+    public async Task Build()
     {
-        CompletionResult = await InitAsync();
-        OnInitialized?.Invoke();
+        try 
+        {
+            CompletionResult = await DockComponents();
+            OnInitialized?.Invoke();
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
     }       
 
-    public async Task<bool> InitAsync()
+    //TODO: this method is needed in more impored reliable solution
+    private async Task<bool> DockComponents()
     {
         bool isCompleted = false;
         try
         {
             using (var docker = new Docker(Configure))
             {
-                var dock = docker.Dock();
-                dock.Wait();
+                var dock = await docker.Dock();
 
-                if(dock.IsCompleted)
+                if(dock == 0)
                 {
                     _players = docker.Players;
                     _areas = docker.Cubes;
 
                     _playerInstance = _players.FirstOrDefault();
                     _areaInstance = _areas.FirstOrDefault();
+                }
+                else if(dock == -1)
+                {
+                    throw new Exception("Could not load all defined components");
                 }
             }
 
@@ -98,9 +103,10 @@ public class Stage
         {
             isCompleted = false;
         }
-        
+       
         return isCompleted;
     }
+
     #region Clear
     public void Clear()
     {
