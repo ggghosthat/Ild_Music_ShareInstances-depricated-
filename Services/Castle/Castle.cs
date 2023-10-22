@@ -1,6 +1,7 @@
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Stage;
+using ShareInstances.CQRS.Handlers.Delegatebag;
 
 using System;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ public class Castle : ICastle
             .WithAllOpenGenericHandlerTypesRegistered()
             .Build();
 
+        builder.RegisterType<DelegateBag>().SingleInstance();
         builder.RegisterMediatR(configuration);
         builder.RegisterType<PluginBag>().As<IPluginBag>().SingleInstance();
         builder.RegisterType<SupportGhost>().As<IGhost>().Keyed<IGhost>(Ghosts.SUPPORT);

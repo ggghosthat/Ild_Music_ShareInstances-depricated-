@@ -19,4 +19,15 @@ public sealed class DelegateBag
 
     public Func<int> GetAction(PlayerSignal signal) =>
         _bag[signal];
+
+    public bool TryGetAction(PlayerSignal signal, out Func<int> action)
+    {
+        if(!_bag.ContainsKey(signal))
+        {
+            action = null;
+            return true;
+        }
+        action = _bag[signal];
+        return true;
+    }
 }

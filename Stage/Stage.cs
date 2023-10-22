@@ -15,8 +15,6 @@ namespace ShareInstances.Stage;
 
 public class Stage 
 {
-    ContainerBuilder builder = new ();
-
     #region Configure Region
     public IConfigure Configure {get; set;}
     #endregion
