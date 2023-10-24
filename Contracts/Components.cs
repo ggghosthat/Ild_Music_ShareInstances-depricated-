@@ -4,7 +4,7 @@ using ShareInstances.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using MediatR;
 namespace ShareInstances;
 public interface IShare
 {        
@@ -21,6 +21,7 @@ public interface ICube : IShare
     #region ToggleMethods
     void SetPath(ref string inputPath); 
     void Init();
+    void ConnectMediator(IMediator mediator);
     #endregion
 
     #region ResourceCollections
@@ -90,7 +91,7 @@ public interface IPlayer : IShare
     public float MinVolume {get;}
     public float CurrentVolume {get; set;}
 
-
+    void ConnectMediator(IMediator mediator);
 
     public Task DropTrack(Track track);
 
