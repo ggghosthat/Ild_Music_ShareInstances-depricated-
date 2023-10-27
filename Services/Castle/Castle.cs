@@ -11,8 +11,6 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 namespace ShareInstances.Services.Castle;
 
-public enum Ghosts {SUPPORT, FACTORY, PLAYER}
-
 public class Castle : ICastle
 {
     public bool IsCenterActive { get; set; } = false;
@@ -34,10 +32,10 @@ public class Castle : ICastle
         builder.RegisterType<DelegateBag>().SingleInstance();
         builder.RegisterMediatR(configuration);
         builder.RegisterType<PluginBag>().As<IPluginBag>().SingleInstance();
-        builder.RegisterType<SupportGhost>().As<IGhost>().Keyed<IGhost>(Ghosts.SUPPORT);
-        builder.RegisterType<FactoryGhost>().As<IGhost>().Keyed<IGhost>(Ghosts.FACTORY);
-        builder.RegisterType<PlayerGhost>().As<IGhost>().Keyed<IGhost>(Ghosts.PLAYER);
-        builder.RegisterType<Filer>().As<IWaiter>();      
+        builder.RegisterType<SupportGhost>().Keyed<IGhost>(Ghosts.SUPPORT);
+        builder.RegisterType<FactoryGhost>().Keyed<IGhost>(Ghosts.FACTORY);
+        builder.RegisterType<PlayerGhost>().Keyed<IGhost>(Ghosts.PLAYER);
+        builder.RegisterType<Filer>().Named<IGhost>("Filer");      
         
         container = builder.Build();
         IsCenterActive = true;
@@ -45,6 +43,33 @@ public class Castle : ICastle
 
 
     #region resolve region
+    //syncronous way to resolve ghost or waiter from IoC
+    public IGhost ResolveGhost(Ghosts ghostTag)
+    {
+       return container.ResolveKeyed<IGhost>(ghostTag);
+    }
+
+    public IWaiter ResolveWaiter(ref string waiterTag)
+    {
+        return container.ResolveNamed<IWaiter>(waiterTag);
+    }
+
+
+    //asyncronous way to resolve ghost or waiter from castle IoC
+    public Task<IGhost> ResolveGhostAsync(Ghosts ghostTag)
+    {
+       var ghost = container.ResolveKeyed<IGhost>(ghostTag);
+       return Task.FromResult(ghost);
+    }
+
+    public Task<IWaiter> ResolveWaiterAsync(ref string waiterTag)
+    {
+        var waiter = container.ResolveNamed<IWaiter>(waiterTag);
+        return Task.FromResult(waiter);
+    }
+
+
+
     public void RegisterCube(ICube cube)
     {
         using (var cubeTransaction = container.BeginLifetimeScope())

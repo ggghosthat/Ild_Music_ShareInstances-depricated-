@@ -18,7 +18,7 @@ public class Filer : IWaiter
 
     private static ConcurrentDictionary<ReadOnlyMemory<char>, Track> MusicFiles = new ();
 
-    private FactoryGhost factoryGhost;
+    private static FactoryGhost factoryGhost;
 
     private static Memory<byte> buffer;
 

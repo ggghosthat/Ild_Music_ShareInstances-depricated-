@@ -1,0 +1,12 @@
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/bin/Release/net6.0/ShareInstances.deps.json
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/bin/Release/net6.0/ShareInstances.dll
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/bin/Release/net6.0/ShareInstances.pdb
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.csproj.AssemblyReference.cache
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.GeneratedMSBuildEditorConfig.editorconfig
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.AssemblyInfoInputs.cache
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.AssemblyInfo.cs
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.csproj.CoreCompileInputs.cache
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.dll
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/refint/ShareInstances.dll
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ShareInstances.pdb
+/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/obj/Release/net6.0/ref/ShareInstances.dll
