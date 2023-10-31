@@ -1,14 +1,7 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Services.Entities;
 using ShareInstances.Services.Interfaces;
-using ShareInstances.Services.InstanceProducer;
-using ShareInstances.Exceptions.SynchAreaExceptions;
-using ShareInstances.Stage;
+using ShareInstances.Services.PluginBag;
 
 using System;
-using System.Collections.Generic;
-
 namespace ShareInstances.Services.Entities;
 public sealed class PlayerGhost : IGhost
 {
@@ -19,7 +12,7 @@ public sealed class PlayerGhost : IGhost
 
     public PlayerGhost(IPluginBag pluginBag)
     {
-        PlayerInstance = pluginBag.CurrentPlayer;
+        PlayerInstance = pluginBag.GetCurrentPlayer();
     }
 
 	public void Init(ref IPlayer player)

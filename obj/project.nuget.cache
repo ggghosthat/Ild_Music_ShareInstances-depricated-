@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "RaCX0phkSYN8pht9lJyLw913JlJnXemfwTAWKlr6dEB/iTSaA429BLyBeexuF3uWCpOIrmGn65MBkdcAGTDSeQ==",
+  "dgSpecHash": "BH6nMr1IwS54+E9l0usf2Ixonuz1TJ15O+RDtlgy/XfcxtjpRb144Wv3DVmcZW/apILRKOaPnYaJ0fQgSFaAlQ==",
   "success": true,
   "projectFilePath": "/home/jake/repos/Ild_Music_repos/Ild-Music.ShareInstances/ShareInstances.csproj",
   "expectedPackageFiles": [
     "/home/jake/.nuget/packages/autofac/7.1.0/autofac.7.1.0.nupkg.sha512",
+    "/home/jake/.nuget/packages/autofac.extensions.dependencyinjection/8.0.0/autofac.extensions.dependencyinjection.8.0.0.nupkg.sha512",
     "/home/jake/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/home/jake/.nuget/packages/mediatr/12.1.1/mediatr.12.1.1.nupkg.sha512",
     "/home/jake/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 namespace ShareInstances.CQRS.Handlers;
-public class PlayerNotificationHandler : INotificationHandler<PlayerNotification>
+public class PlayerNotificationHandler<T> : INotificationHandler<PlayerNotification>
 {  
     private readonly DelegateBag _delegateBag;
 

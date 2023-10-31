@@ -7,7 +7,7 @@ public interface ICastle
 {
     public bool IsCenterActive {get; set;}
 
-    public void OnCenterRegisterActivate();
+    public void Pack();
     
     public void RegisterCube(ICube cube); 
 

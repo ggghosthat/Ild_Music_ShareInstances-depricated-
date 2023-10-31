@@ -1,12 +1,14 @@
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
-using ShareInstances.Stage;
+using ShareInstances.Services.PluginBag;
 using ShareInstances.CQRS.Handlers.Delegatebag;
+using ShareInstances.CQRS.Notifications;
 
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Autofac;
+using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 namespace ShareInstances.Services.Castle;
@@ -17,36 +19,61 @@ public class Castle : ICastle
 
     private static IContainer container;
 
+    private static IPluginBag _pluginBag;
+
     public Castle()
     {}
 
-    public void OnCenterRegisterActivate()
+    public void Pack()
     {
         var builder = new ContainerBuilder();
         
         var configuration = MediatRConfigurationBuilder
-            .Create(typeof(Castle).Assembly)
+            .Create(typeof(PlayerNotification).Assembly)
             .WithAllOpenGenericHandlerTypesRegistered()
+            .WithRegistrationScope(RegistrationScope.Scoped) 
             .Build();
 
         builder.RegisterType<DelegateBag>().SingleInstance();
+        
+        
         builder.RegisterMediatR(configuration);
-        builder.RegisterType<PluginBag>().As<IPluginBag>().SingleInstance();
-        builder.RegisterType<SupportGhost>().Keyed<IGhost>(Ghosts.SUPPORT);
-        builder.RegisterType<FactoryGhost>().Keyed<IGhost>(Ghosts.FACTORY);
-        builder.RegisterType<PlayerGhost>().Keyed<IGhost>(Ghosts.PLAYER);
-        builder.RegisterType<Filer>().Named<IGhost>("Filer");      
+
+        builder.RegisterType<SupportGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.SUPPORT);
+        builder.RegisterType<FactoryGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.FACTORY);
+        builder.RegisterType<PlayerGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.PLAYER);
+       
+
+        builder.RegisterType<Filer>().As<IWaiter>().Named<IWaiter>("Filer");      
         
         container = builder.Build();
+
+        using (var preScope = container.BeginLifetimeScope())
+        {
+            var mediator = preScope.Resolve<IMediator>();
+            _pluginBag = new PluginBag.PluginBag(mediator);
+        }
+
         IsCenterActive = true;
     }
 
 
     #region resolve region
     //syncronous way to resolve ghost or waiter from IoC
+    public IPluginBag ResolvePluginBag()
+    { 
+        return _pluginBag;
+    }
+
     public IGhost ResolveGhost(Ghosts ghostTag)
     {
-       return container.ResolveKeyed<IGhost>(ghostTag);
+        IGhost ghost;
+        using (var scope = container.BeginLifetimeScope()) 
+        {
+            var _pluginBag = scope.Resolve<IPluginBag>();
+            ghost = scope.ResolveKeyed<IGhost>(ghostTag);
+        }
+        return ghost;
     }
 
     public IWaiter ResolveWaiter(ref string waiterTag)
@@ -72,111 +99,42 @@ public class Castle : ICastle
 
     public void RegisterCube(ICube cube)
     {
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            bag.AddCubePlugin(cube);
-
-            var supporter = cubeTransaction.Resolve<SupportGhost>();
-            var factory = cubeTransaction.Resolve<FactoryGhost>();
-
-            supporter.Init(ref cube);
-            factory.Init(ref supporter);
-        } 
+        _pluginBag?.AddCubePlugin(cube); 
     }
 
     public void RegisterPlayer(IPlayer player)
     {
-        using (var playerTransaction = container.BeginLifetimeScope())
-        {
-            var bag = playerTransaction.Resolve<PluginBag>();
-            bag.AddPlayerPlugin(player);
-
-            var playerGhost = playerTransaction.Resolve<PlayerGhost>();
-            playerGhost.Init(ref player);
-        } 
+        _pluginBag?.AddPlayerPlugin(player);
     }
 
     public async Task RegisterPlayers(ICollection<IPlayer> players)
     {
-        using (var playerTransaction = container.BeginLifetimeScope())
-        {
-            var bag = playerTransaction.Resolve<PluginBag>();
-            var playersCountForBeginning = bag.PlayersCount;
-
-            await bag.AddPlayerPluginsAsync(players);
-            
-            if(playersCountForBeginning == 0)
-            {
-                var currentPlayer = bag.CurrentPlayer;
-                var playerGhost = playerTransaction.Resolve<PlayerGhost>();
-                playerGhost.Init(ref currentPlayer);
-            }
-        } 
+        await _pluginBag.AddPlayerPluginsAsync(players);
     }
 
     public async Task RegisterCubes(ICollection<ICube> cubes)
     {
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            var cubesCountForBeginning = bag.CubesCount;
-
-            await bag.AddCubePluginsAsync(cubes);
-            
-            if(cubesCountForBeginning == 0)
-            {
-                var currentCube = bag.CurrentCube;
-               
-                var supporter = cubeTransaction.Resolve<SupportGhost>();
-                var factory = cubeTransaction.Resolve<FactoryGhost>();
-
-                supporter.Init(ref currentCube);
-                factory.Init(ref supporter);
-            }
-        } 
+        await _pluginBag.AddCubePluginsAsync(cubes); 
     }
 
     public async Task<IEnumerable<IPlayer>> GetPlayersAsync()
     {
-        IEnumerable<IPlayer> _players;
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            _players = bag.GetPlayers();    
-        }
-
-        return _players;
+        return _pluginBag.GetPlayers();    
     }
 
     public async Task<IEnumerable<ICube>> GetCubesAsync()
     {
-        IEnumerable<ICube> _cubes;
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            _cubes = bag.GetCubes();    
-        }
-
-        return _cubes;
+        return _pluginBag.GetCubes();
     }
 
-    public void SwitchPlayer(Guid playerId)
+    public void SwitchPlayer(int playerId)
     {
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            bag.SetCurrentPlayer(playerId);
-        }
+        _pluginBag.SetCurrentPlayer(playerId); 
     }
 
-    public void SwitchCube(Guid cubeId)
+    public void SwitchCube(int cubeId)
     {
-        using (var cubeTransaction = container.BeginLifetimeScope())
-        {
-            var bag = cubeTransaction.Resolve<PluginBag>();
-            bag.SetCurrentCube(cubeId);
-        }
+        _pluginBag.SetCurrentCube(cubeId);
     }
     #endregion
 }

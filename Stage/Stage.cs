@@ -19,17 +19,11 @@ public sealed class Stage
     #endregion
 
     #region Player Region
-    private IList<IPlayer> _players = new List<IPlayer>();
-    public IList<IPlayer> Players => _players;
-
     private IPlayer _playerInstance;
     public IPlayer PlayerInstance => _playerInstance;
     #endregion
 
     #region Synch Region
-    private IList<ICube> _areas = new List<ICube> ();
-    public IList<ICube> Areas => _areas;
-
     private ICube _areaInstance;
     public ICube AreaInstace => _areaInstance;
     #endregion
@@ -61,6 +55,7 @@ public sealed class Stage
     {
         try 
         {
+            castle.Pack();
             CompletionResult = await DockComponents();
             OnInitialized?.Invoke();
         }
@@ -82,11 +77,9 @@ public sealed class Stage
 
                 if(dock == 0)
                 {
-                    _players = docker.Players;
-                    _areas = docker.Cubes;
-
-                    _playerInstance = _players.FirstOrDefault();
-                    _areaInstance = _areas.FirstOrDefault();
+                    Console.WriteLine(docker.Players.Count);
+                    await castle.RegisterPlayers(docker.Players);
+                    await castle.RegisterCubes(docker.Cubes);
                 }
                 else if(dock == -1)
                 {
@@ -110,8 +103,6 @@ public sealed class Stage
     #region Clear
     public void Clear()
     {
-        _players.Clear();
-        _areas.Clear();
     }
     #endregion    
 

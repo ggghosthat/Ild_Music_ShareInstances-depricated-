@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using ShareInstances;
 using ShareInstances.Instances;
 using ShareInstances.Services.Interfaces;
-using ShareInstances.Stage;
+using ShareInstances.Services.PluginBag;
 
 using System;
 
@@ -26,7 +25,7 @@ public sealed class SupportGhost : IGhost
 
     public SupportGhost(IPluginBag pluginBag)
     {
-        CubeArea = pluginBag.CurrentCube;
+        CubeArea = pluginBag.GetCurrentCube();
         CubeArea.Init();
     }
 
