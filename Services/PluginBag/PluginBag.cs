@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -53,7 +52,6 @@ public class PluginBag : IPluginBag
             player.ConnectMediator(_mediator);
             playerPlugins.Add(player);
         }
-        Console.WriteLine(playerPlugins.Count);
     }
     
     public async Task AddCubePluginsAsync(IEnumerable<ICube> cubes)
@@ -116,6 +114,18 @@ public class PluginBag : IPluginBag
     {
         if(newCubeId >= 0 && newCubeId < cubePlugins.Count)
             currentPlayerId = newCubeId;
+    }
+
+    public void SetCurrentPlayer(IPlayer newPlayer)
+    {
+        if(playerPlugins.Contains(newPlayer))
+            currentPlayerId = playerPlugins.IndexOf(newPlayer);
+    }
+
+    public void SetCurrentCube(ICube newCube)
+    {
+        if(cubePlugins.Contains(newCube))
+            currentCubeId = cubePlugins.IndexOf(newCube);
     }
 
 

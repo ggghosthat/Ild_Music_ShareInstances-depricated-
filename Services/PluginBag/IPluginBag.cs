@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 namespace ShareInstances.Services.PluginBag;
@@ -30,6 +29,9 @@ public interface IPluginBag
 
     public void SetCurrentPlayer(int newPlayerId);
     public void SetCurrentCube(int newCubeId);
+
+    public void SetCurrentPlayer(IPlayer newPlayerId);
+    public void SetCurrentCube(ICube newCubeId);
 
     public void DeletePlayer(int playerId);
     public void DeleteCube(int cubeId);

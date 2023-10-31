@@ -1,45 +1,37 @@
 using ShareInstances.Services.Castle;
-using ShareInstances.Services.Entities;
 using ShareInstances.Configure;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 namespace ShareInstances.Stage;
 
 public sealed class Stage 
 {
-    #region Configure Region
+    #region Castle
+    private Castle castle = new();
+    #endregion
+
+    #region Configuration Region
     public IConfigure Configure {get; set;}
     #endregion
 
-    #region Filer
-    public static Filer Filer {get; private set;}
+    #region Default Waiters
+    //public static Filer Filer {get; private set;}
     #endregion
-
-    #region Player Region
-    private IPlayer _playerInstance;
-    public IPlayer PlayerInstance => _playerInstance;
-    #endregion
-
-    #region Synch Region
-    private ICube _areaInstance;
-    public ICube AreaInstace => _areaInstance;
+    
+    #region Current Components
+    public IPlayer PlayerInstance => castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
+    public ICube CubeInstance => castle.ResolvePluginBag().GetCurrentCube() ?? null;
     #endregion
         
-    #region Event
+    #region Tagging result
+    public bool CompletionResult {get; private set;}
+
     public event Action OnInitialized;
     public event Action OnComponentMuted;
     #endregion
 
-    #region Castle
-    public Castle castle = new();
-    #endregion
-
-    #region Properties
-    public bool CompletionResult {get; private set;}
-    #endregion
+       
 
     #region Constructors
     public Stage(){}
@@ -77,7 +69,6 @@ public sealed class Stage
 
                 if(dock == 0)
                 {
-                    Console.WriteLine(docker.Players.Count);
                     await castle.RegisterPlayers(docker.Players);
                     await castle.RegisterCubes(docker.Cubes);
                 }
@@ -87,18 +78,27 @@ public sealed class Stage
                 }
             }
 
-            //init filer
-            //Filer = (Filer)castle.GetWaiter("Filer".AsMemory());
-
             isCompleted = true;
         }
         catch(Exception ex)
         {
-            isCompleted = false;
+            throw ex;
         }
        
         return isCompleted;
     }
+
+    #region Current instance Switching
+    public void SwitchPlayer(int index)
+    {
+        castle.SwitchPlayer(index);
+    }
+
+    public void SwitchCube(int index)
+    {
+        castle.SwitchCube(index);
+    }
+    #endregion
 
     #region Clear
     public void Clear()

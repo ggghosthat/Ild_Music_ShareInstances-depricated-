@@ -4,7 +4,6 @@ using ShareInstances.Services.PluginBag;
 using ShareInstances.CQRS.Handlers.Delegatebag;
 using ShareInstances.CQRS.Notifications;
 
-using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Autofac;
@@ -117,15 +116,20 @@ public class Castle : ICastle
         await _pluginBag.AddCubePluginsAsync(cubes); 
     }
 
-    public async Task<IEnumerable<IPlayer>> GetPlayersAsync()
+
+
+    public Task<IEnumerable<IPlayer>> GetPlayersAsync()
     {
-        return _pluginBag.GetPlayers();    
+        return Task.FromResult(_pluginBag.GetPlayers());
     }
 
-    public async Task<IEnumerable<ICube>> GetCubesAsync()
+    public Task<IEnumerable<ICube>> GetCubesAsync()
     {
-        return _pluginBag.GetCubes();
+        return Task.FromResult(_pluginBag.GetCubes());
     }
+
+
+
 
     public void SwitchPlayer(int playerId)
     {
@@ -135,6 +139,16 @@ public class Castle : ICastle
     public void SwitchCube(int cubeId)
     {
         _pluginBag.SetCurrentCube(cubeId);
+    }
+
+    public void SwitchPlayer(IPlayer playerInstance)
+    {
+        _pluginBag.SetCurrentPlayer(playerInstance); 
+    }
+
+    public void SwitchCube(ICube cubeInstance)
+    {
+        _pluginBag.SetCurrentCube(cubeInstance);
     }
     #endregion
 }
